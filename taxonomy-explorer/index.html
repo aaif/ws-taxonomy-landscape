@@ -34,38 +34,43 @@
         across all Technical Working Groups.</p>
     </header>
 
-    <!-- Floating Control Hub -->
-    <section class="control-hub" aria-label="Search and Filters">
-      <div class="search-wrapper">
-        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-        <input type="text" id="search-input" placeholder="Fuzzy search terms, definitions, or working groups..."
-          autocomplete="off" aria-label="Search Taxonomy">
-        <button id="clear-search" class="clear-btn" style="display: none;" aria-label="Clear search">×</button>
-      </div>
+    <!-- Master-Detail Split Layout -->
+    <div class="split-layout">
+      <!-- Left Sidebar: Search & Navigation -->
+      <aside class="sidebar-pane" aria-label="Taxonomy Navigation">
+        <div class="search-wrapper">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input type="text" id="search-input" placeholder="Search terms, aliases, WGs..." autocomplete="off" aria-label="Search Taxonomy">
+          <button id="clear-search" class="clear-btn" style="display: none;" aria-label="Clear search">×</button>
+        </div>
 
-      <!-- Interactive Alphabet Pagination Header -->
-      <div class="alphabet-bar" id="alphabet-bar" role="navigation" aria-label="Alphabet shortcut index">
-        <button class="alpha-btn active" data-letter="ALL">ALL</button>
-        <!-- Dynamic buttons A-Z will be filled cleanly by javascript or hardcoded. Let's inject dynamically or hardcode for absolute performance -->
-      </div>
-    </section>
+        <!-- Mode Toggle Tabs -->
+        <div class="sidebar-tabs" role="tablist" aria-label="Navigation Mode">
+          <button class="tab-btn active" id="tab-tree" role="tab" aria-selected="true">Tree View</button>
+          <button class="tab-btn" id="tab-az" role="tab" aria-selected="false">A-Z Index</button>
+        </div>
 
-    <!-- Active Status / Meta Counts Bar -->
-    <div class="meta-status-bar">
-      <div class="result-count" id="result-count">Showing all 22 vocabulary terms</div>
-      <div class="active-filters" id="active-filters" style="display: none;">
-        <span class="filter-tag">Filtered view <button id="reset-filters-btn">Reset</button></span>
-      </div>
+        <!-- Active Filters & Result Count -->
+        <div class="sidebar-meta">
+          <span class="result-count" id="result-count">Showing 22 terms</span>
+          <div class="active-filters" id="active-filters" style="display: none;">
+            <button id="reset-filters-btn" class="reset-btn">Reset</button>
+          </div>
+        </div>
+
+        <!-- Dynamic Navigation Content (Tree or A-Z) -->
+        <nav id="sidebar-nav-content" class="sidebar-content" aria-label="Vocabulary List">
+          <!-- Injected dynamically by app.js -->
+        </nav>
+      </aside>
+
+      <!-- Right Content Area: Active Concept Detail Sheet -->
+      <main class="content-pane" id="main-content-pane" role="region" aria-live="polite">
+        <!-- Dynamic glassmorphic concept sheet will be injected here by app.js -->
+      </main>
     </div>
-
-    <!-- Primary Dynamic Card Deck Deck -->
-    <main class="cards-grid" id="cards-grid" role="region" aria-live="polite">
-      <!-- Dynamic glassmorphic templates will be injected here by app.js -->
-    </main>
 
     <!-- Footer Brand Segment -->
     <footer class="app-footer">

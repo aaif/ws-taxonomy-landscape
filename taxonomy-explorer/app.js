@@ -1,7 +1,7 @@
 /**
- * AAIF Taxonomy Explorer Engine
- * Core logic handling real-time fuzzy filtering, alphabet paging index mapping,
- * active search term query highlighting, and dynamic card injection.
+ * AAIF Taxonomy Explorer Engine (Skosmos Master-Detail Architecture)
+ * Core logic handling real-time fuzzy filtering, sidebar tree/A-Z navigation modes,
+ * active concept detail sheet rendering, and 100% secure DOM manipulation.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,43 +11,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // Application States Hub
   const state = {
     currentSearch: '',
-    currentLetter: 'ALL',
-    filteredData: [...taxonomyData]
+    navMode: 'tree', // 'tree' or 'az'
+    activeTerm: 'Agentic AI', // Default active term on load
+    filteredData: [...taxonomyData],
+    expandedGroups: new Set(taxonomyData.map(item => item.category))
   };
 
   // DOM Elements Index
-  const cardsGrid = document.getElementById('cards-grid');
   const searchInput = document.getElementById('search-input');
   const clearSearchBtn = document.getElementById('clear-search');
-  const alphabetBar = document.getElementById('alphabet-bar');
   const resultCount = document.getElementById('result-count');
   const activeFiltersBar = document.getElementById('active-filters');
   const resetFiltersBtn = document.getElementById('reset-filters-btn');
-
-  // Initialize Alphabet Shortcut Bar Layout
-  function initAlphabetIndex() {
-    // Get unique letters that actually have data to toggle enabled/disabled states
-    const lettersWithData = new Set(
-      taxonomyData.map(item => item.term.trim().charAt(0).toUpperCase())
-    );
-
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-
-    letters.forEach(letter => {
-      const btn = document.createElement('button');
-      btn.className = 'alpha-btn';
-      btn.textContent = letter;
-      btn.setAttribute('data-letter', letter);
-
-      // Disable buttons for letters that contain no vocabulary terms to prevent empty links
-      if (!lettersWithData.has(letter)) {
-        btn.classList.add('disabled');
-        btn.setAttribute('tabindex', '-1');
-      }
-
-      alphabetBar.appendChild(btn);
-    });
-  }
+  const sidebarNavContent = document.getElementById('sidebar-nav-content');
+  const mainContentPane = document.getElementById('main-content-pane');
+  const tabTree = document.getElementById('tab-tree');
+  const tabAz = document.getElementById('tab-az');
 
   // Helper to map text string category into matching CSS variable tags
   function mapCategoryClass(cat) {
@@ -92,157 +71,326 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Render data model items to cards deck container securely
-  function renderDashboardCards() {
-    cardsGrid.replaceChildren();
+  // Helper to group taxonomy data by category and parent-child relationships
+  function getGroupedTreeData(data) {
+    const groups = {};
+    data.forEach(item => {
+      const cat = item.category || 'Uncategorized';
+      if (!groups[cat]) groups[cat] = { title: cat, roots: [], childrenMap: {} };
+      
+      if (item.broaderTerm) {
+        if (!groups[cat].childrenMap[item.broaderTerm]) {
+          groups[cat].childrenMap[item.broaderTerm] = [];
+        }
+        groups[cat].childrenMap[item.broaderTerm].push(item);
+      } else {
+        groups[cat].roots.push(item);
+      }
+    });
+    return groups;
+  }
+
+  // Render Left Sidebar Navigation (Tree or A-Z Index) securely
+  function renderSidebar() {
+    sidebarNavContent.replaceChildren();
 
     if (state.filteredData.length === 0) {
-      const emptyState = document.createElement('div');
-      emptyState.className = 'empty-state';
-
-      const emptyMsg = document.createElement('p');
-      emptyMsg.textContent = 'No vocabulary terms matched your current filters.';
-      emptyState.appendChild(emptyMsg);
-
-      const emptySub = document.createElement('span');
-      emptySub.textContent = 'Try refining your search input keyword or resetting your alphabet slider constraints.';
-      emptyState.appendChild(emptySub);
-
-      cardsGrid.appendChild(emptyState);
-      resultCount.textContent = 'Showing 0 vocabulary terms';
+      const emptyP = document.createElement('p');
+      emptyP.className = 'empty-state';
+      emptyP.textContent = 'No matching terms found.';
+      sidebarNavContent.appendChild(emptyP);
+      resultCount.textContent = 'Showing 0 terms';
       return;
     }
 
-    // Update metadata status count label
-    resultCount.textContent = `Showing ${state.filteredData.length} vocabulary terms`;
+    resultCount.textContent = `Showing ${state.filteredData.length} terms`;
+    const query = state.currentSearch;
 
-    // Iterate over data model elements
-    state.filteredData.forEach(item => {
-      const card = document.createElement('article');
-      card.className = 'taxonomy-card';
-      card.setAttribute('id', item.term.replace(/\s+/g, '-'));
+    if (state.navMode === 'tree') {
+      const groups = getGroupedTreeData(state.filteredData);
 
-      const query = state.currentSearch;
+      Object.keys(groups).sort().forEach(cat => {
+        const groupObj = groups[cat];
+        const groupContainer = document.createElement('div');
+        groupContainer.className = 'tree-group';
 
-      // 1. Header
-      const cardHeader = document.createElement('div');
-      cardHeader.className = 'card-header';
+        const groupTitle = document.createElement('div');
+        groupTitle.className = 'tree-group-title';
+        groupTitle.textContent = cat;
+        groupContainer.appendChild(groupTitle);
 
-      const cardTitle = document.createElement('h3');
-      cardTitle.className = 'card-title';
-      appendHighlightedText(cardTitle, item.term, query);
-      cardHeader.appendChild(cardTitle);
+        const renderedTerms = new Set();
 
-      const catClass = mapCategoryClass(item.category);
-      const catTag = document.createElement('span');
-      catTag.className = `category-tag ${catClass}`;
-      catTag.textContent = item.category;
-      cardHeader.appendChild(catTag);
+        // Helper to recursively render tree nodes
+        function renderNode(item, isChild = false) {
+          if (renderedTerms.has(item.term)) return;
+          renderedTerms.add(item.term);
 
-      card.appendChild(cardHeader);
-
-      // 2. Body (Definition)
-      const cardBody = document.createElement('div');
-      cardBody.className = 'card-body';
-      const defP = document.createElement('p');
-      appendHighlightedText(defP, item.definition, query);
-      cardBody.appendChild(defP);
-      card.appendChild(cardBody);
-
-      // 3. Aliases (if present)
-      if (item.aliases && item.aliases.length > 0) {
-        const aliasesDiv = document.createElement('div');
-        aliasesDiv.className = 'card-aliases';
-        
-        const aliasLabel = document.createElement('span');
-        aliasLabel.className = 'alias-label';
-        aliasLabel.textContent = 'Aliases:';
-        aliasesDiv.appendChild(aliasLabel);
-
-        item.aliases.forEach(alias => {
-          const badge = document.createElement('span');
-          badge.className = 'alias-badge';
-          appendHighlightedText(badge, alias, query);
-          aliasesDiv.appendChild(badge);
-        });
-
-        card.appendChild(aliasesDiv);
-      }
-
-      // 4. Broader Concept (if present)
-      if (item.broaderTerm) {
-        const broaderDiv = document.createElement('div');
-        broaderDiv.className = 'card-broader';
-
-        const broaderLabel = document.createElement('span');
-        broaderLabel.className = 'broader-label';
-        broaderLabel.textContent = 'Broader Concept:';
-        broaderDiv.appendChild(broaderLabel);
-
-        const broaderLink = document.createElement('a');
-        broaderLink.className = 'broader-link';
-        broaderLink.setAttribute('href', `#${item.broaderTerm.replace(/\s+/g, '-')}`);
-        appendHighlightedText(broaderLink, item.broaderTerm, query);
-
-        // Add click listener for smooth interactive filtering to parent card
-        broaderLink.addEventListener('click', (e) => {
-          e.preventDefault();
-          searchInput.value = item.broaderTerm;
-          state.currentSearch = item.broaderTerm;
-          if (clearSearchBtn) clearSearchBtn.style.display = 'block';
-          runFilteringPipeline();
+          const navItem = document.createElement('a');
+          navItem.className = `nav-item ${isChild ? 'tree-child' : ''} ${item.term === state.activeTerm ? 'active' : ''}`;
+          navItem.setAttribute('href', `#${item.term.replace(/\s+/g, '-')}`);
           
-          // Smooth scroll to the target card if it exists in the new filtered view
-          setTimeout(() => {
-            const targetCard = document.getElementById(item.broaderTerm.replace(/\s+/g, '-'));
-            if (targetCard) {
-              targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              targetCard.classList.add('card-pulse');
-              setTimeout(() => targetCard.classList.remove('card-pulse'), 1500);
+          const labelSpan = document.createElement('span');
+          appendHighlightedText(labelSpan, item.term, query);
+          navItem.appendChild(labelSpan);
+
+          navItem.addEventListener('click', (e) => {
+            e.preventDefault();
+            setActiveTerm(item.term);
+          });
+
+          groupContainer.appendChild(navItem);
+
+          // Render children if any exist
+          const children = groupObj.childrenMap[item.term] || [];
+          children.forEach(child => renderNode(child, true));
+        }
+
+        groupObj.roots.forEach(root => renderNode(root, false));
+
+        // Render orphaned children whose parent was filtered out
+        Object.keys(groupObj.childrenMap).forEach(parentTerm => {
+          groupObj.childrenMap[parentTerm].forEach(child => {
+            if (!renderedTerms.has(child.term)) {
+              renderNode(child, false);
             }
-          }, 100);
+          });
         });
 
-        broaderDiv.appendChild(broaderLink);
-        card.appendChild(broaderDiv);
-      }
-
-      // 5. Scope Notes (formerly notes)
-      if (item.scopeNote) {
-        const notesDiv = document.createElement('div');
-        notesDiv.className = 'card-notes';
-
-        const notesStrong = document.createElement('strong');
-        notesStrong.textContent = 'Notes: ';
-        notesDiv.appendChild(notesStrong);
-
-        const notesText = document.createElement('span');
-        appendHighlightedText(notesText, item.scopeNote, query);
-        notesDiv.appendChild(notesText);
-
-        card.appendChild(notesDiv);
-      }
-
-      // 6. Workgroups
-      const wgDiv = document.createElement('div');
-      wgDiv.className = 'card-workgroups';
-
-      const wgLabel = document.createElement('span');
-      wgLabel.className = 'wg-label';
-      wgLabel.textContent = 'Aligns With:';
-      wgDiv.appendChild(wgLabel);
-
-      item.workgroups.forEach(wg => {
-        const wgBadge = document.createElement('span');
-        wgBadge.className = 'wg-badge';
-        appendHighlightedText(wgBadge, wg, query);
-        wgDiv.appendChild(wgBadge);
+        sidebarNavContent.appendChild(groupContainer);
       });
 
-      card.appendChild(wgDiv);
+    } else {
+      // A-Z Index Mode
+      const alphaGroups = {};
+      state.filteredData.forEach(item => {
+        const letter = item.term.trim().charAt(0).toUpperCase();
+        if (!alphaGroups[letter]) alphaGroups[letter] = [];
+        alphaGroups[letter].push(item);
+      });
 
-      cardsGrid.appendChild(card);
+      Object.keys(alphaGroups).sort().forEach(letter => {
+        const alphaContainer = document.createElement('div');
+        alphaContainer.className = 'alpha-group';
+
+        const alphaHeader = document.createElement('div');
+        alphaHeader.className = 'alpha-header';
+        alphaHeader.textContent = letter;
+        alphaContainer.appendChild(alphaHeader);
+
+        alphaGroups[letter].forEach(item => {
+          const navItem = document.createElement('a');
+          navItem.className = `nav-item ${item.term === state.activeTerm ? 'active' : ''}`;
+          navItem.setAttribute('href', `#${item.term.replace(/\s+/g, '-')}`);
+          
+          const labelSpan = document.createElement('span');
+          appendHighlightedText(labelSpan, item.term, query);
+          navItem.appendChild(labelSpan);
+
+          navItem.addEventListener('click', (e) => {
+            e.preventDefault();
+            setActiveTerm(item.term);
+          });
+
+          alphaContainer.appendChild(navItem);
+        });
+
+        sidebarNavContent.appendChild(alphaContainer);
+      });
+    }
+  }
+
+  // Render Right Content Area (Active Concept Detail Sheet) securely
+  function renderDetailPane() {
+    mainContentPane.replaceChildren();
+
+    const activeItem = taxonomyData.find(item => item.term === state.activeTerm);
+    if (!activeItem) {
+      const emptyDiv = document.createElement('div');
+      emptyDiv.className = 'empty-state';
+      const emptyP = document.createElement('p');
+      emptyP.textContent = 'Select a concept from the sidebar to view its SKOS metadata sheet.';
+      emptyDiv.appendChild(emptyP);
+      mainContentPane.appendChild(emptyDiv);
+      return;
+    }
+
+    const query = state.currentSearch;
+
+    // 1. Breadcrumb Trail (Traversing pointers upward)
+    const breadcrumbTrail = document.createElement('div');
+    breadcrumbTrail.className = 'breadcrumb-trail';
+
+    const catBreadcrumb = document.createElement('span');
+    catBreadcrumb.className = 'breadcrumb-item';
+    catBreadcrumb.textContent = activeItem.category;
+    breadcrumbTrail.appendChild(catBreadcrumb);
+
+    // Build lineage
+    const lineage = [];
+    let current = activeItem.broaderTerm;
+    while (current) {
+      const parentItem = taxonomyData.find(i => i.term === current);
+      if (parentItem) {
+        lineage.unshift(parentItem);
+        current = parentItem.broaderTerm;
+      } else {
+        break;
+      }
+    }
+
+    lineage.forEach(parentItem => {
+      const sep = document.createElement('span');
+      sep.className = 'breadcrumb-sep';
+      sep.textContent = '/';
+      breadcrumbTrail.appendChild(sep);
+
+      const parentLink = document.createElement('a');
+      parentLink.className = 'breadcrumb-item';
+      parentLink.setAttribute('href', `#${parentItem.term.replace(/\s+/g, '-')}`);
+      parentLink.textContent = parentItem.term;
+      parentLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        setActiveTerm(parentItem.term);
+      });
+      breadcrumbTrail.appendChild(parentLink);
     });
+
+    const sepFinal = document.createElement('span');
+    sepFinal.className = 'breadcrumb-sep';
+    sepFinal.textContent = '/';
+    breadcrumbTrail.appendChild(sepFinal);
+
+    const activeBreadcrumb = document.createElement('span');
+    activeBreadcrumb.className = 'breadcrumb-active';
+    activeBreadcrumb.textContent = activeItem.term;
+    breadcrumbTrail.appendChild(activeBreadcrumb);
+
+    mainContentPane.appendChild(breadcrumbTrail);
+
+    // 2. Main Concept Detail Card
+    const card = document.createElement('article');
+    card.className = 'concept-detail-card';
+    card.setAttribute('id', activeItem.term.replace(/\s+/g, '-'));
+
+    // Header
+    const cardHeader = document.createElement('div');
+    cardHeader.className = 'card-header';
+
+    const cardTitle = document.createElement('h3');
+    cardTitle.className = 'card-title';
+    appendHighlightedText(cardTitle, activeItem.term, query);
+    cardHeader.appendChild(cardTitle);
+
+    const catClass = mapCategoryClass(activeItem.category);
+    const catTag = document.createElement('span');
+    catTag.className = `category-tag ${catClass}`;
+    catTag.textContent = activeItem.category;
+    cardHeader.appendChild(catTag);
+
+    card.appendChild(cardHeader);
+
+    // Body (Definition)
+    const cardBody = document.createElement('div');
+    cardBody.className = 'card-body';
+    const defP = document.createElement('p');
+    appendHighlightedText(defP, activeItem.definition, query);
+    cardBody.appendChild(defP);
+    card.appendChild(cardBody);
+
+    // Aliases
+    if (activeItem.aliases && activeItem.aliases.length > 0) {
+      const aliasesDiv = document.createElement('div');
+      aliasesDiv.className = 'card-aliases';
+      
+      const aliasLabel = document.createElement('span');
+      aliasLabel.className = 'alias-label';
+      aliasLabel.textContent = 'Aliases:';
+      aliasesDiv.appendChild(aliasLabel);
+
+      activeItem.aliases.forEach(alias => {
+        const badge = document.createElement('span');
+        badge.className = 'alias-badge';
+        appendHighlightedText(badge, alias, query);
+        aliasesDiv.appendChild(badge);
+      });
+
+      card.appendChild(aliasesDiv);
+    }
+
+    // Broader Concept
+    if (activeItem.broaderTerm) {
+      const broaderDiv = document.createElement('div');
+      broaderDiv.className = 'card-broader';
+
+      const broaderLabel = document.createElement('span');
+      broaderLabel.className = 'broader-label';
+      broaderLabel.textContent = 'Broader Concept:';
+      broaderDiv.appendChild(broaderLabel);
+
+      const broaderLink = document.createElement('a');
+      broaderLink.className = 'broader-link';
+      broaderLink.setAttribute('href', `#${activeItem.broaderTerm.replace(/\s+/g, '-')}`);
+      appendHighlightedText(broaderLink, activeItem.broaderTerm, query);
+
+      broaderLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        setActiveTerm(activeItem.broaderTerm);
+      });
+
+      broaderDiv.appendChild(broaderLink);
+      card.appendChild(broaderDiv);
+    }
+
+    // Scope Notes
+    if (activeItem.scopeNote) {
+      const notesDiv = document.createElement('div');
+      notesDiv.className = 'card-notes';
+
+      const notesStrong = document.createElement('strong');
+      notesStrong.textContent = 'Notes: ';
+      notesDiv.appendChild(notesStrong);
+
+      const notesText = document.createElement('span');
+      appendHighlightedText(notesText, activeItem.scopeNote, query);
+      notesDiv.appendChild(notesText);
+
+      card.appendChild(notesDiv);
+    }
+
+    // Workgroups
+    const wgDiv = document.createElement('div');
+    wgDiv.className = 'card-workgroups';
+
+    const wgLabel = document.createElement('span');
+    wgLabel.className = 'wg-label';
+    wgLabel.textContent = 'Aligns With:';
+    wgDiv.appendChild(wgLabel);
+
+    activeItem.workgroups.forEach(wg => {
+      const wgBadge = document.createElement('span');
+      wgBadge.className = 'wg-badge';
+      appendHighlightedText(wgBadge, wg, query);
+      wgDiv.appendChild(wgBadge);
+    });
+
+    card.appendChild(wgDiv);
+
+    mainContentPane.appendChild(card);
+  }
+
+  // Handle active concept switching and smooth animation
+  function setActiveTerm(term) {
+    state.activeTerm = term;
+    renderSidebar();
+    renderDetailPane();
+    
+    const detailCard = document.querySelector('.concept-detail-card');
+    if (detailCard) {
+      detailCard.classList.remove('card-pulse');
+      void detailCard.offsetWidth; // Trigger reflow
+      detailCard.classList.add('card-pulse');
+    }
   }
 
   // Unified filter and filter pipeline logic
@@ -250,13 +398,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const query = state.currentSearch.toLowerCase().trim();
 
     state.filteredData = taxonomyData.filter(item => {
-      // Check letter constraint
-      if (state.currentLetter !== 'ALL') {
-        const firstLetter = item.term.trim().charAt(0).toUpperCase();
-        if (firstLetter !== state.currentLetter) return false;
-      }
-
-      // Check text query matching across fields
       if (query) {
         const matchTerm = item.term.toLowerCase().includes(query);
         const matchDef = item.definition.toLowerCase().includes(query);
@@ -267,38 +408,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return matchTerm || matchDef || matchNotes || matchAliases || matchBroader || matchWGs;
       }
-
       return true;
     });
 
-    // Sort dynamically alphabetically by term
     state.filteredData.sort((a, b) => a.term.localeCompare(b.term));
 
-    // Handle metadata control tags indicators visibilities
-    if (state.currentLetter !== 'ALL' || query) {
+    if (query) {
       activeFiltersBar.style.display = 'flex';
     } else {
       activeFiltersBar.style.display = 'none';
     }
 
-    renderDashboardCards();
+    renderSidebar();
+    renderDetailPane();
   }
 
-  // Event: Fuzzy Search input keyup listener
+  // Event Listeners
   searchInput.addEventListener('input', (e) => {
     state.currentSearch = e.target.value;
-
-    // Toggle clear inline buttons indicators visibility
     if (state.currentSearch.length > 0) {
       clearSearchBtn.style.display = 'block';
     } else {
       clearSearchBtn.style.display = 'none';
     }
-
     runFilteringPipeline();
   });
 
-  // Event: Inline Clear Search Button Click
   clearSearchBtn.addEventListener('click', () => {
     searchInput.value = '';
     state.currentSearch = '';
@@ -307,38 +442,27 @@ document.addEventListener('DOMContentLoaded', () => {
     runFilteringPipeline();
   });
 
-  // Event: Alphabet Index Clicks Listener
-  alphabetBar.addEventListener('click', (e) => {
-    const targetBtn = e.target.closest('.alpha-btn');
-    if (!targetBtn || targetBtn.classList.contains('disabled')) return;
-
-    // Remove active class state tokens from old button nodes
-    document.querySelectorAll('.alpha-btn').forEach(btn => btn.classList.remove('active'));
-
-    // Bind state
-    targetBtn.classList.add('active');
-    state.currentLetter = targetBtn.getAttribute('data-letter');
-
-    runFilteringPipeline();
-  });
-
-  // Event: Full Filters State Clear Reset Trigger Click
-  function resetAllFilters() {
+  resetFiltersBtn.addEventListener('click', () => {
     searchInput.value = '';
     state.currentSearch = '';
     clearSearchBtn.style.display = 'none';
-    state.currentLetter = 'ALL';
-
-    document.querySelectorAll('.alpha-btn').forEach(btn => btn.classList.remove('active'));
-    const allBtn = document.querySelector('.alpha-btn[data-letter="ALL"]');
-    if (allBtn) allBtn.classList.add('active');
-
     runFilteringPipeline();
-  }
+  });
 
-  resetFiltersBtn.addEventListener('click', resetAllFilters);
+  tabTree.addEventListener('click', () => {
+    state.navMode = 'tree';
+    tabTree.classList.add('active');
+    tabAz.classList.remove('active');
+    renderSidebar();
+  });
+
+  tabAz.addEventListener('click', () => {
+    state.navMode = 'az';
+    tabAz.classList.add('active');
+    tabTree.classList.remove('active');
+    renderSidebar();
+  });
 
   // Initialize Dashboard Execution Flow Pipeline
-  initAlphabetIndex();
   runFilteringPipeline();
 });
