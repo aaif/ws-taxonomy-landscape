@@ -54,38 +54,61 @@ document.addEventListener('DOMContentLoaded', () => {
     switch (cat) {
       case 'Agentic Threats': return 'tag-threats';
       case 'Agentic Controls': return 'tag-controls';
-      case 'Data and Privacy': return 'tag-privacy';
-      case 'Identity and Authorization': return 'tag-identity';
+      case 'Data and Privacy':
+      case 'Data & Privacy': return 'tag-privacy';
+      case 'Identity and Authorization':
+      case 'Identity & Authorization': return 'tag-identity';
       case 'Security Practices': return 'tag-practices';
-      case 'Infrastructure and Architecture': return 'tag-infra';
+      case 'Infrastructure and Architecture':
+      case 'Infrastructure & Architecture': return 'tag-infra';
       default: return 'tag-default';
     }
   }
 
-  // Helper to highlight query substrings within matching parent blocks cleanly
-  function highlightQueryMatch(text, query) {
-    if (!query) return text;
+  // Helper to append highlighted query substrings within matching parent blocks cleanly using pure DOM methods
+  function appendHighlightedText(parentElement, text, query) {
+    if (!query) {
+      parentElement.textContent = text;
+      return;
+    }
     try {
       // Escape special regex characters for safety
       const escapedQuery = query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
       const regex = new RegExp(`(${escapedQuery})`, 'gi');
-      return text.replace(regex, '<mark class="match-highlight">$1</mark>');
+      const parts = text.split(regex);
+
+      parts.forEach(part => {
+        if (part.toLowerCase() === query.toLowerCase()) {
+          const mark = document.createElement('mark');
+          mark.className = 'match-highlight';
+          mark.textContent = part;
+          parentElement.appendChild(mark);
+        } else if (part) {
+          parentElement.appendChild(document.createTextNode(part));
+        }
+      });
     } catch (e) {
-      return text;
+      parentElement.textContent = text;
     }
   }
 
-  // Render data model items to cards deck container
+  // Render data model items to cards deck container securely
   function renderDashboardCards() {
-    cardsGrid.innerHTML = '';
+    cardsGrid.replaceChildren();
 
     if (state.filteredData.length === 0) {
-      cardsGrid.innerHTML = `
-        <div class="empty-state">
-          <p>No vocabulary terms matched your current filters.</p>
-          <span>Try refining your search input keyword or resetting your alphabet slider constraints.</span>
-        </div>
-      `;
+      const emptyState = document.createElement('div');
+      emptyState.className = 'empty-state';
+
+      const emptyMsg = document.createElement('p');
+      emptyMsg.textContent = 'No vocabulary terms matched your current filters.';
+      emptyState.appendChild(emptyMsg);
+
+      const emptySub = document.createElement('span');
+      emptySub.textContent = 'Try refining your search input keyword or resetting your alphabet slider constraints.';
+      emptyState.appendChild(emptySub);
+
+      cardsGrid.appendChild(emptyState);
       resultCount.textContent = 'Showing 0 vocabulary terms';
       return;
     }
@@ -97,34 +120,126 @@ document.addEventListener('DOMContentLoaded', () => {
     state.filteredData.forEach(item => {
       const card = document.createElement('article');
       card.className = 'taxonomy-card';
+      card.setAttribute('id', item.term.replace(/\s+/g, '-'));
 
-      // Highlight content segments matching active query string
       const query = state.currentSearch;
-      const highlightedTerm = highlightQueryMatch(item.term, query);
-      const highlightedDef = highlightQueryMatch(item.definition, query);
-      const highlightedNotes = highlightQueryMatch(item.notes, query);
+
+      // 1. Header
+      const cardHeader = document.createElement('div');
+      cardHeader.className = 'card-header';
+
+      const cardTitle = document.createElement('h3');
+      cardTitle.className = 'card-title';
+      appendHighlightedText(cardTitle, item.term, query);
+      cardHeader.appendChild(cardTitle);
 
       const catClass = mapCategoryClass(item.category);
+      const catTag = document.createElement('span');
+      catTag.className = `category-tag ${catClass}`;
+      catTag.textContent = item.category;
+      cardHeader.appendChild(catTag);
 
-      // Structure related cross-WG item string nodes
-      const wgBadges = item.workgroups.map(wg => `<span class="wg-badge">${highlightQueryMatch(wg, query)}</span>`).join('');
+      card.appendChild(cardHeader);
 
-      card.innerHTML = `
-        <div class="card-header">
-          <h3 class="card-title">${highlightedTerm}</h3>
-          <span class="category-tag ${catClass}">${item.category}</span>
-        </div>
-        <div class="card-body">
-          <p>${highlightedDef}</p>
-        </div>
-        <div class="card-notes">
-          <strong>Notes:</strong> ${highlightedNotes}
-        </div>
-        <div class="card-workgroups">
-          <span class="wg-label">Aligns With:</span>
-          ${wgBadges}
-        </div>
-      `;
+      // 2. Body (Definition)
+      const cardBody = document.createElement('div');
+      cardBody.className = 'card-body';
+      const defP = document.createElement('p');
+      appendHighlightedText(defP, item.definition, query);
+      cardBody.appendChild(defP);
+      card.appendChild(cardBody);
+
+      // 3. Aliases (if present)
+      if (item.aliases && item.aliases.length > 0) {
+        const aliasesDiv = document.createElement('div');
+        aliasesDiv.className = 'card-aliases';
+        
+        const aliasLabel = document.createElement('span');
+        aliasLabel.className = 'alias-label';
+        aliasLabel.textContent = 'Aliases:';
+        aliasesDiv.appendChild(aliasLabel);
+
+        item.aliases.forEach(alias => {
+          const badge = document.createElement('span');
+          badge.className = 'alias-badge';
+          appendHighlightedText(badge, alias, query);
+          aliasesDiv.appendChild(badge);
+        });
+
+        card.appendChild(aliasesDiv);
+      }
+
+      // 4. Broader Concept (if present)
+      if (item.broaderTerm) {
+        const broaderDiv = document.createElement('div');
+        broaderDiv.className = 'card-broader';
+
+        const broaderLabel = document.createElement('span');
+        broaderLabel.className = 'broader-label';
+        broaderLabel.textContent = 'Broader Concept:';
+        broaderDiv.appendChild(broaderLabel);
+
+        const broaderLink = document.createElement('a');
+        broaderLink.className = 'broader-link';
+        broaderLink.setAttribute('href', `#${item.broaderTerm.replace(/\s+/g, '-')}`);
+        appendHighlightedText(broaderLink, item.broaderTerm, query);
+
+        // Add click listener for smooth interactive filtering to parent card
+        broaderLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          searchInput.value = item.broaderTerm;
+          state.currentSearch = item.broaderTerm;
+          if (clearSearchBtn) clearSearchBtn.style.display = 'block';
+          runFilteringPipeline();
+          
+          // Smooth scroll to the target card if it exists in the new filtered view
+          setTimeout(() => {
+            const targetCard = document.getElementById(item.broaderTerm.replace(/\s+/g, '-'));
+            if (targetCard) {
+              targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              targetCard.classList.add('card-pulse');
+              setTimeout(() => targetCard.classList.remove('card-pulse'), 1500);
+            }
+          }, 100);
+        });
+
+        broaderDiv.appendChild(broaderLink);
+        card.appendChild(broaderDiv);
+      }
+
+      // 5. Scope Notes (formerly notes)
+      if (item.scopeNote) {
+        const notesDiv = document.createElement('div');
+        notesDiv.className = 'card-notes';
+
+        const notesStrong = document.createElement('strong');
+        notesStrong.textContent = 'Notes: ';
+        notesDiv.appendChild(notesStrong);
+
+        const notesText = document.createElement('span');
+        appendHighlightedText(notesText, item.scopeNote, query);
+        notesDiv.appendChild(notesText);
+
+        card.appendChild(notesDiv);
+      }
+
+      // 6. Workgroups
+      const wgDiv = document.createElement('div');
+      wgDiv.className = 'card-workgroups';
+
+      const wgLabel = document.createElement('span');
+      wgLabel.className = 'wg-label';
+      wgLabel.textContent = 'Aligns With:';
+      wgDiv.appendChild(wgLabel);
+
+      item.workgroups.forEach(wg => {
+        const wgBadge = document.createElement('span');
+        wgBadge.className = 'wg-badge';
+        appendHighlightedText(wgBadge, wg, query);
+        wgDiv.appendChild(wgBadge);
+      });
+
+      card.appendChild(wgDiv);
 
       cardsGrid.appendChild(card);
     });
@@ -145,10 +260,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (query) {
         const matchTerm = item.term.toLowerCase().includes(query);
         const matchDef = item.definition.toLowerCase().includes(query);
-        const matchNotes = item.notes.toLowerCase().includes(query);
+        const matchNotes = (item.scopeNote || '').toLowerCase().includes(query);
+        const matchAliases = (item.aliases || []).some(a => a.toLowerCase().includes(query));
+        const matchBroader = (item.broaderTerm || '').toLowerCase().includes(query);
         const matchWGs = item.workgroups.some(wg => wg.toLowerCase().includes(query));
 
-        return matchTerm || matchDef || matchNotes || matchWGs;
+        return matchTerm || matchDef || matchNotes || matchAliases || matchBroader || matchWGs;
       }
 
       return true;

@@ -401,6 +401,72 @@ body {
   background: rgba(255, 255, 255, 0.07);
 }
 
+/* Aliases & Broader Concept Styles */
+.card-aliases {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-top: -4px;
+}
+
+.alias-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.alias-badge {
+  background: rgba(155, 93, 229, 0.15);
+  border: 1px solid rgba(155, 93, 229, 0.3);
+  color: #dfbaff;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.card-broader {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 245, 212, 0.05);
+  border: 1px solid rgba(0, 245, 212, 0.15);
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.broader-label {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.78rem;
+}
+
+.broader-link {
+  color: var(--accent-teal);
+  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition-smooth);
+}
+
+.broader-link:hover {
+  text-decoration: underline;
+  text-shadow: 0 0 8px var(--glow-teal);
+}
+
+/* Interactive Pulse Animation for Scroll Target */
+@keyframes cardPulse {
+  0% { box-shadow: 0 0 0 0 rgba(0, 245, 212, 0.6); border-color: var(--accent-teal); }
+  70% { box-shadow: 0 0 0 20px rgba(0, 245, 212, 0); border-color: var(--accent-teal); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 245, 212, 0); border-color: var(--border-color); }
+}
+
+.card-pulse {
+  animation: cardPulse 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 /* Real-Time Text Query Highlight Match Style */
 mark.match-highlight {
   background: rgba(0, 245, 212, 0.25);
