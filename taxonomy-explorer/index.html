@@ -38,6 +38,7 @@
     <div class="master-view-toggle" role="tablist" aria-label="Master View Selection">
       <button class="master-tab-btn active" id="master-tab-split" role="tab" aria-selected="true">Master-Detail View</button>
       <button class="master-tab-btn" id="master-tab-grid" role="tab" aria-selected="false">Grid Card View</button>
+      <button class="master-tab-btn" id="master-tab-mindmap" role="tab" aria-selected="false">Visual Mindmap</button>
     </div>
 
     <!-- ==================== MODE 1: MASTER-DETAIL SPLIT VIEW ==================== -->
@@ -110,6 +111,40 @@
         <!-- Dynamic glassmorphic templates will be injected here by app.js -->
       </main>
     </div>
+
+    <!-- ==================== MODE 3: VISUAL MINDMAP EXPLORER ==================== -->
+    <div id="mindmap-view-container" style="display: none;">
+      <!-- Floating Control Hub -->
+      <section class="control-hub" id="mindmap-control-hub" aria-label="Mindmap Controls">
+        <div class="search-wrapper" style="margin-bottom: 0;">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input type="text" id="search-input-mindmap" placeholder="Search mindmap branches..." autocomplete="off" aria-label="Search Mindmap">
+          <button id="clear-search-mindmap" class="clear-btn" style="display: none;" aria-label="Clear search">×</button>
+        </div>
+        
+        <div class="mindmap-actions" style="display: flex; justify-content: center; gap: 12px; margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 16px;">
+          <button id="btn-expand-all" class="tab-btn" style="flex: 0 1 auto; padding: 6px 16px;">Expand All</button>
+          <button id="btn-collapse-all" class="tab-btn" style="flex: 0 1 auto; padding: 6px 16px;">Collapse All</button>
+        </div>
+      </section>
+
+      <!-- Mindmap Canvas Container -->
+      <div class="mindmap-canvas" id="mindmap-canvas-container" role="region" aria-label="Ontology Mindmap">
+        <!-- Dynamic CSS flexbox mindmap tree will be injected here by app.js -->
+      </div>
+    </div>
+
+    <!-- Native HTML5 Dialog Modal for Concept Sheet -->
+    <dialog id="mindmap-detail-modal" class="concept-modal" aria-label="Concept Detail">
+      <div class="modal-header">
+        <button id="modal-close-btn" class="modal-close-btn" aria-label="Close modal">×</button>
+      </div>
+      <div id="mindmap-modal-content" class="modal-content">
+        <!-- Injected dynamically by app.js -->
+      </div>
+    </dialog>
 
     <!-- Footer Brand Segment -->
     <footer class="app-footer">

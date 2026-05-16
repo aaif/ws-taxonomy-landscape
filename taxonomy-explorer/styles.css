@@ -197,7 +197,8 @@ body {
 }
 
 #search-input-split,
-#search-input-grid {
+#search-input-grid,
+#search-input-mindmap {
   width: 100%;
   background: rgba(5, 8, 24, 0.6);
   border: 1px solid var(--border-color);
@@ -210,7 +211,8 @@ body {
 }
 
 #search-input-split:focus,
-#search-input-grid:focus {
+#search-input-grid:focus,
+#search-input-mindmap:focus {
   outline: none;
   border-color: rgba(0, 245, 212, 0.5);
   box-shadow: 0 0 20px var(--glow-teal);
@@ -218,7 +220,8 @@ body {
 }
 
 #search-input-split:focus + .search-icon,
-#search-input-grid:focus + .search-icon {
+#search-input-grid:focus + .search-icon,
+#search-input-mindmap:focus + .search-icon {
   color: var(--accent-teal);
 }
 
@@ -546,6 +549,174 @@ body {
 
 .taxonomy-card:hover::before {
   background: linear-gradient(90deg, var(--accent-teal), var(--accent-purple));
+}
+
+/* Visual Mindmap Explorer Styles */
+.mindmap-canvas {
+  display: flex;
+  align-items: center;
+  padding: 40px;
+  overflow: auto;
+  min-height: 650px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.mindmap-root {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+  color: #ffffff;
+  padding: 16px 32px;
+  border-radius: 20px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.4rem;
+  box-shadow: 0 10px 25px var(--glow-purple);
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.mindmap-branches {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-left: 48px;
+  position: relative;
+}
+
+.mindmap-branches::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 48px;
+  height: 2px;
+  background: var(--accent-purple);
+}
+
+.mindmap-branch {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.mindmap-subbranches {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-left: 40px;
+  position: relative;
+}
+
+.mindmap-subbranches::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.mindmap-node {
+  background: rgba(10, 15, 40, 0.8);
+  border: 1px solid var(--border-color);
+  padding: 12px 24px;
+  border-radius: 16px;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  position: relative;
+  flex-shrink: 0;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mindmap-node::before {
+  content: '';
+  position: absolute;
+  left: -40px;
+  top: 50%;
+  width: 40px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.mindmap-node:hover {
+  border-color: var(--accent-teal);
+  box-shadow: 0 0 15px var(--glow-teal);
+  transform: translateY(-2px);
+}
+
+.category-node {
+  border-left: 4px solid var(--accent-teal);
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+}
+
+.concept-node {
+  border-left: 4px solid var(--accent-purple);
+}
+
+.child-concept-node {
+  border-left: 4px solid var(--accent-pink);
+  font-size: 0.88rem;
+}
+
+/* Native Dialog Modal Styling */
+.concept-modal {
+  margin: auto;
+  background: var(--bg-surface);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-color);
+  border-radius: 28px;
+  padding: 40px;
+  max-width: 800px;
+  width: 90%;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 1px var(--accent-teal);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+}
+
+.concept-modal::backdrop {
+  background: rgba(6, 9, 25, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -20px;
+  position: relative;
+  z-index: 10;
+}
+
+.modal-close-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-smooth);
+}
+
+.modal-close-btn:hover {
+  background: rgba(241, 91, 181, 0.2);
+  color: var(--accent-pink);
+  border-color: var(--accent-pink);
 }
 
 /* Right Content Area: Detail Sheet */
