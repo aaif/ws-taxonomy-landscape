@@ -44,7 +44,7 @@ body {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 24px;
+  padding: 20px 24px;
   z-index: 2;
 }
 
@@ -74,37 +74,23 @@ body {
 /* Top Hero Segment */
 .app-header {
   text-align: center;
-  margin-bottom: 48px;
-  padding-top: 20px;
-}
-
-.badge {
-  display: inline-block;
-  background: rgba(155, 93, 229, 0.15);
-  border: 1px solid rgba(155, 93, 229, 0.3);
-  color: #cc99ff;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  padding: 6px 16px;
-  border-radius: 100px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
+  padding-top: 10px;
 }
 
 .app-header h1 {
   font-family: var(--font-heading);
-  font-size: 3rem;
+  font-size: 2.6rem;
   font-weight: 700;
   letter-spacing: -0.5px;
   background: linear-gradient(135deg, #ffffff 30%, var(--text-secondary) 70%, var(--accent-teal) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 .subtitle {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: var(--text-secondary);
   max-width: 700px;
   margin: 0 auto;
@@ -114,29 +100,30 @@ body {
 /* Master UI View Toggle */
 .master-view-toggle {
   display: flex;
-  max-width: 400px;
-  margin: 0 auto 40px auto;
+  max-width: fit-content;
+  margin: 0 auto 24px auto;
   background: rgba(10, 15, 40, 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 6px;
-  gap: 6px;
+  gap: 8px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .master-tab-btn {
-  flex: 1;
+  flex: 0 1 auto;
   background: none;
   border: none;
   color: var(--text-secondary);
-  padding: 12px 20px;
+  padding: 10px 24px;
   border-radius: 12px;
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;
+  white-space: nowrap;
   transition: var(--transition-smooth);
 }
 
@@ -158,7 +145,7 @@ body {
   grid-template-columns: 380px 1fr;
   gap: 32px;
   align-items: start;
-  margin-bottom: 48px;
+  margin-bottom: 24px;
 }
 
 /* Left Sidebar Pane */
@@ -243,16 +230,7 @@ body {
   color: var(--text-primary);
 }
 
-/* Navigation Mode Toggle Tabs */
-.sidebar-tabs {
-  display: flex;
-  background: rgba(5, 8, 24, 0.6);
-  border: 1px solid var(--border-color);
-  border-radius: 14px;
-  padding: 4px;
-  gap: 4px;
-}
-
+/* Action Button Styles */
 .tab-btn {
   flex: 1;
   background: none;
@@ -336,8 +314,8 @@ body {
 .tree-group {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin-bottom: 12px;
+  gap: 2px;
+  margin-bottom: 8px;
 }
 
 .tree-group-title {
@@ -346,14 +324,14 @@ body {
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--text-muted);
-  padding: 4px 8px;
+  padding: 2px 8px;
   font-weight: 700;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-radius: 12px;
   color: var(--text-secondary);
   text-decoration: none;
@@ -511,7 +489,7 @@ body {
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 24px;
+  gap: 16px;
 }
 
 .taxonomy-card {
@@ -520,10 +498,10 @@ body {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  padding: 28px;
+  padding: 20px 24px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   transition: var(--transition-smooth);
   position: relative;
   overflow: hidden;

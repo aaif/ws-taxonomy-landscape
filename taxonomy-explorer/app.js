@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     masterView: 'split', // 'split', 'grid', or 'mindmap'
     currentSearch: '',
     currentLetterGrid: 'ALL', // Alphabet filtering for grid view
-    navMode: 'tree', // 'tree' or 'az' for split view
     activeTerm: 'Agentic AI', // Default active term on load
     filteredData: [...taxonomyData],
     mindmapCollapsedCats: new Set() // Tracks which categories are collapsed in mindmap
@@ -35,8 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const resetFiltersBtnSplit = document.getElementById('reset-filters-btn-split');
   const sidebarNavContent = document.getElementById('sidebar-nav-content');
   const mainContentPane = document.getElementById('main-content-pane');
-  const tabTree = document.getElementById('tab-tree');
-  const tabAz = document.getElementById('tab-az');
 
   // Grid View Elements
   const searchInputGrid = document.getElementById('search-input-grid');
@@ -143,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ==================== MODE 1: MASTER-DETAIL SPLIT VIEW RENDERING ====================
 
-  // Render Left Sidebar Navigation (Tree or A-Z Index) securely
+  // Render Left Sidebar Navigation (Tree Hierarchy) securely
   function renderSidebar() {
     sidebarNavContent.replaceChildren();
 
@@ -159,96 +156,56 @@ document.addEventListener('DOMContentLoaded', () => {
     resultCountSplit.textContent = `Showing ${state.filteredData.length} terms`;
     const query = state.currentSearch;
 
-    if (state.navMode === 'tree') {
-      const groups = getGroupedTreeData(state.filteredData);
+    const groups = getGroupedTreeData(state.filteredData);
 
-      Object.keys(groups).sort().forEach(cat => {
-        const groupObj = groups[cat];
-        const groupContainer = document.createElement('div');
-        groupContainer.className = 'tree-group';
+    Object.keys(groups).sort().forEach(cat => {
+      const groupObj = groups[cat];
+      const groupContainer = document.createElement('div');
+      groupContainer.className = 'tree-group';
 
-        const groupTitle = document.createElement('div');
-        groupTitle.className = 'tree-group-title';
-        groupTitle.textContent = cat;
-        groupContainer.appendChild(groupTitle);
+      const groupTitle = document.createElement('div');
+      groupTitle.className = 'tree-group-title';
+      groupTitle.textContent = cat;
+      groupContainer.appendChild(groupTitle);
 
-        const renderedTerms = new Set();
+      const renderedTerms = new Set();
 
-        // Helper to recursively render tree nodes
-        function renderNode(item, isChild = false) {
-          if (renderedTerms.has(item.term)) return;
-          renderedTerms.add(item.term);
+      // Helper to recursively render tree nodes
+      function renderNode(item, isChild = false) {
+        if (renderedTerms.has(item.term)) return;
+        renderedTerms.add(item.term);
 
-          const navItem = document.createElement('a');
-          navItem.className = `nav-item ${isChild ? 'tree-child' : ''} ${item.term === state.activeTerm ? 'active' : ''}`;
-          navItem.setAttribute('href', `#${item.term.replace(/\s+/g, '-')}`);
-          
-          const labelSpan = document.createElement('span');
-          appendHighlightedText(labelSpan, item.term, query);
-          navItem.appendChild(labelSpan);
+        const navItem = document.createElement('a');
+        navItem.className = `nav-item ${isChild ? 'tree-child' : ''} ${item.term === state.activeTerm ? 'active' : ''}`;
+        navItem.setAttribute('href', `#${item.term.replace(/\s+/g, '-')}`);
+        
+        const labelSpan = document.createElement('span');
+        appendHighlightedText(labelSpan, item.term, query);
+        navItem.appendChild(labelSpan);
 
-          navItem.addEventListener('click', (e) => {
-            e.preventDefault();
-            setActiveTerm(item.term);
-          });
-
-          groupContainer.appendChild(navItem);
-
-          const children = groupObj.childrenMap[item.term] || [];
-          children.forEach(child => renderNode(child, true));
-        }
-
-        groupObj.roots.forEach(root => renderNode(root, false));
-
-        Object.keys(groupObj.childrenMap).forEach(parentTerm => {
-          groupObj.childrenMap[parentTerm].forEach(child => {
-            if (!renderedTerms.has(child.term)) {
-              renderNode(child, false);
-            }
-          });
+        navItem.addEventListener('click', (e) => {
+          e.preventDefault();
+          setActiveTerm(item.term);
         });
 
-        sidebarNavContent.appendChild(groupContainer);
-      });
+        groupContainer.appendChild(navItem);
 
-    } else {
-      // A-Z Index Mode
-      const alphaGroups = {};
-      state.filteredData.forEach(item => {
-        const letter = item.term.trim().charAt(0).toUpperCase();
-        if (!alphaGroups[letter]) alphaGroups[letter] = [];
-        alphaGroups[letter].push(item);
-      });
+        const children = groupObj.childrenMap[item.term] || [];
+        children.forEach(child => renderNode(child, true));
+      }
 
-      Object.keys(alphaGroups).sort().forEach(letter => {
-        const alphaContainer = document.createElement('div');
-        alphaContainer.className = 'alpha-group';
+      groupObj.roots.forEach(root => renderNode(root, false));
 
-        const alphaHeader = document.createElement('div');
-        alphaHeader.className = 'alpha-header';
-        alphaHeader.textContent = letter;
-        alphaContainer.appendChild(alphaHeader);
-
-        alphaGroups[letter].forEach(item => {
-          const navItem = document.createElement('a');
-          navItem.className = `nav-item ${item.term === state.activeTerm ? 'active' : ''}`;
-          navItem.setAttribute('href', `#${item.term.replace(/\s+/g, '-')}`);
-          
-          const labelSpan = document.createElement('span');
-          appendHighlightedText(labelSpan, item.term, query);
-          navItem.appendChild(labelSpan);
-
-          navItem.addEventListener('click', (e) => {
-            e.preventDefault();
-            setActiveTerm(item.term);
-          });
-
-          alphaContainer.appendChild(navItem);
+      Object.keys(groupObj.childrenMap).forEach(parentTerm => {
+        groupObj.childrenMap[parentTerm].forEach(child => {
+          if (!renderedTerms.has(child.term)) {
+            renderNode(child, false);
+          }
         });
-
-        sidebarNavContent.appendChild(alphaContainer);
       });
-    }
+
+      sidebarNavContent.appendChild(groupContainer);
+    });
   }
 
   // Render Right Content Area (Active Concept Detail Sheet) securely
@@ -1120,21 +1077,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       mindmapDetailModal.removeAttribute('open');
     }
-  });
-
-  // Split View Tabs Listeners
-  tabTree.addEventListener('click', () => {
-    state.navMode = 'tree';
-    tabTree.classList.add('active');
-    tabAz.classList.remove('active');
-    renderSidebar();
-  });
-
-  tabAz.addEventListener('click', () => {
-    state.navMode = 'az';
-    tabAz.classList.add('active');
-    tabTree.classList.remove('active');
-    renderSidebar();
   });
 
   // Initialize Dashboard Execution Flow Pipeline
