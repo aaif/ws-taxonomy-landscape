@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const splitLayoutContainer = document.getElementById('split-layout-container');
   const gridViewContainer = document.getElementById('grid-view-container');
   const mindmapViewContainer = document.getElementById('mindmap-view-container');
-  
+
   // Split View Elements
   const searchInputSplit = document.getElementById('search-input-split');
   const clearSearchBtnSplit = document.getElementById('clear-search-split');
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     data.forEach(item => {
       const cat = item.category || 'Uncategorized';
       if (!groups[cat]) groups[cat] = { title: cat, roots: [], childrenMap: {} };
-      
+
       if (item.broaderTerm) {
         if (!groups[cat].childrenMap[item.broaderTerm]) {
           groups[cat].childrenMap[item.broaderTerm] = [];
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const navItem = document.createElement('a');
         navItem.className = `nav-item ${isChild ? 'tree-child' : ''} ${item.term === state.activeTerm ? 'active' : ''}`;
         navItem.setAttribute('href', `#${item.term.replace(/\s+/g, '-')}`);
-        
+
         const labelSpan = document.createElement('span');
         appendHighlightedText(labelSpan, item.term, query);
         navItem.appendChild(labelSpan);
@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (activeItem.aliases && activeItem.aliases.length > 0) {
       const aliasesDiv = document.createElement('div');
       aliasesDiv.className = 'card-aliases';
-      
+
       const aliasLabel = document.createElement('span');
       aliasLabel.className = 'alias-label';
       aliasLabel.textContent = 'Aliases:';
@@ -370,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const wgLabel = document.createElement('span');
     wgLabel.className = 'wg-label';
-    wgLabel.textContent = 'Aligns With:';
+    wgLabel.textContent = 'WGs:';
     wgDiv.appendChild(wgLabel);
 
     activeItem.workgroups.forEach(wg => {
@@ -389,7 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
     state.activeTerm = term;
     renderSidebar();
     renderDetailPane();
-    
+
     const detailCard = document.querySelector('.concept-detail-card');
     if (detailCard) {
       detailCard.classList.remove('card-pulse');
@@ -454,7 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (item.aliases && item.aliases.length > 0) {
         const aliasesDiv = document.createElement('div');
         aliasesDiv.className = 'card-aliases';
-        
+
         const aliasLabel = document.createElement('span');
         aliasLabel.className = 'alias-label';
         aliasLabel.textContent = 'Aliases:';
@@ -490,7 +490,7 @@ document.addEventListener('DOMContentLoaded', () => {
           state.currentSearch = item.broaderTerm;
           if (clearSearchBtnGrid) clearSearchBtnGrid.style.display = 'block';
           runFilteringPipeline();
-          
+
           setTimeout(() => {
             const targetCard = document.getElementById(`grid-${item.broaderTerm.replace(/\s+/g, '-')}`);
             if (targetCard) {
@@ -525,7 +525,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const wgLabel = document.createElement('span');
       wgLabel.className = 'wg-label';
-      wgLabel.textContent = 'Aligns With:';
+      wgLabel.textContent = 'Workgroups:';
       wgDiv.appendChild(wgLabel);
 
       item.workgroups.forEach(wg => {
@@ -578,7 +578,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const catNode = document.createElement('div');
       catNode.className = 'mindmap-node category-node';
-      
+
       const catTitleSpan = document.createElement('span');
       appendHighlightedText(catTitleSpan, cat, query);
       catNode.appendChild(catTitleSpan);
@@ -616,7 +616,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           const conceptNode = document.createElement('div');
           conceptNode.className = `mindmap-node ${isChild ? 'child-concept-node' : 'concept-node'}`;
-          
+
           const labelSpan = document.createElement('span');
           appendHighlightedText(labelSpan, item.term, query);
           conceptNode.appendChild(labelSpan);
@@ -752,7 +752,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (activeItem.aliases && activeItem.aliases.length > 0) {
       const aliasesDiv = document.createElement('div');
       aliasesDiv.className = 'card-aliases';
-      
+
       const aliasLabel = document.createElement('span');
       aliasLabel.className = 'alias-label';
       aliasLabel.textContent = 'Aliases:';
@@ -808,7 +808,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const wgLabel = document.createElement('span');
     wgLabel.className = 'wg-label';
-    wgLabel.textContent = 'Aligns With:';
+    wgLabel.textContent = 'Workgroups:';
     wgDiv.appendChild(wgLabel);
 
     activeItem.workgroups.forEach(wg => {
@@ -881,11 +881,11 @@ document.addEventListener('DOMContentLoaded', () => {
     masterTabSplit.classList.add('active');
     masterTabGrid.classList.remove('active');
     masterTabMindmap.classList.remove('active');
-    
+
     splitLayoutContainer.style.display = 'grid';
     gridViewContainer.style.display = 'none';
     mindmapViewContainer.style.display = 'none';
-    
+
     searchInputSplit.value = state.currentSearch;
     if (state.currentSearch.length > 0) {
       clearSearchBtnSplit.style.display = 'block';
@@ -900,11 +900,11 @@ document.addEventListener('DOMContentLoaded', () => {
     masterTabGrid.classList.add('active');
     masterTabSplit.classList.remove('active');
     masterTabMindmap.classList.remove('active');
-    
+
     gridViewContainer.style.display = 'block';
     splitLayoutContainer.style.display = 'none';
     mindmapViewContainer.style.display = 'none';
-    
+
     searchInputGrid.value = state.currentSearch;
     if (state.currentSearch.length > 0) {
       clearSearchBtnGrid.style.display = 'block';
@@ -919,11 +919,11 @@ document.addEventListener('DOMContentLoaded', () => {
     masterTabMindmap.classList.add('active');
     masterTabSplit.classList.remove('active');
     masterTabGrid.classList.remove('active');
-    
+
     mindmapViewContainer.style.display = 'block';
     splitLayoutContainer.style.display = 'none';
     gridViewContainer.style.display = 'none';
-    
+
     searchInputMindmap.value = state.currentSearch;
     if (state.currentSearch.length > 0) {
       clearSearchBtnMindmap.style.display = 'block';
