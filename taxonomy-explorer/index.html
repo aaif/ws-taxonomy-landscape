@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AAIF Taxonomy Explorer</title>
+  <meta name="description"
+    content="Interactive shared taxonomy vocabulary explorer for the Agentic AI Foundation (AAIF) across all working groups. Discover definitions, usage notes, and cross-group alignment mappings.">
+
+  <!-- Premium Typography Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <div class="app-container">
+    <!-- Premium Decorative Background Gradients -->
+    <div class="bg-glow glow-primary"></div>
+    <div class="bg-glow glow-secondary"></div>
+
+    <!-- Top Hero Segment -->
+    <header class="app-header">
+      <div class="badge">AAIF Cross-WG Standardization</div>
+      <h1 id="main-title">Shared Taxonomy Explorer</h1>
+      <p class="subtitle">A unified living vocabulary mapping terms, definitions, and core architectural alignments
+        across all Technical Working Groups.</p>
+    </header>
+
+    <!-- Floating Control Hub -->
+    <section class="control-hub" aria-label="Search and Filters">
+      <div class="search-wrapper">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input type="text" id="search-input" placeholder="Fuzzy search terms, definitions, or working groups..."
+          autocomplete="off" aria-label="Search Taxonomy">
+        <button id="clear-search" class="clear-btn" style="display: none;" aria-label="Clear search">×</button>
+      </div>
+
+      <!-- Interactive Alphabet Pagination Header -->
+      <div class="alphabet-bar" id="alphabet-bar" role="navigation" aria-label="Alphabet shortcut index">
+        <button class="alpha-btn active" data-letter="ALL">ALL</button>
+        <!-- Dynamic buttons A-Z will be filled cleanly by javascript or hardcoded. Let's inject dynamically or hardcode for absolute performance -->
+      </div>
+    </section>
+
+    <!-- Active Status / Meta Counts Bar -->
+    <div class="meta-status-bar">
+      <div class="result-count" id="result-count">Showing all 22 vocabulary terms</div>
+      <div class="active-filters" id="active-filters" style="display: none;">
+        <span class="filter-tag">Filtered view <button id="reset-filters-btn">Reset</button></span>
+      </div>
+    </div>
+
+    <!-- Primary Dynamic Card Deck Deck -->
+    <main class="cards-grid" id="cards-grid" role="region" aria-live="polite">
+      <!-- Dynamic glassmorphic templates will be injected here by app.js -->
+    </main>
+
+    <!-- Footer Brand Segment -->
+    <footer class="app-footer">
+      <p>Agentic AI Foundation © 2026. Designed for Pair-Programming Architecture. Open Source Contributions welcome via
+        <code>taxonomy-data.js</code>.
+      </p>
+    </footer>
+  </div>
+
+  <!-- JavaScript Modularity Layer -->
+  <script src="taxonomy-data.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
