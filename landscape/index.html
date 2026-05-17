@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AAIF Ecosystem Architecture Map</title>
+  <meta name="description" content="Dynamic, interactive CNCF-style market map for the Agentic AI Foundation (AAIF). Explore agent runtimes, protocols, security guardrails, observability, commerce rails, and global governance regimes.">
+  
+  <!-- Premium Typography Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Open Source js-yaml CDN for Client-Side YAML Parsing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Premium Decorative Background Gradients -->
+    <div class="bg-glow glow-primary"></div>
+    <div class="bg-glow glow-secondary"></div>
+
+    <!-- Top Hero Segment -->
+    <header class="app-header"
+      <div class="header-actions">
+        <a href="../" class="back-link">&larr; Back to Master Portal</a>
+        <div class="badge">AAIF Global Market Map</div>
+      </div>
+      <h1 id="main-title">Ecosystem Landscape Map</h1>
+      <p class="subtitle">A living, interactive landscape categorizing open-source tools, runtimes, protocols, security guardrails, observability platforms, commerce rails, and global regulatory regimes.</p>
+    </header>
+
+    <!-- Floating Control Hub -->
+    <section class="control-hub" aria-label="Search and Category Filters">
+      <div class="search-wrapper">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <input type="text" id="search-input" placeholder="Search projects, descriptions, tiers, or URLs..." autocomplete="off" aria-label="Search Landscape">
+        <button id="clear-search" class="clear-btn" style="display: none;" aria-label="Clear search">×</button>
+      </div>
+
+      <!-- Dynamic Category Filter Bar -->
+      <div class="category-bar" id="category-bar" role="navigation" aria-label="Category filter index">
+        <button class="cat-btn active" data-category="ALL">All Categories</button>
+        <!-- Injected dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- Project Tier Legend & Active Status Bar -->
+    <div class="meta-status-bar">
+      <div class="result-count" id="result-count">Loading landscape data...</div>
+      
+      <div class="tier-legend" aria-label="Project Tier Legend">
+        <span class="legend-item"><span class="legend-dot dot-graduated"></span> Graduated</span>
+        <span class="legend-item"><span class="legend-dot dot-incubating"></span> Incubating</span>
+        <span class="legend-item"><span class="legend-dot dot-member"></span> Member</span>
+        <span class="legend-item"><span class="legend-dot dot-external"></span> External</span>
+      </div>
+    </div>
+
+    <!-- Primary Dynamic Landscape Deck -->
+    <main class="landscape-grid" id="landscape-grid" role="region" aria-live="polite">
+      <!-- Dynamic glassmorphic category groups and cards will be injected here by app.js -->
+    </main>
+
+    <!-- Footer Brand Segment -->
+    <footer class="app-footer">
+      <p>Agentic AI Foundation © 2026. Powered by lightweight client-side YAML parsing. Open Source Contributions welcome via <code>landscape.yml</code>.</p>
+    </footer>
+  </div>
+
+  <!-- JavaScript Logic Layer -->
+  <script src="app.js"></script>
+</body>
+</html>

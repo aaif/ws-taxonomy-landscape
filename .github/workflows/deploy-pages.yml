@@ -1,4 +1,4 @@
-name: Deploy Taxonomy Explorer to GitHub Pages
+name: Deploy AAIF Standards Portal to GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -36,8 +36,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload only the taxonomy-explorer directory
-          path: './taxonomy-explorer'
+          # Upload the entire repository root to serve both taxonomy-explorer and landscape
+          path: '.'
+
 
       - name: Deploy to GitHub Pages
         id: deployment

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AAIF Standards & Governance Portal</title>
+  <meta name="description" content="Master portal for the Agentic AI Foundation (AAIF) Taxonomy & Landscape workstream. Explore the interactive Shared Taxonomy and the Global Ecosystem Architecture Map.">
+  
+  <!-- Premium Typography Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-main: #060919;
+      --bg-surface: rgba(15, 22, 53, 0.55);
+      --bg-hover: rgba(22, 32, 74, 0.8);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(0, 245, 212, 0.4);
+      
+      --text-primary: #f8f9fa;
+      --text-secondary: #9ea5c8;
+      --accent-teal: #00f5d4;
+      --accent-purple: #9b5de5;
+      
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      padding: 40px 24px;
+      position: relative;
+    }
+
+    /* Cosmic Glow Ambient Backgrounds */
+    .bg-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      filter: blur(150px);
+      pointer-events: none;
+      z-index: 1; opacity: 0.35;
+    }
+    .glow-1 { background: var(--accent-purple); top: -10%; left: -10%; }
+    .glow-2 { background: #00b4d8; bottom: -10%; right: -10%; }
+
+    .portal-container {
+      position: relative;
+      z-index: 2;
+      max-width: 1000px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(155, 93, 229, 0.15);
+      border: 1px solid rgba(155, 93, 229, 0.3);
+      color: #cc99ff;
+      font-size: 0.85rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 2px;
+      padding: 8px 20px; border-radius: 100px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-size: 3.5rem; font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 30%, var(--text-secondary) 70%, var(--accent-teal) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+    }
+
+    .subtitle {
+      font-size: 1.2rem; color: var(--text-secondary);
+      max-width: 700px; margin: 0 auto 64px auto;
+      font-weight: 300; line-height: 1.6;
+    }
+
+    /* Portal Cards Grid */
+    .portal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 32px;
+      text-align: left;
+    }
+
+    .portal-card {
+      background: var(--bg-surface);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 40px;
+      display: flex; flex-direction: column; gap: 20px;
+      text-decoration: none; color: inherit;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative; overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    .portal-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 100%; height: 4px;
+      background: linear-gradient(90deg, transparent, transparent);
+      transition: all 0.4s ease;
+    }
+
+    .portal-card:hover {
+      transform: translateY(-8px);
+      background: var(--bg-hover);
+      border-color: var(--border-hover);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 20px rgba(0, 245, 212, 0.2);
+    }
+
+    .portal-card:hover::before {
+      background: linear-gradient(90deg, var(--accent-teal), var(--accent-purple));
+    }
+
+    .card-icon {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; color: var(--accent-teal);
+      transition: all 0.3s ease;
+    }
+    .portal-card:hover .card-icon {
+      background: var(--accent-teal);
+      color: #060919;
+      box-shadow: 0 0 20px var(--accent-teal);
+    }
+
+    .card-title {
+      font-family: var(--font-heading);
+      font-size: 1.8rem; font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .card-desc {
+      font-size: 1.05rem; color: var(--text-secondary);
+      line-height: 1.6; flex-grow: 1;
+    }
+
+    .card-link-text {
+      font-size: 0.95rem; font-weight: 600;
+      color: var(--accent-teal);
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 10px;
+    }
+    .portal-card:hover .card-link-text {
+      gap: 12px;
+    }
+
+    footer {
+      margin-top: 80px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 24px; width: 100%; text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.5rem; }
+      .portal-grid { grid-template-columns: 1fr; }
+      .portal-card { padding: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <div class="portal-container">
+    <div class="badge">AAIF Foundation Standards</div>
+    <h1>Standards & Governance Portal</h1>
+    <p class="subtitle">Explore the master living standards maintained by the joint cross-cutting Taxonomy & Landscape workstream across all 7 Technical Working Groups.</p>
+
+    <div class="portal-grid">
+      <!-- Card 1: Taxonomy Explorer -->
+      <a href="./taxonomy-explorer/" class="portal-card">
+        <div class="card-icon">🔤</div>
+        <h2 class="card-title">Shared Taxonomy Explorer</h2>
+        <p class="card-desc">An interactive, living vocabulary mapping terms, definitions, aliases, and core architectural SKOS-Lite alignments across all working groups.</p>
+        <div class="card-link-text">Launch Taxonomy Dashboard &rarr;</div>
+      </a>
+
+      <!-- Card 2: Ecosystem Landscape Map -->
+      <a href="./landscape/" class="portal-card">
+        <div class="card-icon">🌌</div>
+        <h2 class="card-title">Ecosystem Landscape Map</h2>
+        <p class="card-desc">A dynamic, interactive CNCF-style market map categorizing open-source tools, runtimes, protocols, security guardrails, and global regulatory regimes.</p>
+        <div class="card-link-text">Launch Landscape Map &rarr;</div>
+      </a>
+    </div>
+
+    <footer>
+      <p>Agentic AI Foundation © 2026. Maintained by the Taxonomy & Landscape Workstream Chairs.</p>
+    </footer>
+  </div>
+
+</body>
+</html>
