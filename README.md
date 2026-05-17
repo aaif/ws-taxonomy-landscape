@@ -25,6 +25,13 @@ If someone from an AAIF member organization would like to join, please [sign up 
 
 All meeting recordings and AI summaries can be found on your [LFX Individual Dashboard](openprofile.dev). Create a Linux Foundation (LFX) account to see all meetings, AI summaries, recordings, etc. all in one place.
 
+## Repository Structure
+
+| Folder | Description |
+|--------|-------------|
+| [`landscape/`](landscape/) | Master landscape.yml configuration file for the AAIF Ecosystem Architecture Map |
+| [`taxonomy-explorer/`](taxonomy-explorer/) | Interactive shared taxonomy web dashboard explorer with Tri-Mode Architecture |
+
 ## Communication
 
 Reach out on the private working group mailing list: ws-taxonomy-landscape@lists.aaif.io
