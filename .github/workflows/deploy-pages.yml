@@ -38,11 +38,18 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install landscape2
+        run: |
+          curl --proto '=https' --tlsv1.2 -LsSf https://github.com/cncf/landscape2/releases/download/v1.1.0/landscape2-installer.sh | sh
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
       - name: Build CNCF Landscape 2
         run: |
           cd landscape
-          # Run the official CNCF landscape2 build compiler via GitHub repo shorthand
-          npx github:cncf/landscape2 build --export
+          landscape2 build \
+            --data-file landscape.yml \
+            --settings-file settings.yml \
+            --output-dir out
           cd ..
 
 
