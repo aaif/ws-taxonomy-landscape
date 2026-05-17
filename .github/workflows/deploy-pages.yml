@@ -49,7 +49,7 @@ jobs:
           landscape2 build \
             --data-file landscape.yml \
             --settings-file settings.yml \
-            --logos-path . \
+            --logos-path logos \
             --output-dir out
           cd ..
 

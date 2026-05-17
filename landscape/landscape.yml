@@ -8,21 +8,25 @@ landscape:
       - subcategory: Autonomous Agent Frameworks
         items:
           - name: Microsoft AutoGen
+            logo: placeholder.svg
             homepage_url: https://microsoft.github.io/autogen/
             repo_url: https://github.com/microsoft/autogen
             description: Open-source programming framework for building multi-agent applications via conversational patterns.
             project: external
           - name: CrewAI
+            logo: placeholder.svg
             homepage_url: https://www.crewai.com
             repo_url: https://github.com/joaomdmoura/crewAI
             description: Framework for orchestrating role-playing, autonomous AI agents for enterprise workflows.
             project: external
           - name: OpenHands (formerly OpenDevin)
+            logo: placeholder.svg
             homepage_url: https://openhands.ai
             repo_url: https://github.com/All-Hands-AI/OpenHands
             description: Autonomous AI software engineer framework operating at project granularity.
             project: external
           - name: Google Agent Development Kit (ADK)
+            logo: placeholder.svg
             homepage_url: https://cloud.google.com/products/agent-development-kit
             description: Enterprise framework for building, evaluating, and deploying trustworthy autonomous AI agents and marketplace capabilities.
             project: member
@@ -30,21 +34,25 @@ landscape:
       - subcategory: Orchestration Runtimes
         items:
           - name: LangChain
+            logo: placeholder.svg
             homepage_url: https://langchain.com
             repo_url: https://github.com/langchain-ai/langchain
             description: Framework for developing context-aware, reasoning-driven LLM applications and agentic runtimes.
             project: external
           - name: LlamaIndex
+            logo: placeholder.svg
             homepage_url: https://www.llamaindex.ai
             repo_url: https://github.com/run-llama/llama_index
             description: Data framework for connecting custom data sources to large language models and agent loops.
             project: external
           - name: Diagrid Dapr Runtimes
+            logo: placeholder.svg
             homepage_url: https://diagrid.io
             repo_url: https://github.com/dapr/dapr
             description: Distributed application runtime enabling stateful, long-running workflow portability across cloud environments.
             project: member
           - name: LangGraph
+            logo: placeholder.svg
             homepage_url: https://www.langchain.com/langgraph
             repo_url: https://github.com/langchain-ai/langgraph
             description: Library for building stateful, multi-actor applications with LLMs using cyclical graph definitions.
@@ -60,11 +68,13 @@ landscape:
       - subcategory: Communication Protocols
         items:
           - name: Model Context Protocol (MCP)
+            logo: placeholder.svg
             homepage_url: https://modelcontextprotocol.io
             repo_url: https://github.com/modelcontextprotocol
             description: Open standard connecting AI models securely to data sources, filesystem tools, and enterprise infrastructure.
             project: incubating
           - name: Agent-to-Agent (A2A) Protocol
+            logo: placeholder.svg
             homepage_url: https://github.com/Agent2Agent
             repo_url: https://github.com/Agent2Agent/specification
             description: Interoperability protocol enabling autonomous AI agents to discover, negotiate, and collaborate across organizations.
@@ -73,15 +83,18 @@ landscape:
       - subcategory: Discovery & Naming
         items:
           - name: AI Catalog
+            logo: placeholder.svg
             homepage_url: https://github.com/Agent-Card/ai-catalog
             repo_url: https://github.com/Agent-Card/ai-catalog
             description: Common Agentic AI Catalog and Registry Standard for discovering heterogeneous AI artifacts across the ecosystem.
             project: incubating
           - name: DNS-AID (SVCB Federation)
+            logo: placeholder.svg
             homepage_url: https://datatracker.ietf.org/wg/dnsop/about/
             description: Infrastructure-layer service binding specification for resolving authoritative agent registries via DNS.
             project: external
           - name: SPIFFE / W3C DID Trust Registries
+            logo: placeholder.svg
             homepage_url: https://spiffe.io
             repo_url: https://github.com/spiffe/spiffe
             description: Standards providing cryptographic identity documents (SVIDs) and decentralized identifiers for agent attestation.
@@ -96,20 +109,24 @@ landscape:
       - subcategory: Prompt & Runtime Guardrails
         items:
           - name: Meta Llama Guard
+            logo: placeholder.svg
             homepage_url: https://ai.meta.com/llama/
             repo_url: https://github.com/meta-llama/PurpleLlama
             description: Safeguard model providing input prompt classification and output response filtering for autonomous agents.
             project: external
           - name: NeMo Guardrails
+            logo: placeholder.svg
             homepage_url: https://github.com/NVIDIA/NeMo-Guardrails
             repo_url: https://github.com/NVIDIA/NeMo-Guardrails
             description: Open-source toolkit for adding programmable guardrails and deterministic dialog boundaries to LLM systems.
             project: external
           - name: Google Cloud Model Armor
+            logo: placeholder.svg
             homepage_url: https://cloud.google.com/security/products/model-armor
             description: Enterprise security service providing prompt injection defense, sensitive data obfuscation, and runtime containment.
             project: external
           - name: OWASP Top 10 for LLM Applications
+            logo: placeholder.svg
             homepage_url: https://owasp.org/www-project-top-10-for-large-language-model-applications/
             repo_url: https://github.com/OWASP/www-project-top-10-for-large-language-model-applications
             description: Standardized security vulnerability classification and mitigation framework for LLM and agentic architectures.
@@ -124,6 +141,7 @@ landscape:
       - subcategory: Telemetry Standards
         items:
           - name: OpenTelemetry GenAI SIG
+            logo: placeholder.svg
             homepage_url: https://opentelemetry.io
             repo_url: https://github.com/open-telemetry/community
             description: Standardized trace semantic conventions for capturing agent reasoning loops, tool execution, and session context.
@@ -132,19 +150,23 @@ landscape:
       - subcategory: Monitoring & Evaluation
         items:
           - name: Arize AI
+            logo: placeholder.svg
             homepage_url: https://arize.com
             repo_url: https://github.com/Arize-ai/phoenix
             description: AI observability platform providing LLM tracing, evaluation harnesses, and agentic execution troubleshooting.
             project: external
           - name: LangSmith
+            logo: placeholder.svg
             homepage_url: https://www.langchain.com/langsmith
             description: Unified DevOps platform for debugging, testing, evaluating, and monitoring LLM agent trajectories.
             project: external
           - name: Datadog AI Observability
+            logo: placeholder.svg
             homepage_url: https://www.datadoghq.com
             description: Enterprise monitoring backend capturing agent-level traces, API error rates, and infrastructure telemetry.
             project: external
           - name: Braintrust
+            logo: placeholder.svg
             homepage_url: https://www.braintrustdata.com
             description: Enterprise AI evaluation, logging, and prompt management platform for continuous agentic benchmarking.
             project: external
@@ -158,14 +180,17 @@ landscape:
       - subcategory: Payment Settlement Rails
         items:
           - name: Shopify Agentic commerce
+            logo: placeholder.svg
             homepage_url: https://shopify.dev/docs/agents
             description: Merchant interaction interfaces and delegated authorization frameworks for AI-driven transactional workflows.
             project: external
           - name: Google Agent Payment Protocol (AP2)
+            logo: placeholder.svg
             homepage_url: https://ap2-protocol.org/
             description: Secure cryptographic settlement and wallet authorization protocol for autonomous agent micro-transactions.
             project: external
           - name: OpenAI Agentic Commerce Protocol
+            logo: placeholder.svg
             homepage_url: https://developers.openai.com/commerce
             description: Interoperable commerce agent interfaces and delegated transaction clearing frameworks for AI-driven market economies.
             project: external
@@ -179,14 +204,17 @@ landscape:
       - subcategory: Enacted Legislation & Acts
         items:
           - name: European Union AI Act (Reg. 2024/1689)
+            logo: placeholder.svg
             homepage_url: https://artificialintelligenceact.eu
             description: World's first comprehensive binding AI legislation establishing risk-tiered compliance, logging, and human oversight mandates.
             project: external
           - name: Colorado SB 24-205 (AI Consumer Protection)
+            logo: placeholder.svg
             homepage_url: https://leg.colorado.gov/bills/sb24-205
             description: State-level consumer protection law mandating reasonable care against algorithmic discrimination and annual impact assessments.
             project: external
           - name: Singapore Model AI Governance Framework for Agentic AI
+            logo: placeholder.svg
             homepage_url: https://www.imda.gov.sg
             description: World's first jurisdiction-specific guidance for agentic systems covering autonomy bounding, human checkpoints, and transparency.
             project: external
@@ -194,14 +222,17 @@ landscape:
       - subcategory: Standards & Risk Frameworks
         items:
           - name: NIST AI Risk Management Framework (AI RMF 1.0)
+            logo: placeholder.svg
             homepage_url: https://www.nist.gov/itl/ai-risk-management-framework
             description: Foundational US voluntary governance framework operating through Govern, Map, Measure, and Manage core functions.
             project: external
           - name: ISO/IEC 42001 AI Management System (AIMS)
+            logo: placeholder.svg
             homepage_url: https://www.iso.org/standard/81230.html
             description: International certifiable standard providing lifecycle governance requirements from design through decommissioning.
             project: external
           - name: IEEE 7000 Series (Ethically Aligned Design)
+            logo: placeholder.svg
             homepage_url: https://standards.ieee.org
             description: Technical standards establishing proactive Safety by Design, decision transparency, and autonomous system value alignment.
             project: external
@@ -209,6 +240,7 @@ landscape:
       - subcategory: Working Group Deliverables
         items:
           - name: Governance of Agentic AI Systems - Global Landscape Analysis
+            logo: placeholder.svg
             homepage_url: https://github.com/aaif/wg-governance-risk-and-regulatory
             repo_url: https://github.com/aaif/wg-governance-risk-and-regulatory
             description: Comprehensive 32-page foundational WG research report analyzing global AI regulations, risk analogies, and privacy tensions.
