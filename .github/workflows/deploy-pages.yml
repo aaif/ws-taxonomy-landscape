@@ -62,6 +62,7 @@ jobs:
           # cp -r landscape/static/* dist/landscape/static/
           # Copy static backup parser to dist/landscape/static
           cp -r landscape/static/* dist/landscape/
+          cp -r landscape/landscape.yml dist/landscape/
           # Copy taxonomy explorer to dist/taxonomy
           cp -r taxonomy dist/
           # Copy master portal landing page to dist/
