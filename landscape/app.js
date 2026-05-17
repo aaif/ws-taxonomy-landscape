@@ -276,6 +276,19 @@ document.addEventListener('DOMContentLoaded', () => {
     runFilteringPipeline();
   });
 
+  const styleToggleBtn = document.getElementById('style-toggle-btn');
+  if (styleToggleBtn) {
+    styleToggleBtn.addEventListener('click', () => {
+      const isCncf = document.body.classList.toggle('cncf-mode');
+      if (isCncf) {
+        styleToggleBtn.innerHTML = 'Switch to Cosmic Style 🌌';
+      } else {
+        styleToggleBtn.innerHTML = 'Switch to CNCF Style 🏛️';
+      }
+    });
+  }
+
   // Start Execution
   fetchLandscapeData();
 });
+

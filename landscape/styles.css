@@ -263,6 +263,166 @@ mark.match-highlight {
   border-top: 1px solid rgba(255, 255, 255, 0.04); color: var(--text-muted); font-size: 0.85rem;
 }
 
+/* Style Toggle Button */
+.style-toggle-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-primary);
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.style-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--accent-teal);
+  box-shadow: 0 0 15px var(--glow-teal);
+}
+
+/* ==================== MODE 2: CNCF LANDSCAPE 2 EMULATION ==================== */
+body.cncf-mode {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+body.cncf-mode .app-container {
+  max-width: 1600px;
+}
+body.cncf-mode .bg-glow {
+  display: none;
+}
+
+/* Headers & Control Hub Overrides */
+body.cncf-mode .app-header h1 {
+  background: none;
+  color: #0f172a;
+  -webkit-text-fill-color: #0f172a;
+}
+body.cncf-mode .subtitle {
+  color: #475569;
+}
+body.cncf-mode .back-link {
+  color: #64748b;
+}
+body.cncf-mode .back-link:hover {
+  color: #0f172a;
+}
+body.cncf-mode .badge {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+body.cncf-mode .style-toggle-btn {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+body.cncf-mode .style-toggle-btn:hover {
+  background: #f1f5f9;
+  border-color: #64748b;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+
+/* Control Hub Light Mode */
+body.cncf-mode .control-hub {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: #e2e8f0;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+}
+body.cncf-mode #search-input {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+body.cncf-mode #search-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  background: #ffffff;
+}
+body.cncf-mode .cat-btn {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  color: #475569;
+}
+body.cncf-mode .cat-btn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+body.cncf-mode .cat-btn.active {
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.2);
+}
+
+/* Legend & Meta Light Mode */
+body.cncf-mode .result-count {
+  color: #475569;
+}
+body.cncf-mode .tier-legend {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+body.cncf-mode .legend-item {
+  color: #475569;
+}
+
+/* Category Boxes Light Mode */
+body.cncf-mode .landscape-category-group {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  padding: 40px;
+}
+body.cncf-mode .landscape-category-title {
+  color: #0f172a;
+  border-bottom-color: #e2e8f0;
+}
+body.cncf-mode .subcat-title {
+  color: #334155;
+}
+
+/* Project Cards Light Mode */
+body.cncf-mode .project-card {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border-radius: 12px;
+}
+body.cncf-mode .project-card:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+body.cncf-mode .card-title {
+  color: #0f172a;
+}
+body.cncf-mode .card-desc {
+  color: #475569;
+}
+body.cncf-mode .card-links {
+  border-top-color: #e2e8f0;
+}
+body.cncf-mode .project-link {
+  color: #2563eb;
+}
+body.cncf-mode .project-link:hover {
+  color: #1d4ed8;
+}
+body.cncf-mode .app-footer {
+  border-top-color: #e2e8f0;
+  color: #64748b;
+}
+
 @media (max-width: 768px) {
   .app-header h1 { font-size: 2.2rem; }
   .landscape-category-group { padding: 20px; }
@@ -270,3 +430,4 @@ mark.match-highlight {
   .app-container { padding: 20px 16px; }
   .control-hub { padding: 16px; }
 }
+

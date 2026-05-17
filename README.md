@@ -30,7 +30,7 @@ All meeting recordings and AI summaries can be found on your [LFX Individual Das
 | Folder | Description |
 |--------|-------------|
 | [`landscape/`](landscape/) | Master landscape.yml configuration file for the AAIF Ecosystem Architecture Map |
-| [`taxonomy-explorer/`](taxonomy-explorer/) | Interactive shared taxonomy web dashboard explorer with Tri-Mode Architecture |
+| [`taxonomy/`](taxonomy/) | Interactive shared taxonomy web dashboard explorer with Tri-Mode Architecture |
 
 ## Communication
 
