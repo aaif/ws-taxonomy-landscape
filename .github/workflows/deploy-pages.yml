@@ -38,29 +38,30 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install landscape2
-        run: |
-          curl --proto '=https' --tlsv1.2 -LsSf https://github.com/cncf/landscape2/releases/download/v1.1.0/landscape2-installer.sh | sh
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+      # - name: Install landscape2
+      #   run: |
+      #     curl --proto '=https' --tlsv1.2 -LsSf https://github.com/cncf/landscape2/releases/download/v1.1.0/landscape2-installer.sh | sh
+      #     echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
-      - name: Build CNCF Landscape 2
-        run: |
-          cd landscape
-          landscape2 build \
-            --data-file landscape.yml \
-            --settings-file settings.yml \
-            --logos-path logos \
-            --output-dir out
-          cd ..
-
+      # - name: Build CNCF Landscape 2
+      #   run: |
+      #     cd landscape
+      #     landscape2 build \
+      #       --data-file landscape.yml \
+      #       --settings-file settings.yml \
+      #       --logos-path logos \
+      #       --output-dir out
+      #     cd ..
 
       - name: Assemble Portal Distribution
         run: |
-          mkdir -p dist/landscape/static
-          # Copy landscape2 static export to dist/landscape
-          cp -r landscape/out/* dist/landscape/
+          # mkdir -p dist/landscape/static
+          # # Copy landscape2 static export to dist/landscape
+          # cp -r landscape/out/* dist/landscape/
+          # # Copy static backup parser to dist/landscape/static
+          # cp -r landscape/static/* dist/landscape/static/
           # Copy static backup parser to dist/landscape/static
-          cp -r landscape/static/* dist/landscape/static/
+          cp -r landscape/static/* dist/landscape/
           # Copy taxonomy explorer to dist/taxonomy
           cp -r taxonomy dist/
           # Copy master portal landing page to dist/
