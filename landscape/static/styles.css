@@ -287,6 +287,18 @@ mark.match-highlight {
 
 /* ==================== MODE 2: CNCF LANDSCAPE 2 EMULATION ==================== */
 body.cncf-mode {
+  /* Override CSS custom properties so ALL var()-based child styles update automatically */
+  --bg-main: #f8fafc;
+  --bg-surface: rgba(255, 255, 255, 0.85);
+  --bg-surface-hover: rgba(255, 255, 255, 0.95);
+  --border-color: #e2e8f0;
+  --border-hover: rgba(59, 130, 246, 0.4);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --accent-teal: #3b82f6;
+  --glow-teal: rgba(59, 130, 246, 0.15);
+
   background-color: #f8fafc;
   color: #0f172a;
 }
