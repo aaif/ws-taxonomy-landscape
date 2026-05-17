@@ -1,0 +1,44 @@
+# CNCF Landscape 2 Configuration Settings
+# https://github.com/cncf/landscape2
+
+name: AAIF Ecosystem Architecture Map
+url: https://aaif.github.io/ws-taxonomy-landscape/landscape/
+description: Dynamic, interactive CNCF-style market map for the Agentic AI Foundation (AAIF). Explore agent runtimes, protocols, security guardrails, observability platforms, commerce rails, and global regulatory regimes.
+
+# Base path required for Next.js static export when hosted on GitHub Pages sub-route
+base_path: /ws-taxonomy-landscape/landscape
+
+# UI Brand Customization
+header:
+  title: AAIF Ecosystem Architecture Map
+  logo: https://raw.githubusercontent.com/cncf/landscape2/main/public/logo.svg
+  favicon: https://raw.githubusercontent.com/cncf/landscape2/main/public/favicon.ico
+
+colors:
+  primary: "#0f172a"     # Slate 900
+  secondary: "#3b82f6"   # Blue 500
+  navigation: "#1e293b"  # Slate 800
+
+# Social & Community Links
+social:
+  github: https://github.com/aaif/ws-taxonomy-landscape
+  twitter: https://twitter.com/LinuxFoundation
+
+# Grid & Card View Configuration
+grid:
+  show_logos: true
+  show_descriptions: true
+  default_mode: card
+
+# Project Tier Legend Definitions
+members:
+  category_name: Project Tiers
+  tiers:
+    - name: Graduated
+      color: "#00f5d4"
+    - name: Incubating
+      color: "#9b5de5"
+    - name: Member
+      color: "#00b4d8"
+    - name: External
+      color: "#f15bb5"
