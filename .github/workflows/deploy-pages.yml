@@ -55,7 +55,7 @@ jobs:
 
       - name: Assemble Portal Distribution
         run: |
-          # mkdir -p dist/landscape/static
+          mkdir -p dist/landscape/static
           # # Copy landscape2 static export to dist/landscape
           # cp -r landscape/out/* dist/landscape/
           # # Copy static backup parser to dist/landscape/static
