@@ -41,9 +41,10 @@ jobs:
       - name: Build CNCF Landscape 2
         run: |
           cd landscape
-          # Run the official CNCF landscape2 build compiler
-          npx cncf/landscape2@latest build --export
+          # Run the official CNCF landscape2 build compiler via GitHub repo shorthand
+          npx github:cncf/landscape2 build --export
           cd ..
+
 
       - name: Assemble Portal Distribution
         run: |
