@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Application States Hub
   const state = {
-    masterView: 'split', // 'split', 'grid', or 'mindmap'
+    masterView: 'grid', // 'split', 'grid', or 'mindmap'
     currentSearch: '',
     currentLetterGrid: 'ALL', // Alphabet filtering for grid view
     activeTerm: 'Agentic AI', // Default active term on load
