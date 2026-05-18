@@ -78,17 +78,17 @@ body {
   padding-top: 10px;
 }
 
-.header-actions {
+.title-wrapper {
+  position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-bottom: 10px;
 }
 
 .back-link {
+  position: absolute;
+  left: 0;
   color: var(--text-secondary);
   text-decoration: none;
   font-size: 0.9rem;
@@ -107,7 +107,7 @@ body {
   background: linear-gradient(135deg, #ffffff 30%, var(--text-secondary) 70%, var(--accent-teal) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 10px;
+  margin-bottom: 0;
 }
 
 .subtitle {
