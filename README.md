@@ -29,8 +29,12 @@ All meeting recordings and AI summaries can be found on your [LFX Individual Das
 
 | Folder | Description |
 |--------|-------------|
+| [`charter/`](charter/) | Official workstream charter and governance documentation |
 | [`landscape/`](landscape/) | Master landscape.yml configuration file for the AAIF Ecosystem Architecture Map |
 | [`taxonomy/`](taxonomy/) | Interactive shared taxonomy web dashboard explorer with Tri-Mode Architecture |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | Contributor guidelines, pull request workflows, and review roles |
+
+
 
 ## Communication
 
