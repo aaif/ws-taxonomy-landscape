@@ -60,13 +60,18 @@ jobs:
           # cp -r landscape/out/* dist/landscape/
           # # Copy static backup parser to dist/landscape/static
           # cp -r landscape/static/* dist/landscape/static/
-          # Copy static backup parser to dist/landscape/static
+          # Copy static backup parser to dist/landscape/
           cp -r landscape/static/* dist/landscape/
           cp -r landscape/landscape.yml dist/landscape/
           # Copy taxonomy explorer to dist/taxonomy
           cp -r taxonomy dist/
           # Copy master portal landing page to dist/
           cp index.html dist/
+          # Generate build timestamp in PDT and inject it into dist/index.html
+          CURRENT_TIME=$(TZ="America/Los_Angeles" date +"%m/%d/%Y %I:%M%P")
+          echo "Generated build timestamp: $CURRENT_TIME"
+          sed -i "s/BUILD_TIMESTAMP/$CURRENT_TIME/g" dist/index.html
+
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
