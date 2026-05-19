@@ -70,7 +70,7 @@ jobs:
           # Generate build timestamp in PDT and inject it into dist/index.html
           CURRENT_TIME=$(TZ="America/Los_Angeles" date +"%m/%d/%Y %I:%M%P")
           echo "Generated build timestamp: $CURRENT_TIME"
-          sed -i "s/BUILD_TIMESTAMP/$CURRENT_TIME/g" dist/index.html
+          sed -i "s|BUILD_TIMESTAMP|$CURRENT_TIME|g" dist/index.html
 
 
       - name: Upload artifact
