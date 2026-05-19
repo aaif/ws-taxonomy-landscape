@@ -12,7 +12,7 @@ landscape:
             homepage_url: https://microsoft.github.io/autogen/
             repo_url: https://github.com/microsoft/autogen
             description: Open-source programming framework for building multi-agent applications via conversational patterns.
-            project: external
+            project: member
           - name: CrewAI
             logo: placeholder.svg
             homepage_url: https://www.crewai.com
@@ -72,13 +72,13 @@ landscape:
             homepage_url: https://modelcontextprotocol.io
             repo_url: https://github.com/modelcontextprotocol
             description: Open standard connecting AI models securely to data sources, filesystem tools, and enterprise infrastructure.
-            project: incubating
+            project: member
           - name: Agent-to-Agent (A2A) Protocol
             logo: placeholder.svg
             homepage_url: https://github.com/Agent2Agent
             repo_url: https://github.com/Agent2Agent/specification
             description: Interoperability protocol enabling autonomous AI agents to discover, negotiate, and collaborate across organizations.
-            project: incubating
+            project: external
 
       - subcategory: Discovery & Naming
         items:
@@ -124,7 +124,7 @@ landscape:
             logo: placeholder.svg
             homepage_url: https://cloud.google.com/security/products/model-armor
             description: Enterprise security service providing prompt injection defense, sensitive data obfuscation, and runtime containment.
-            project: external
+            project: member
           - name: OWASP Top 10 for LLM Applications
             logo: placeholder.svg
             homepage_url: https://owasp.org/www-project-top-10-for-large-language-model-applications/
@@ -164,7 +164,7 @@ landscape:
             logo: placeholder.svg
             homepage_url: https://www.datadoghq.com
             description: Enterprise monitoring backend capturing agent-level traces, API error rates, and infrastructure telemetry.
-            project: external
+            project: member
           - name: Braintrust
             logo: placeholder.svg
             homepage_url: https://www.braintrustdata.com
@@ -188,12 +188,12 @@ landscape:
             logo: placeholder.svg
             homepage_url: https://ap2-protocol.org/
             description: Secure cryptographic settlement and wallet authorization protocol for autonomous agent micro-transactions.
-            project: external
+            project: member
           - name: OpenAI Agentic Commerce Protocol
             logo: placeholder.svg
             homepage_url: https://developers.openai.com/commerce
             description: Interoperable commerce agent interfaces and delegated transaction clearing frameworks for AI-driven market economies.
-            project: external
+            project: member
 
   # ============================================================================
   # 6. GLOBAL GOVERNANCE & REGULATORY REGIMES
