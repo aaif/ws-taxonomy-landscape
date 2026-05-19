@@ -7,7 +7,7 @@ The mission of this workstream is currently being defined. Check back soon for u
 ## Chairs
 
 * **Chair: Junjie Bu [@mindpower](https://github.com/mindpower)** - Google
-* **Co-Chair: Gala Malbasic** - Bloomberg
+* **Co-Chair: Gala Malbasic [@malbasic](https://github.com/malbasic)** - Bloomberg
 
 The Workstream Chairs were appointed by the Working Group Chairs from the current AAIF Working Groups.
 
