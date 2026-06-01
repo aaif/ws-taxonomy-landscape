@@ -11,7 +11,7 @@ This repository maintains the horizontal, shared vocabulary (Taxonomy) and the g
 To maintain data integrity and keep the curation workload distributed, we divide repository governance into two roles:
 
 *   **Maintainers (Chairs):** **Junjie Bu** & **Gala Malbasic** hold final write access to the repository. Only the Co-Chairs have the authority to merge Pull Requests into the `main` branch.
-*   **Reviewers (Nominated Delegates):** Nominated delegates representing the 7 active Technical Working Groups have review and approval access. While they cannot merge directly, their peer approvals are required to advance changes in their respective domains.
+*   **Reviewers (Nominated Delegates):** Nominated delegates representing the 7 active Technical Working Groups have review and approval access. While they cannot merge directly, a consensus of peer approvals (at least two or three delegates from different workgroups) is required to advance changes.
 
 ---
 
@@ -23,7 +23,7 @@ All additions or modifications to our taxonomy glossary or landscape market map 
 1. Contributor opens a PR (e.g., adding a term or tool)
        │
        ▼
-2. Relevant WG Delegate reviews the PR and clicks "Approve"
+2. At least 2-3 WG Delegates (from different workgroups) approve the PR
        │
        ▼
 3. Workstream Chair performs sanity check and clicks "Merge"
@@ -32,8 +32,8 @@ All additions or modifications to our taxonomy glossary or landscape market map 
 1.  **Submit a Pull Request (PR):** Ensure your changes are limited to the appropriate data files:
     *   Taxonomy updates: [`taxonomy/taxonomy-data.js`](taxonomy/taxonomy-data.js) (SKOS-Lite schema)
     *   Landscape updates: [`landscape/landscape.yml`](landscape/landscape.yml) (CNCF-style schema)
-2.  **Peer Review:** The nominated delegates from the relevant Working Group (e.g., the Security WG delegates for a security-seeded term) will review the PR for domain accuracy and click **Approve** in GitHub.
-3.  **Final Merge:** Once the relevant delegate has approved the change, one of the Co-Chairs will perform a final administrative review and click **Merge** to deploy the update to the live portal.
+2.  **Peer Review:** The PR must be reviewed and approved by **at least two or three Nominated Delegates**. To ensure cross-functional alignment and prevent siloed terminology, this group of reviewers **must include delegates from different Technical Working Groups** (e.g., at least one delegate from the primary seeding/aligned WG and at least one delegate from a related/cross-cutting WG, such as Security & Privacy or Governance).
+3.  **Final Merge:** Once the required multi-workgroup approvals (at least 2 or 3) are secured, one of the Co-Chairs will perform a final administrative review and click **Merge** to deploy the update to the live portal.
 
 ---
 
