@@ -44,10 +44,11 @@ To maintain a high-quality, cohesive vocabulary across the foundation, all propo
 
 ### A. Terminology Acceptance Criteria
 For any new glossary term to be approved and merged, it must satisfy the following:
-1. **Pre-Competitive & Neutral:** Definitions must be vendor-neutral, objective, and clear. Proprietary product names, marketing jargon, or biased terminology are strictly prohibited.
-2. **Technical Precision & Clarity:** The term must be clearly defined with technical utility. Avoid overly broad definitions that lack concrete boundaries.
-3. **Uniqueness (De-duplication):** The term must not duplicate existing concepts. If a proposed term is a synonym of an existing term, it must be added as an entry in the `aliases` array of the existing term rather than creating a new entry.
-4. **Schema Compliance:** The metadata structure must strictly conform to the SKOS-Lite specification (including category, workgroups, broaderTerm, and a precise definition and scopeNote).
+1. **High-Level Scope Alignment:** The term must represent a cross-cutting concept (affecting $\ge$ 2 WGs) or be foundational to the entire AAIF ecosystem. Specialized, single-WG terms should remain in their respective WG repositories (see the Index vs. Payload boundaries in the [Charter](charter/charter.md)).
+2. **Pre-Competitive & Neutral:** Definitions must be vendor-neutral, objective, and clear. Proprietary product names, marketing jargon, or biased terminology are strictly prohibited.
+3. **Technical Precision & Clarity:** The term must be clearly defined with technical utility. Avoid overly broad definitions that lack concrete boundaries.
+4. **Uniqueness (De-duplication):** The term must not duplicate existing concepts. If a proposed term is a synonym of an existing term, it must be added as an entry in the `aliases` array of the existing term rather than creating a new entry.
+5. **Schema Compliance:** The metadata structure must strictly conform to the SKOS-Lite specification (including category, workgroups, broaderTerm, and a precise definition and scopeNote).
 
 ### B. Decision-Making & Consensus Process
 We prioritize rough consensus across the AAIF community:

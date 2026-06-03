@@ -24,9 +24,18 @@ Supports the foundation's core pillars of **Interoperability**, **Ecosystem Tran
 ## 2. Scope
 
 ### Defining "High-Level" Boundaries (Index vs. Payload)
-To prevent overlap with the vertical Technical Working Groups, this workstream maintains a **Horizontal Index** rather than **Vertical Domain Payloads**:
-* **The Index (Workstream):** We consolidate cross-cutting terminology (terms affecting 2 or more WGs or foundational to the entire AAIF ecosystem) and map high-level market category memberships.
-* **The Payload (Working Groups):** Vertical WGs retain full ownership of deep-dive domain-specific specifications, narrative regulatory analyses, threat models, and specialized glossaries.
+To ensure clear boundaries and prevent overlap with the 7 vertical Technical Working Groups, this workstream distinguishes between **Horizontal Indexes** and **Vertical Domain Payloads**:
+
+| Dimension | The Workstream (High-Level "Index") | Vertical Working Groups (Deep-Dive "Payload") |
+| :--- | :--- | :--- |
+| **Taxonomy Focus** | Foundational terms and cross-cutting concepts affecting $\ge$ 2 working groups. | Highly specialized, domain-specific terminology and internal technical helper definitions. |
+| **Landscape Scope** | Curation of the ecosystem map categorized into 6 macro-buckets. | Detailed vendor feature audits, benchmarks, or project-specific libraries. |
+| **Deliverable Nature** | Standardized metadata, API schemas, and interactive web dashboard directories. | Specifications (e.g., MCP/A2A specs), vulnerability catalogs, threat models, and compliance papers. |
+
+### Scope Overlap & Conflict Prevention Policy
+1. **Federated Governance:** Curation is driven by nominated delegates (**Domain Editors**) from each WG, ensuring no definitions or landscape updates are created in isolation.
+2. **Consolidation over Creation:** The workstream ingests and standardizes glossaries supplied by the WGs rather than authoring domain-specific definitions from scratch.
+3. **Arbitration Process:** Any conflicting definitions (e.g., overlapping terms) are resolved using the collaborative peer-review workflow and hierarchical partitioning defined in [CONTRIBUTING.md](../CONTRIBUTING.md), with escalation to the Technical Steering Committee (TSC) as a final resort.
 
 ### In Scope
 *   **Technical Taxonomy & Glossary Consolidation:** Defining, standardizing, and arbitrating core vocabulary terms using a flexible SKOS-Lite metadata schema (`prefLabel`, `altLabel`, `broaderTerm`, `scopeNote`).
