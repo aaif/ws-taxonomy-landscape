@@ -47,8 +47,6 @@ To ensure clear boundaries and prevent overlap with the 7 vertical Technical Wor
     5. *Agentic Commerce & Wallets* (aligned with **Agentic Commerce** WG)
     6. *Global Governance & Regulatory Regimes* (aligned with **Governance, Risk & Regulatory Alignment** WG)
     7. *Evaluation & Reliability Harnesses* (aligned with **Accuracy & Reliability** WG)
-
-    *Rationale for Market-Centric Naming:* To maximize enterprise adoption and developer usability, the landscape uses developer-centric technology stack definitions (e.g., "Agent Runtimes") rather than standards-committee designations (e.g., "Workflows"). This CNCF-style taxonomy aligns directly with how industry architects evaluate and source software tools, while maintaining clear 1:1 curation ownership mapped back to the respective AAIF Working Groups.
 *   **Cross-WG Terminology Arbitration:** Serving as the technical gatekeeper and dispute resolution forum for cross-cutting concepts.
 *   **Automated Web Dashboard Publishing:** Maintaining the CI/CD pipelines that deploy the interactive Taxonomy Explorer and Landscape Map web applications.
 
