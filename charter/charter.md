@@ -39,13 +39,16 @@ To ensure clear boundaries and prevent overlap with the 7 vertical Technical Wor
 
 ### In Scope
 *   **Technical Taxonomy & Glossary Consolidation:** Defining, standardizing, and arbitrating core vocabulary terms using a flexible SKOS-Lite metadata schema (`prefLabel`, `altLabel`, `broaderTerm`, `scopeNote`).
-*   **Global Ecosystem Architecture Map Curation:** Maintaining a CNCF-style interactive landscape (`landscape.yml`) categorizing the industry into 6 macro buckets:
-    1. *Agent Runtimes & Frameworks*
-    2. *Protocols & Discovery Registries*
-    3. *Security Guardrails & Firewalls*
-    4. *Observability & Tracing Telemetry*
-    5. *Agentic Commerce & Wallets*
-    6. *Global Governance & Regulatory Regimes*
+*   **Global Ecosystem Architecture Map Curation:** Maintaining a CNCF-style interactive landscape (`landscape.yml`) categorizing the industry into 7 macro buckets:
+    1. *Agent Runtimes & Frameworks* (aligned with **Workflows & Process Integration** WG)
+    2. *Protocols & Discovery Registries* (aligned with **Identity & Trust** WG)
+    3. *Security Guardrails & Firewalls* (aligned with **Security & Privacy** WG)
+    4. *Observability & Tracing Telemetry* (aligned with **Observability & Traceability** WG)
+    5. *Agentic Commerce & Wallets* (aligned with **Agentic Commerce** WG)
+    6. *Global Governance & Regulatory Regimes* (aligned with **Governance, Risk & Regulatory Alignment** WG)
+    7. *Evaluation & Reliability Harnesses* (aligned with **Accuracy & Reliability** WG)
+
+    *Rationale for Market-Centric Naming:* To maximize enterprise adoption and developer usability, the landscape uses developer-centric technology stack definitions (e.g., "Agent Runtimes") rather than standards-committee designations (e.g., "Workflows"). This CNCF-style taxonomy aligns directly with how industry architects evaluate and source software tools, while maintaining clear 1:1 curation ownership mapped back to the respective AAIF Working Groups.
 *   **Cross-WG Terminology Arbitration:** Serving as the technical gatekeeper and dispute resolution forum for cross-cutting concepts.
 *   **Automated Web Dashboard Publishing:** Maintaining the CI/CD pipelines that deploy the interactive Taxonomy Explorer and Landscape Map web applications.
 
