@@ -23,6 +23,11 @@ Supports the foundation's core pillars of **Interoperability**, **Ecosystem Tran
 
 ## 2. Scope
 
+### Defining "High-Level" Boundaries (Index vs. Payload)
+To prevent overlap with the vertical Technical Working Groups, this workstream maintains a **Horizontal Index** rather than **Vertical Domain Payloads**:
+* **The Index (Workstream):** We consolidate cross-cutting terminology (terms affecting 2 or more WGs or foundational to the entire AAIF ecosystem) and map high-level market category memberships.
+* **The Payload (Working Groups):** Vertical WGs retain full ownership of deep-dive domain-specific specifications, narrative regulatory analyses, threat models, and specialized glossaries.
+
 ### In Scope
 *   **Technical Taxonomy & Glossary Consolidation:** Defining, standardizing, and arbitrating core vocabulary terms using a flexible SKOS-Lite metadata schema (`prefLabel`, `altLabel`, `broaderTerm`, `scopeNote`).
 *   **Global Ecosystem Architecture Map Curation:** Maintaining a CNCF-style interactive landscape (`landscape.yml`) categorizing the industry into 6 macro buckets:
@@ -41,7 +46,7 @@ Supports the foundation's core pillars of **Interoperability**, **Ecosystem Tran
 *   **Proprietary Commercial Portals:** We do not build closed commercial enterprise landscape platforms.
 
 ### Assumptions & Dependencies
-*   **Assumptions:** Assumes each WG Chair will nominate 1–2 active delegates to participate in weekly synchronization and asynchronous PR reviews.
+*   **Assumptions:** Assumes each WG Chair will nominate 2–3 active delegates to participate in weekly synchronization and asynchronous PR reviews.
 *   **Dependencies:** Depends on the 7 WGs providing their baseline glossaries, vendor tool inventories, and regional policy tracking data.
 
 ---
@@ -50,7 +55,7 @@ Supports the foundation's core pillars of **Interoperability**, **Ecosystem Tran
 
 ### 3–6 Month Goals
 *   **Consolidate Baseline Terminology:** Ingest and de-duplicate existing glossaries from all 7 WGs into a unified SKOS-Lite data repository (`taxonomy-data.js`).
-*   **Launch Master Web Portal:** Deploy the fully interactive Shared Taxonomy Explorer and CNCF Landscape 2 instances to GitHub Pages (`https://aaif.github.io/ws-taxonomy-landscape/`).
+*   **Launch Master Web Portal:** Deploy the fully interactive Shared Taxonomy Explorer and CNCF Landscape 2 instances to GitHub Pages (`https://aaif.github.io/ws-taxonomy-landscape/`) or (`https://taxonomy.github.io/` and `https://landscapt.github.io/`).
 *   **Establish Delegate Governance:** Operationalize the weekly cross-WG delegate sync to review pull requests and resolve terminology intersections.
 
 ### Planned Deliverables
