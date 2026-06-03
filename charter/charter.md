@@ -9,7 +9,7 @@
 ## 1. Purpose & Mission
 
 ### Mission Statement
-The Taxonomy & Landscape Workstream advances the Agentic AI Foundation's (AAIF) mission by establishing a unified living vocabulary (Taxonomy) and a comprehensive visual market map (Landscape) across all 7 active Technical Working Groups. We provide the pre-competitive architectural bridge that enables clear communication, interoperability, and seamless enterprise adoption of agentic AI technologies.
+The Taxonomy & Landscape Workstream advances the Agentic AI Foundation's (AAIF) mission by establishing a high-level, horizontal living vocabulary (Taxonomy) and a comprehensive ecosystem market map (Landscape) across all active Technical Working Groups. We provide the pre-competitive architectural bridge and standardized index that enables clear communication, interoperability, and seamless enterprise adoption of agentic AI technologies.
 
 ### Why This Workstream Exists
 1. **Eliminating Siloed Terminology:** The 7 Working Groups (WGs) operate in specialized domains. Without a shared taxonomy, conflicting definitions (e.g., differing interpretations of *Agent*, *Attestation*, or *Autonomy*) create friction and integration complexity.
@@ -126,12 +126,7 @@ Open to all individuals and organizations consistent with foundation policies. W
 ## 7. Success Metrics & Next Steps
 
 ### Key Success Metrics (KPIs)
-*   **Adoption:** Number of downstream working groups, specifications, and external enterprise architectures adopting our taxonomy terms and linking to `ecosystem.aaif.io`.
-*   **Quality:** Zero conflicting definitions across the 7 WGs; successful Next.js static export builds passing CI/CD gates.
-*   **Community:** Active weekly participation from nominated delegates representing 100% of the 7 WGs.
-*   **Timeliness:** 100% of planned deliverables meeting their target deployment windows.
-
-### Immediate Next Steps
-1.  Publish this approved charter to the `aaif/ws-taxonomy-landscape` GitHub repository.
-2.  Send formal "Call for Delegates" announcement to the `wg-chairs@lists.aaif.io` mailing list.
-3.  Hold initial co-chair synchronization (Junjie & Gala) to kick off delegate sync scheduling.
+*   **Adoption:** Number of downstream working groups, specifications, and external enterprise architectures adopting our taxonomy terms and linking to the shared taxonomy and landscape.
+*   **Quality:** Zero conflicting definitions across the active WGs; successful web dashboard builds passing CI/CD gates.
+*   **Community:** Active weekly participation from nominated delegates representing 100% of the active WGs.
+*   **Timeliness:** 100% of shared taxonomy and landscape deliverables meeting their target deployment windows.
