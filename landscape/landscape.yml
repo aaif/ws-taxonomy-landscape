@@ -147,7 +147,7 @@ landscape:
             description: Standardized trace semantic conventions for capturing agent reasoning loops, tool execution, and session context.
             project: external
 
-      - subcategory: Monitoring & Evaluation
+      - subcategory: Agent Tracing & Monitoring
         items:
           - name: Arize AI
             logo: placeholder.svg
@@ -155,21 +155,11 @@ landscape:
             repo_url: https://github.com/Arize-ai/phoenix
             description: AI observability platform providing LLM tracing, evaluation harnesses, and agentic execution troubleshooting.
             project: external
-          - name: LangSmith
-            logo: placeholder.svg
-            homepage_url: https://www.langchain.com/langsmith
-            description: Unified DevOps platform for debugging, testing, evaluating, and monitoring LLM agent trajectories.
-            project: external
           - name: Datadog AI Observability
             logo: placeholder.svg
             homepage_url: https://www.datadoghq.com
             description: Enterprise monitoring backend capturing agent-level traces, API error rates, and infrastructure telemetry.
             project: member
-          - name: Braintrust
-            logo: placeholder.svg
-            homepage_url: https://www.braintrustdata.com
-            description: Enterprise AI evaluation, logging, and prompt management platform for continuous agentic benchmarking.
-            project: external
 
   # ============================================================================
   # 5. AGENTIC COMMERCE & WALLETS
@@ -245,3 +235,28 @@ landscape:
             repo_url: https://github.com/aaif/wg-governance-risk-and-regulatory
             description: Comprehensive 32-page foundational WG research report analyzing global AI regulations, risk analogies, and privacy tensions.
             project: incubating
+
+  # ============================================================================
+  # 7. AGENT EVALUATION & BENCHMARKING HARNESSES
+  # Aligns with Accuracy & Reliability WG
+  # ============================================================================
+  - category: Agent Evaluation & Benchmarking Harnesses
+    subcategories:
+      - subcategory: Evaluation Platforms & Frameworks
+        items:
+          - name: Braintrust
+            logo: placeholder.svg
+            homepage_url: https://www.braintrustdata.com
+            description: Enterprise AI evaluation, logging, and prompt management platform for continuous agentic benchmarking.
+            project: external
+          - name: LangSmith Evaluation
+            logo: placeholder.svg
+            homepage_url: https://www.langchain.com/langsmith
+            description: Unified DevOps platform for debugging, testing, and evaluating LLM agent trajectories.
+            project: external
+          - name: Promptfoo
+            logo: placeholder.svg
+            homepage_url: https://www.promptfoo.dev
+            repo_url: https://github.com/promptfoo/promptfoo
+            description: CLI tool and library for evaluating, testing, and benchmarking LLM app and agent safety, accuracy, and reliability.
+            project: external
