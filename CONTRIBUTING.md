@@ -16,25 +16,71 @@ To maintain data integrity and keep the curation workload distributed, we divide
 
 ---
 
-## 2. Collaborative PR Curation Workflow
+## 2. Step-by-Step Contribution Process
 
-All additions or modifications to our taxonomy glossary or landscape market map follow a 3-step peer-reviewed workflow:
+We support two ways to contribute to the taxonomy and landscape: **Code Contributions (via GitHub Pull Requests)** for technical editors, and **Asynchronous Issue Proposals** for general community members.
 
-```
-1. Contributor opens a PR (e.g., adding a term or tool)
-       │
-       ▼
-2. At least 2-3 Domain Editors (from different workgroups) approve the PR
-       │
-       ▼
-3. Workstream Chair performs sanity check and clicks "Merge"
-```
+### Option A: The Git & Pull Request Workflow (Technical Contributors)
 
-1.  **Submit a Pull Request (PR):** Ensure your changes are limited to the appropriate data files:
-    *   Taxonomy updates: [`taxonomy/taxonomy-data.js`](taxonomy/taxonomy-data.js) (SKOS-Lite schema)
-    *   Landscape updates: [`landscape/landscape.yml`](landscape/landscape.yml) (CNCF-style schema)
-2.  **Peer Review:** The PR must be reviewed and approved by **at least two or three Domain Editors**. To ensure cross-functional alignment and prevent siloed terminology, this group of reviewers **must include Domain Editors from different Technical Working Groups** (e.g., at least one Editor from the primary seeding/aligned WG and at least one Editor from a related/cross-cutting WG, such as Security & Privacy or Governance).
-3.  **Final Merge:** Once the required cross-workgroup approvals (at least 2 or 3 Domain Editors) are secured, one of the Co-Chairs will perform a final administrative review and click **Merge** to deploy the update to the live portal.
+If you are comfortable with Git and want to propose changes directly:
+
+1. **Fork & Clone:** Fork the `aaif/ws-taxonomy-landscape` repository and clone it to your local machine:
+   ```bash
+   git clone https://github.com/<your-username>/ws-taxonomy-landscape.git
+   cd ws-taxonomy-landscape
+   ```
+2. **Create a Branch:** Create a descriptive branch for your changes:
+   ```bash
+   git checkout -b feature/add-term-myterm
+   ```
+3. **Edit the Data Files:** Make your changes strictly within the data files:
+   * **Taxonomy:** Add or modify entries in [taxonomy/taxonomy-data.js](file:///Users/jbu/Development/ws-taxonomy-landscape/taxonomy/taxonomy-data.js).
+   * **Landscape:** Add or modify entries in [landscape/landscape.yml](file:///Users/jbu/Development/ws-taxonomy-landscape/landscape/landscape.yml).
+4. **Run Local Preview Server:** Since this is a pure static portal, you can preview the changes instantly by running a local web server in the repository root:
+   ```bash
+   # Using Python 3 (standard on macOS/Linux)
+   python3 -m http.server 8000
+   
+   # Or using Node/npx
+   npx serve -l 8000
+   ```
+   Open your browser and navigate to `http://localhost:8000/` to test:
+   * **Taxonomy Explorer:** Navigate to `http://localhost:8000/taxonomy/` and verify your new term renders, links to broader terms, and filters correctly.
+   * **Landscape Map:** Navigate to `http://localhost:8000/landscape/static/` to verify your new tool or project renders in the correct category.
+5. **Local Validation Checklist:**
+   * Open your browser's Developer Tools Console (`F12` or `Cmd+Opt+I`) on the local preview page. Ensure there are no JavaScript syntax or parsing errors.
+   * Ensure your YAML indentation is exactly 2 spaces (no tabs) in `landscape.yml`.
+6. **Commit & Push:** Commit your changes with a clear message and push your branch:
+   ```bash
+   git add taxonomy/taxonomy-data.js landscape/landscape.yml
+   git commit -m "add(taxonomy): define Attestation and map to Security WG"
+   git push origin feature/add-term-myterm
+   ```
+7. **Open a PR:** Go to the upstream repository on GitHub and open a Pull Request. In the description, clearly state:
+   * The purpose of the additions/changes.
+   * Which Working Groups are impacted.
+   * Request review from the relevant **Domain Editors** (WG delegates).
+
+---
+
+### Option B: The Asynchronous Proposal Workflow (Non-Code Contributors)
+
+If you do not want to use Git, you can propose additions directly through GitHub Issues:
+
+1. **Open an Issue:** Go to the repository's **Issues** tab and click **New Issue**.
+2. **Select Template / Fill Details:** Fill in the requested details depending on your proposal type:
+   * **For a Taxonomy Term:** Provide the `term`, `definition`, `category`, and the `workgroups` it aligns with.
+   * **For a Landscape Tool/Standard:** Provide the `name`, `homepage_url`, `description` (non-marketing), and the category it belongs to.
+3. **Review & Curation:** A Domain Editor or Workstream Chair will review your issue, verify it meets the acceptance criteria, and translate it into a Pull Request on your behalf.
+
+---
+
+## 3. Collaborative PR Curation Workflow
+
+Once a Pull Request is opened:
+
+1. **Peer Review:** The PR must be reviewed and approved by **at least two or three Domain Editors**. To ensure cross-functional alignment and prevent siloed terminology, this group of reviewers **must include Domain Editors from different Technical Working Groups** (e.g., at least one Editor from the primary seeding/aligned WG and at least one Editor from a related/cross-cutting WG, such as Security & Privacy or Governance).
+2. **Final Merge:** Once the required cross-workgroup approvals are secured, one of the Co-Chairs (Junjie or Gala) will perform a final administrative review and merge the PR.
 
 ---
 
@@ -64,31 +110,68 @@ Because terms often intersect (e.g., *Attestation* or *Agent* might have slightl
 
 ---
 
-## 4. Data File Guidelines
+## 4. Data File Guidelines & Schemas
 
-### Taxonomy Entries (`taxonomy-data.js`)
-Every new glossary entry must conform to the SKOS-Lite metadata structure:
+To ensure automated builds and parsers run successfully, all additions must strictly adhere to the field-by-field definitions below.
+
+### A. Taxonomy Entries (`taxonomy/taxonomy-data.js`)
+
+Each entry in the taxonomy glossary array is a JavaScript object representing a concept in our SKOS-Lite taxonomy.
+
 ```javascript
 {
-  "term": "Preferred Display Term",
-  "category": "WG-Aligned Category Bucket",
-  "aliases": ["Synonym 1", "Synonym 2"],
-  "broaderTerm": "Parent Concept Term (if hierarchical)",
-  "definition": "Clear, technical, pre-competitive definition.",
-  "scopeNote": "Contextual notes, historical review dates, or WG-specific background.",
-  "workgroups": ["Aligned Working Group Name"]
+  "term": "Agent derailment",
+  "category": "Agentic Threats",
+  "aliases": ["Goal drift", "Misalignment"],
+  "broaderTerm": "Agentic Misbehavior",
+  "definition": "An unintended deviation in an AI agent's behavior that causes it to pursue goals...",
+  "scopeNote": "Raised during discussion of non-malicious agent misbehavior (2026-03-03)...",
+  "workgroups": ["Security & Privacy", "Accuracy & Reliability"]
 }
 ```
 
-### Landscape Entries (`landscape.yml`)
-Every new landscape node must be placed under the correct category and subcategory matching our WG domains:
+#### Schema Field Specifications:
+*   **`term`** *(String, Required):* The primary display name of the concept. It must be written in sentence case (only capitalize proper nouns, acronyms, or the first word). Must be unique.
+*   **`category`** *(String, Required):* The parent taxonomy bucket under which this term is organized. Current categories include:
+    *   `Agentic Threats`
+    *   `Identity & Authorization`
+    *   `Infrastructure & Architecture`
+    *   `Capabilities & Interfaces`
+    *   `Governance & Compliance`
+*   **`aliases`** *(Array of Strings, Required):* Synonyms, alternative spellings, or historical terms. If a term is a synonym of an existing term, add it here instead of creating a new object. Use empty array `[]` if none.
+*   **`broaderTerm`** *(String or null, Required):* The direct parent concept in the hierarchical mindmap. For example, the broader term of `Agent derailment` is `Agentic Misbehavior`. Set to `null` if it is a top-level term.
+*   **`definition`** *(String, Required):* A neutral, objective technical definition. Avoid referring to specific commercial tools or proprietary systems.
+*   **`scopeNote`** *(String, Optional):* Explains historical review dates, WG-specific context, or caveats about the term's boundaries.
+*   **`workgroups`** *(Array of Strings, Required):* The working groups that share interest or joint ownership of this term (e.g., `["Security & Privacy", "Identity & Trust"]`).
+
+---
+
+### B. Ecosystem Landscape Entries (`landscape/landscape.yml`)
+
+The landscape configuration follows a CNCF-style structure. Each category node has subcategories containing items:
+
 ```yaml
-- name: Display Name
-  homepage_url: https://example.com
-  repo_url: https://github.com/example/repo (optional)
-  description: Short, neutral, non-marketing blurb describing the tool or standard.
-  project: graduated | incubating | member | external
+- category: Security Guardrails & Firewalls
+  subcategories:
+    - subcategory: Prompt & Runtime Guardrails
+      items:
+        - name: Google Cloud Model Armor
+          homepage_url: https://cloud.google.com/security/products/model-armor
+          repo_url: https://github.com/... (optional)
+          description: Enterprise security service providing prompt injection defense...
+          project: member
 ```
+
+#### Item Field Specifications:
+*   **`name`** *(String, Required):* The official name of the tool, framework, protocol, or standard.
+*   **`homepage_url`** *(String, Required):* The official URL of the project homepage. Must start with `https://`.
+*   **`repo_url`** *(String, Optional):* The open-source code repository URL (GitHub, GitLab, etc.).
+*   **`description`** *(String, Required):* A brief description of the technical capabilities. **Strictly pre-competitive and neutral:** avoid marketing terms like *"first," "best," "industry-leading," or "revolutionary."*
+*   **`project`** *(String, Required):* The project's alignment within the AAIF/Linux Foundation ecosystem. Must be one of:
+    *   `graduated` (Fully approved AAIF standards/projects)
+    *   `incubating` (AAIF work-in-progress standards/projects)
+    *   `member` (Member-contributed tools/projects)
+    *   `external` (Non-member, open-source industry tools/frameworks)
 
 ---
 
