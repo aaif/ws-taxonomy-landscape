@@ -1079,6 +1079,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Style Toggle Listener
+  const styleToggleBtn = document.getElementById('style-toggle-btn');
+  if (styleToggleBtn) {
+    styleToggleBtn.addEventListener('click', () => {
+      const isLight = document.body.classList.toggle('light-mode');
+      if (isLight) {
+        styleToggleBtn.innerHTML = 'Switch to Premium Dark 🌙';
+      } else {
+        styleToggleBtn.innerHTML = 'Switch to Premium Light ☀️';
+      }
+    });
+  }
+
   // Initialize Dashboard Execution Flow Pipeline
   initAlphabetIndexGrid();
   runFilteringPipeline();

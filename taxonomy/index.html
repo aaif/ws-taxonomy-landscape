@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<body class="light-mode">
 
   <div class="app-container">
     <!-- Premium Decorative Background Gradients -->
@@ -31,6 +31,7 @@
       <div class="title-wrapper">
         <a href="../" class="back-link">&larr; Back to Master Portal</a>
         <h1 id="main-title">Shared Taxonomy Explorer</h1>
+        <button id="style-toggle-btn" class="style-toggle-btn">Switch to Premium Dark 🌙</button>
       </div>
       <p class="subtitle">A unified living vocabulary mapping terms, definitions, and core architectural alignments
         across all Technical Working Groups.</p>
@@ -49,7 +50,7 @@
       <aside class="sidebar-pane" aria-label="Taxonomy Navigation">
         <div class="search-wrapper">
           <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input type="text" id="search-input-split" placeholder="Search terms, aliases, WGs..." autocomplete="off" aria-label="Search Taxonomy">
           <button id="clear-search-split" class="clear-btn" style="display: none;" aria-label="Clear search">×</button>
@@ -81,7 +82,7 @@
       <section class="control-hub" id="grid-control-hub" aria-label="Search and Filters">
         <div class="search-wrapper">
           <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input type="text" id="search-input-grid" placeholder="Search terms, aliases, WGs..." autocomplete="off" aria-label="Search Taxonomy">
           <button id="clear-search-grid" class="clear-btn" style="display: none;" aria-label="Clear search">×</button>
@@ -114,7 +115,7 @@
       <section class="control-hub" id="mindmap-control-hub" aria-label="Mindmap Controls">
         <div class="search-wrapper" style="margin-bottom: 0;">
           <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input type="text" id="search-input-mindmap" placeholder="Search mindmap branches..." autocomplete="off" aria-label="Search Mindmap">
           <button id="clear-search-mindmap" class="clear-btn" style="display: none;" aria-label="Clear search">×</button>
