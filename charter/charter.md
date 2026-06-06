@@ -40,7 +40,7 @@ To ensure clear boundaries and prevent overlap with the 7 vertical Technical Wor
 ### In Scope
 *   **Technical Taxonomy & Glossary Consolidation:** Defining, standardizing, and arbitrating core vocabulary terms using a flexible SKOS-Lite metadata schema (`prefLabel`, `altLabel`, `broaderTerm`, `scopeNote`).
 *   **Global Ecosystem Architecture Map Curation:** Maintaining a CNCF-style interactive landscape (`landscape.yml`) categorizing the industry into 7 macro buckets:
-    1. *Agent Runtimes & Frameworks* (aligned with **Workflows & Process Integration** WG)
+    1. *Agent Runtimes, Frameworks & Workflow Orchestration* (aligned with **Workflows & Process Integration** WG)
     2. *Protocols & Discovery Registries* (aligned with **Identity & Trust** WG)
     3. *Security Guardrails & Firewalls* (aligned with **Security & Privacy** WG)
     4. *Observability & Tracing Telemetry* (aligned with **Observability & Traceability** WG)
