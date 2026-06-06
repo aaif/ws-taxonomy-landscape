@@ -38,7 +38,7 @@ To ensure clear boundaries and prevent overlap with the 7 vertical Technical Wor
 3. **Arbitration Process:** Any conflicting definitions (e.g., overlapping terms) are resolved using the collaborative peer-review workflow and hierarchical partitioning defined in [CONTRIBUTING.md](../CONTRIBUTING.md), with escalation to the Technical Steering Committee (TSC) as a final resort.
 
 ### In Scope
-*   **Technical Taxonomy & Glossary Consolidation:** Defining, standardizing, and arbitrating core vocabulary terms using a flexible SKOS-Lite metadata schema (`prefLabel`, `altLabel`, `broaderTerm`, `scopeNote`).
+*   **Technical Taxonomy & Glossary Consolidation:** Defining, standardizing, and arbitrating core vocabulary terms using a flexible SKOS-Lite metadata schema (`prefLabel`, `altLabel`, `broaderTerm`, `scopeNote`, `relatedTerms`, `contrastsWith`).
 *   **Global Ecosystem Architecture Map Curation:** Maintaining a CNCF-style interactive landscape (`landscape.yml`) categorizing the industry into 7 macro buckets:
     1. *Agent Runtimes, Frameworks & Workflow Orchestration* (aligned with **Workflows & Process Integration** WG)
     2. *Protocols & Discovery Registries* (aligned with **Identity & Trust** WG)

@@ -54,7 +54,7 @@ For any new glossary term to be approved and merged, it must satisfy the followi
 1. **High-Level Scope Alignment:** The term must represent a cross-cutting concept (affecting $\ge$ 2 WGs) or be foundational to the entire AAIF ecosystem. Specialized, single-WG terms should remain in their respective WG repositories (see the Index vs. Payload boundaries in the [Charter](charter/charter.md)).
 2. **Pre-Competitive & Neutral:** Definitions must be vendor-neutral, objective, and clear. Proprietary product names, marketing jargon, or biased terminology are strictly prohibited.
 3. **Technical Precision & Clarity:** The term must be clearly defined with technical utility. Avoid overly broad definitions that lack concrete boundaries.
-4. **Uniqueness (De-duplication):** The term must not duplicate existing concepts. If a proposed term is a synonym of an existing term, it must be added as an entry in the `aliases` array of the existing term rather than creating a new entry.
+4. **Uniqueness (De-duplication & Anti-Erasure):** The term must not duplicate existing concepts. If a proposed term is a genuine synonym of an existing term, it must be added as an entry in the `aliases` array of the existing term. **CRITICAL GUARDRAIL:** Do NOT fold a look-alike term into an alias of another term without explicit written sign-off from the owning Working Group's **Domain Editor**. If terms look similar but represent deliberately distinct concepts (e.g., *deterministic workflow* vs. *agentic workflow*), they must be preserved as separate entries.
 5. **Schema Compliance:** The metadata structure must strictly conform to the specifications outlined in the [Schema Guide](docs/data-schemas.md).
 
 ### B. Decision-Making & Consensus Process
@@ -65,9 +65,10 @@ We prioritize rough consensus across the AAIF community:
 ### C. Cross-Workgroup Conflict Resolution & Arbitration
 Because terms often intersect (e.g., *Attestation* or *Agent* might have slightly different meanings in the Security WG vs. the Identity & Trust WG), we use the following conflict resolution protocol:
 1. **Joint Collaboration (PR Phase):** If a Domain Editor flags a conceptual conflict, the primary seeding editor and the objecting editor must collaborate directly in the PR discussion to find a unified definition or refine the `scopeNote` to document the different perspectives.
-2. **Partitioning & Hierarchies:** If a single term cannot represent both perspectives, editors should use `broaderTerm` hierarchy or specify context within the term name (e.g., *Security Attestation* vs. *Identity Attestation*).
-3. **Chair Arbitration:** If Domain Editors cannot reach consensus within 14 days, the Workstream Chairs (Junjie & Gala) will mediate a resolution, choosing a compromise or scheduling a dedicated sync.
-4. **TSC Escalation:** As a final resort, unresolved issues are escalated to the AAIF Technical Steering Committee (TSC) and the Foundation CTO (Manik) for a binding decision.
+2. **Paired Contrast Disambiguation (`skos:related` / `contrastsWith`):** When two terms represent distinct but complementary or contrasting concepts (e.g., *Tool* vs. *Skill*, *Primitive* vs. *Protocol*, or *Deterministic workflow* vs. *Agentic workflow*), a shared `scopeNote` combining both views writes down confusion rather than resolving it. Instead, **each term's definition MUST explicitly state how it differs from its counterpart**, and the pair MUST be linked using `relatedTerms` (`skos:related`) or `contrastsWith`.
+3. **Partitioning & Hierarchies:** If a single term cannot represent both perspectives, editors should use `broaderTerm` hierarchy or specify context within the term name (e.g., *Security Attestation* vs. *Identity Attestation*).
+4. **Chair Arbitration:** If Domain Editors cannot reach consensus within 14 days, the Workstream Chairs (Junjie & Gala) will mediate a resolution, choosing a compromise or scheduling a dedicated sync.
+5. **TSC Escalation:** As a final resort, unresolved issues are escalated to the AAIF Technical Steering Committee (TSC) and the Foundation CTO (Manik) for a binding decision.
 
 ---
 
