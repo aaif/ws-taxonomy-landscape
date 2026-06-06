@@ -29,7 +29,7 @@ To ensure clear boundaries and prevent overlap with the 7 vertical Technical Wor
 | Dimension | The Workstream (High-Level "Index") | Vertical Working Groups (Deep-Dive "Payload") |
 | :--- | :--- | :--- |
 | **Taxonomy Focus** | Foundational terms and cross-cutting concepts affecting $\ge$ 2 working groups. | Highly specialized, domain-specific terminology and internal technical helper definitions. |
-| **Landscape Scope** | Curation of the ecosystem map categorized into 6 macro-buckets. | Detailed vendor feature audits, benchmarks, or project-specific libraries. |
+| **Landscape Scope** | Curation of the ecosystem map categorized into 7 macro-buckets. | Detailed vendor feature audits, benchmarks, or project-specific libraries. |
 | **Deliverable Nature** | Standardized metadata, API schemas, and interactive web dashboard directories. | Specifications (e.g., MCP/A2A specs), vulnerability catalogs, threat models, and compliance papers. |
 
 ### Scope Overlap & Conflict Prevention Policy
@@ -87,7 +87,7 @@ To ensure clear boundaries and prevent overlap with the 7 vertical Technical Wor
 *   **Primary Artifacts:** `taxonomy-data.js`, `landscape.yml`, web dashboard portals, governance documentation.
 
 ### Meetings
-*   **Cadence:** Weekly on Thursday at 8:00 AM PT / 11:00 AM ET / 4:00 PM BST.
+*   **Cadence:** Weekly (Please see the meeting time in the header).
 *   **Duration:** 30 minutes.
 *   **Open Meetings:** Open to all AAIF members and nominated WG delegates.
 *   **Minutes & Recordings:** Stored in the LFX Member Portal and GitHub repository.
