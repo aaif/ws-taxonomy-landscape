@@ -56,8 +56,8 @@ To ensure clear boundaries and prevent overlap with the 7 vertical Technical Wor
 *   **Proprietary Commercial Portals:** We do not build closed commercial enterprise landscape platforms.
 
 ### Assumptions & Dependencies
-*   **Assumptions:** Assumes each WG Chair will nominate 2–3 active delegates to participate in weekly synchronization and asynchronous PR reviews.
-*   **Dependencies:** Depends on the 7 WGs providing their baseline glossaries, vendor tool inventories, and regional policy tracking data.
+*   **Assumptions:** Assumes each WG Chair will nominate 2 active delegates to participate in weekly synchronization and asynchronous PR reviews.
+*   **Dependencies:** Depends on all WGs providing their baseline glossaries, vendor tool inventories, and regional policy tracking data.
 
 ---
 
@@ -99,7 +99,7 @@ To ensure clear boundaries and prevent overlap with the 7 vertical Technical Wor
 ## 5. Membership & Governance
 
 ### Who Can Participate
-Open to all individuals and organizations consistent with foundation policies. We require 1-2 nominated delegates from each of the Technical Working Groups.
+Open to all individuals and organizations consistent with foundation policies. We require 2 nominated delegates from each of the Technical Working Groups.
 
 ### Leadership Structure & Division of Labor
 *   **Chair:** Junjie Bu (Google) – *Primary Focus: Technical Taxonomy architecture, SKOS-Lite schema, and web dashboard infrastructure.*
