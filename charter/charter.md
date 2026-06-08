@@ -126,7 +126,7 @@ Open to all individuals and organizations consistent with foundation policies. W
 ## 7. Success Metrics & Next Steps
 
 ### Key Success Metrics (KPIs)
-*   **Adoption:** Number of downstream working groups, specifications, and external enterprise architectures adopting our taxonomy terms and linking to the shared taxonomy and landscape.
-*   **Quality:** Zero conflicting definitions across the active WGs; successful web dashboard builds passing CI/CD gates.
-*   **Community:** Active weekly participation from nominated delegates representing 100% of the active WGs.
-*   **Timeliness:** 100% of shared taxonomy and landscape deliverables meeting their target deployment windows.
+*   **Normative Ingestion & Utility (Adoption):** Number of documents referencing specific taxonomy terms (by permalink, verbatim definition match, or verified Domain Editor attestation) within AAIF Working Group specifications and across public GitHub (collected quarterly); count of defined-but-never-cited terms.
+*   **Vendor-Neutral Diversity (Community):** No single organization authors more than 50% of merged contributions to either artifact (Taxonomy or Landscape).
+*   **Ecosystem Coverage (Breadth):** Every active Technical Working Group has $\ge$ 10 merged terms in the Taxonomy.
+*   **Conflict Resolution Responsiveness (Velocity):** No reported conflict in the Taxonomy goes a quarter without a recorded decision.
