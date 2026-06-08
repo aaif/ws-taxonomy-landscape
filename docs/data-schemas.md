@@ -16,6 +16,8 @@ Each entry in the master taxonomy array is a JavaScript object representing a co
   "broaderTerm": "Agentic Misbehavior",
   "definition": "An unintended deviation in an AI agent's behavior that causes it to pursue goals...",
   "scopeNote": "Raised during discussion of non-malicious agent misbehavior (2026-03-03)...",
+  "relatedTerms": ["Agent sabotage"],
+  "contrastsWith": ["Deterministic operation"],
   "workgroups": ["Security & Privacy", "Accuracy & Reliability"]
 }
 ```
@@ -36,8 +38,10 @@ Each entry in the master taxonomy array is a JavaScript object representing a co
     *   *Rule:* For example, the broader term of `Agent derailment` is `Agentic Misbehavior`.
     *   *Root nodes:* If the term is a top-level conceptual category, set this to `null`.
 *   **`definition`** *(String, Required):* A clear, technical, pre-competitive definition.
-    *   *Content Rule:* Vendor-neutral and objective. Do not mention proprietary commercial tools.
+    *   *Content Rule:* Vendor-neutral and objective. If the term represents an adjacent contrasting concept (e.g., *Tool* vs. *Skill*), the definition MUST explicitly state how it differs from its counterpart.
 *   **`scopeNote`** *(String, Optional):* Captures historical context, meeting review dates, or explanations of conceptual boundaries between working groups.
+*   **`relatedTerms`** *(Array of Strings, Optional):* Maps associative `skos:related` conceptual linkages (e.g., `["Skill", "Primitive"]`). Defaults to `[]`.
+*   **`contrastsWith`** *(Array of Strings, Optional):* Explicitly links paired contrasting terms (e.g., `["Tool"]`). Defaults to `[]`.
 *   **`workgroups`** *(Array of Strings, Required):* The working groups that share interest or joint ownership of this term (e.g., `["Security & Privacy", "Identity & Trust"]`).
 
 ---

@@ -365,6 +365,50 @@ document.addEventListener('DOMContentLoaded', () => {
       card.appendChild(notesDiv);
     }
 
+    if (activeItem.relatedTerms && activeItem.relatedTerms.length > 0) {
+      const relDiv = document.createElement('div');
+      relDiv.className = 'card-aliases';
+
+      const relLabel = document.createElement('span');
+      relLabel.className = 'alias-label';
+      relLabel.textContent = 'Related Concept:';
+      relDiv.appendChild(relLabel);
+
+      activeItem.relatedTerms.forEach(rel => {
+        const badge = document.createElement('span');
+        badge.className = 'alias-badge';
+        badge.style.background = 'rgba(14, 165, 233, 0.15)';
+        badge.style.border = '1px solid rgba(14, 165, 233, 0.3)';
+        badge.style.color = '#38bdf8';
+        appendHighlightedText(badge, rel, query);
+        relDiv.appendChild(badge);
+      });
+
+      card.appendChild(relDiv);
+    }
+
+    if (activeItem.contrastsWith && activeItem.contrastsWith.length > 0) {
+      const conDiv = document.createElement('div');
+      conDiv.className = 'card-aliases';
+
+      const conLabel = document.createElement('span');
+      conLabel.className = 'alias-label';
+      conLabel.textContent = 'Contrasts With:';
+      conDiv.appendChild(conLabel);
+
+      activeItem.contrastsWith.forEach(con => {
+        const badge = document.createElement('span');
+        badge.className = 'alias-badge';
+        badge.style.background = 'rgba(244, 63, 94, 0.15)';
+        badge.style.border = '1px solid rgba(244, 63, 94, 0.3)';
+        badge.style.color = '#fb7185';
+        appendHighlightedText(badge, con, query);
+        conDiv.appendChild(badge);
+      });
+
+      card.appendChild(conDiv);
+    }
+
     const wgDiv = document.createElement('div');
     wgDiv.className = 'card-workgroups';
 
@@ -518,6 +562,50 @@ document.addEventListener('DOMContentLoaded', () => {
         notesDiv.appendChild(notesText);
 
         card.appendChild(notesDiv);
+      }
+
+      if (item.relatedTerms && item.relatedTerms.length > 0) {
+        const relDiv = document.createElement('div');
+        relDiv.className = 'card-aliases';
+
+        const relLabel = document.createElement('span');
+        relLabel.className = 'alias-label';
+        relLabel.textContent = 'Related Concept:';
+        relDiv.appendChild(relLabel);
+
+        item.relatedTerms.forEach(rel => {
+          const badge = document.createElement('span');
+          badge.className = 'alias-badge';
+          badge.style.background = 'rgba(14, 165, 233, 0.15)';
+          badge.style.border = '1px solid rgba(14, 165, 233, 0.3)';
+          badge.style.color = '#38bdf8';
+          appendHighlightedText(badge, rel, query);
+          relDiv.appendChild(badge);
+        });
+
+        card.appendChild(relDiv);
+      }
+
+      if (item.contrastsWith && item.contrastsWith.length > 0) {
+        const conDiv = document.createElement('div');
+        conDiv.className = 'card-aliases';
+
+        const conLabel = document.createElement('span');
+        conLabel.className = 'alias-label';
+        conLabel.textContent = 'Contrasts With:';
+        conDiv.appendChild(conLabel);
+
+        item.contrastsWith.forEach(con => {
+          const badge = document.createElement('span');
+          badge.className = 'alias-badge';
+          badge.style.background = 'rgba(244, 63, 94, 0.15)';
+          badge.style.border = '1px solid rgba(244, 63, 94, 0.3)';
+          badge.style.color = '#fb7185';
+          appendHighlightedText(badge, con, query);
+          conDiv.appendChild(badge);
+        });
+
+        card.appendChild(conDiv);
       }
 
       const wgDiv = document.createElement('div');
@@ -801,6 +889,50 @@ document.addEventListener('DOMContentLoaded', () => {
       notesDiv.appendChild(notesText);
 
       card.appendChild(notesDiv);
+    }
+
+    if (activeItem.relatedTerms && activeItem.relatedTerms.length > 0) {
+      const relDiv = document.createElement('div');
+      relDiv.className = 'card-aliases';
+
+      const relLabel = document.createElement('span');
+      relLabel.className = 'alias-label';
+      relLabel.textContent = 'Related Concept:';
+      relDiv.appendChild(relLabel);
+
+      activeItem.relatedTerms.forEach(rel => {
+        const badge = document.createElement('span');
+        badge.className = 'alias-badge';
+        badge.style.background = 'rgba(14, 165, 233, 0.15)';
+        badge.style.border = '1px solid rgba(14, 165, 233, 0.3)';
+        badge.style.color = '#38bdf8';
+        appendHighlightedText(badge, rel, query);
+        relDiv.appendChild(badge);
+      });
+
+      card.appendChild(relDiv);
+    }
+
+    if (activeItem.contrastsWith && activeItem.contrastsWith.length > 0) {
+      const conDiv = document.createElement('div');
+      conDiv.className = 'card-aliases';
+
+      const conLabel = document.createElement('span');
+      conLabel.className = 'alias-label';
+      conLabel.textContent = 'Contrasts With:';
+      conDiv.appendChild(conLabel);
+
+      activeItem.contrastsWith.forEach(con => {
+        const badge = document.createElement('span');
+        badge.className = 'alias-badge';
+        badge.style.background = 'rgba(244, 63, 94, 0.15)';
+        badge.style.border = '1px solid rgba(244, 63, 94, 0.3)';
+        badge.style.color = '#fb7185';
+        appendHighlightedText(badge, con, query);
+        conDiv.appendChild(badge);
+      });
+
+      card.appendChild(conDiv);
     }
 
     const wgDiv = document.createElement('div');
