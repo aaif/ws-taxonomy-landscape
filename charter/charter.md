@@ -101,7 +101,7 @@ To ensure clear boundaries and prevent overlap with the 7 vertical Technical Wor
 ## 5. Membership & Governance
 
 ### Who Can Participate
-Open to all individuals and organizations consistent with foundation policies. We actively require 1–2 nominated delegates from each of the 7 Technical Working Groups.
+Open to all individuals and organizations consistent with foundation policies. We require 1-2 nominated delegates from each of the Technical Working Groups.
 
 ### Leadership Structure & Division of Labor
 *   **Chair:** Junjie Bu (Google) – *Primary Focus: Technical Taxonomy architecture, SKOS-Lite schema, and web dashboard infrastructure.*
