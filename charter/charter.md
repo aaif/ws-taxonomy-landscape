@@ -84,7 +84,6 @@ To ensure clear boundaries and prevent overlap with the 7 vertical Technical Wor
 ### Operating Model
 *   **Consensus-Driven:** Chair-led consensus; formal voting as fallback per AAIF bylaws.
 *   **Work Tracking:** All issues, tasks, and pull requests are tracked in the `aaif/ws-taxonomy-landscape` GitHub repository.
-*   **Primary Artifacts:** `taxonomy-data.js`, `landscape.yml`, web dashboard portals, governance documentation.
 
 ### Meetings
 *   **Cadence:** Weekly (Please see the meeting time in the header).
