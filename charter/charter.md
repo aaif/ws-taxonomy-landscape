@@ -9,7 +9,7 @@
 ## 1. Purpose & Mission
 
 ### Mission Statement
-The Taxonomy & Landscape Workstream advances the Agentic AI Foundation's (AAIF) mission by establishing a high-level, horizontal living vocabulary (Taxonomy) and a comprehensive ecosystem market map (Landscape) across all active Technical Working Groups. We provide the pre-competitive architectural bridge and standardized index that enables clear communication, interoperability, and seamless enterprise adoption of agentic AI technologies.
+The Taxonomy & Landscape Workstream curates and maintains a glossary of agentic AI terms (the Taxonomy) and an ecosystem map (the Landscape) for the AAIF, so every Working Group can work from the same definitions and one view of the ecosystem.
 
 ### Why This Workstream Exists
 1. **Eliminating Siloed Terminology:** Working Groups (WGs) operate in specialized domains. Without a shared taxonomy, conflicting definitions (e.g., differing interpretations of *Agent*, *Attestation*, or *Autonomy*) create friction and integration complexity.
