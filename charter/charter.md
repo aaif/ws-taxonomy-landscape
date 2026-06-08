@@ -12,7 +12,7 @@
 The Taxonomy & Landscape Workstream advances the Agentic AI Foundation's (AAIF) mission by establishing a high-level, horizontal living vocabulary (Taxonomy) and a comprehensive ecosystem market map (Landscape) across all active Technical Working Groups. We provide the pre-competitive architectural bridge and standardized index that enables clear communication, interoperability, and seamless enterprise adoption of agentic AI technologies.
 
 ### Why This Workstream Exists
-1. **Eliminating Siloed Terminology:** The 7 Working Groups (WGs) operate in specialized domains. Without a shared taxonomy, conflicting definitions (e.g., differing interpretations of *Agent*, *Attestation*, or *Autonomy*) create friction and integration complexity.
+1. **Eliminating Siloed Terminology:** Working Groups (WGs) operate in specialized domains. Without a shared taxonomy, conflicting definitions (e.g., differing interpretations of *Agent*, *Attestation*, or *Autonomy*) create friction and integration complexity.
 2. **Preventing Duplicate Ecosystem Research:** Multiple WGs duplicate effort surveying the same platforms, tools, and compliance regimes (e.g., both Security WG and Governance WG tracking compliance monitors).
 3. **Providing an Enterprise Blueprint:** Enterprise CTOs and CIOs require a single, consolidated, authoritative guide to navigate the fragmented Agentic AI technology stack, rather than maintaining isolated spreadsheets from 7 different groups.
 
