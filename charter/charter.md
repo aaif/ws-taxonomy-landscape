@@ -108,7 +108,7 @@ Open to all individuals and organizations consistent with foundation policies. W
 ## 6. Security, Safety & Responsible AI
 
 ### Data Handling & Integrity
-*   **No Sensitive Data:** Absolutely no proprietary, sensitive, or PII data is permitted in public landscape YAML files or taxonomy definitions.
+*   **No Sensitive Data:** Absolutely no proprietary, sensitive, or PII data is permitted in the Taxonomy / Landscape.
 *   **Transparent Attribution:** All vendor tools, open-source projects, and regulatory regimes indexed in the landscape must include clear, verifiable links to their authoritative upstream sources (`homepage_url`, `repo_url`).
 *   **Code of Conduct:** All participants must strictly adhere to the AAIF Code of Conduct; conflicts of interest must be declared openly.
 
