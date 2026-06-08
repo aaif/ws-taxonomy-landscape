@@ -23,33 +23,21 @@ Supports the foundation's core pillars of **Interoperability**, **Ecosystem Tran
 
 ## 2. Scope
 
-### Initial Seeding Baseline & Iterative Evolution
-Because this workstream serves as a cross-cutting bridge across established Technical Working Groups (each with 100–200 members), we establish an **Initial Seeding Baseline** to catalyze immediate collaboration. This baseline provides a tangible starting structure for delegates to react to, iterate upon, and evolve through rough consensus over time.
+### Iterative Curation & Boundary Evolution
+Rather than pre-defining hardcoded taxonomy partitions or landscape buckets upfront in the charter, the workstream determines its architectural boundaries and categorization schemas iteratively through cross-workgroup delegate consensus. The taxonomy and landscape evolve dynamically alongside the working groups as new terms and ecosystem platforms emerge.
 
-### Defining Initial Guardrails (Index vs. Payload)
-To eliminate boundary ambiguity and reassure vertical WGs that we consolidate rather than replace their work, we operate under this initial starting guardrail:
-
-| Dimension | The Workstream (Shared "Index") | Vertical Working Groups (Deep-Dive "Payload") |
-| :--- | :--- | :--- |
-| **Taxonomy Focus** | Foundational terms and cross-cutting concepts affecting $\ge 2$ working groups. | Highly specialized domain terminology, internal technical helpers, and code-level variables. |
-| **Landscape Scope** | Baseline curation categorized into initial macro-buckets (subject to delegate iteration). | Detailed vendor feature audits, comparative benchmarks, and project-specific libraries. |
-| **Deliverable Nature** | Standardized SKOS metadata, API schemas, and interactive web dashboard directories. | Specifications (e.g., MCP/A2A protocol specs), deep threat models, and compliance papers. |
+### Scope Guardrail (Shared vs. Specialized)
+* **Horizontal Curation:** The workstream focuses on consolidating cross-cutting concepts and maintaining the foundation-wide ecosystem map.
+* **Vertical Ownership:** Specialized domain whitepapers, low-level technical helper definitions, and execution protocol designs remain the exclusive purview of their respective vertical Technical Working Groups.
 
 ### Scope Overlap & Conflict Prevention Policy
 1. **Federated Governance:** Curation is actively driven by nominated delegates (**Domain Editors**) representing each WG, ensuring no shared definitions or landscape modifications occur in isolation.
 2. **Consolidation over Creation:** The workstream ingests and reconciles glossaries supplied by the WGs rather than authoring domain-specific definitions from scratch.
-3. **Iterative Ratification:** Initial categorization buckets and boundary lines serve as a starting catalyst; delegates hold the ongoing mandate to iterate, refine, and ratify these boundaries via consensus.
+3. **Iterative Ratification:** Categorization schemas and conceptual boundaries evolve iteratively; delegates hold the ongoing mandate to refine and ratify these boundaries via consensus.
 
 ### In Scope
 *   **Technical Taxonomy & Glossary Consolidation:** Curating and standardizing core vocabulary terms using a flexible SKOS-Lite metadata schema (`prefLabel`, `altLabel`, `broaderTerm`, `scopeNote`, `relatedTerms`, `contrastsWith`).
-*   **Global Ecosystem Architecture Map Curation:** Maintaining a living, interactive CNCF-style landscape (`landscape.yml`) whose categorization buckets evolve through delegate consensus. We categorize the the industry into the following macro buckets:
-    1. *Agent Runtimes, Frameworks & Workflow Orchestration* (aligned with **Workflows & Process Integration** WG)
-    2. *Protocols & Discovery Registries* (aligned with **Identity & Trust** WG)
-    3. *Security Guardrails & Firewalls* (aligned with **Security & Privacy** WG)
-    4. *Observability & Tracing Telemetry* (aligned with **Observability & Traceability** WG)
-    5. *Agentic Commerce & Wallets* (aligned with **Agentic Commerce** WG)
-    6. *Global Governance & Regulatory Regimes* (aligned with **Governance, Risk & Regulatory Alignment** WG)
-    7. *Evaluation & Reliability Harnesses* (aligned with **Accuracy & Reliability** WG)
+*   **Global Ecosystem Architecture Map Curation:** Maintaining a living, interactive CNCF-style landscape (`landscape.yml`) whose categorization buckets evolve through delegate consensus.
 
 *   **Cross-WG Terminology Arbitration:** Serving as the technical gatekeeper and collaborative peer-review forum for resolving cross-cutting terminology intersections.
 *   **Automated Web Dashboard Publishing:** Maintaining the CI/CD pipelines that deploy the interactive Shared Taxonomy Explorer and Landscape Map web applications.
