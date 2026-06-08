@@ -89,7 +89,6 @@ To ensure clear boundaries and prevent overlap with the 7 vertical Technical Wor
 ### Meetings
 *   **Cadence:** Weekly (Please see the meeting time in the header).
 *   **Duration:** 30 minutes.
-*   **Open Meetings:** Open to all AAIF members and nominated WG delegates.
 *   **Minutes & Recordings:** Stored in the LFX Member Portal and GitHub repository.
 
 ### Communication Channels
