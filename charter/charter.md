@@ -85,7 +85,7 @@ Rather than pre-defining hardcoded taxonomy partitions or landscape buckets upfr
 ### Who Can Participate
 Open to all individuals and organizations consistent with foundation policies. We require 2 nominated delegates from each of the Technical Working Groups.
 
-### Leadership Structure & Division of Labor
+### Leadership Structure
 *   **Chair:** Junjie Bu (Google)
 *   **Co-Chair:** Gala Malbasic (Bloomberg)
 *   **Term:** 12 months, elected by working group chairs.
