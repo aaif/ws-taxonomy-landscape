@@ -14,7 +14,7 @@ The Taxonomy & Landscape Workstream curates and maintains a glossary of agentic 
 ### Why This Workstream Exists
 1. **Eliminating Siloed Terminology:** Working Groups (WGs) operate in specialized domains. Without a shared taxonomy, conflicting definitions (e.g., differing interpretations of *Agent*, *Attestation*, or *Autonomy*) create friction and integration complexity.
 2. **Preventing Duplicate Ecosystem Research:** Multiple WGs duplicate effort surveying the same platforms, tools, and compliance regimes (e.g., both Security WG and Governance WG tracking compliance monitors).
-3. **Providing an Enterprise Blueprint:** Enterprise CTOs and CIOs require a single, consolidated, authoritative guide to navigate the fragmented Agentic AI technology stack, rather than maintaining isolated spreadsheets from 7 different groups.
+3. **Providing an Enterprise Blueprint:** Enterprise CTOs and CIOs require a single, consolidated, authoritative guide to navigate the fragmented Agentic AI technology stack, rather than maintaining isolated spreadsheets from different Working Groups.
 
 ### Foundation Alignment
 Supports the foundation's core pillars of **Interoperability**, **Ecosystem Transparency**, and **Engineering Excellence** by uniting the outputs of all working groups into cohesive, publicly accessible web assets.
@@ -52,7 +52,7 @@ Rather than pre-defining hardcoded taxonomy partitions or landscape buckets upfr
 ## 3. Goals & Deliverables
 
 ### 3–6 Month Goals
-*   **Consolidate Baseline Terminology:** Ingest and de-duplicate existing glossaries from all 7 WGs into a unified SKOS-Lite data repository (`taxonomy-data.js`).
+*   **Consolidate Baseline Terminology:** Ingest and de-duplicate existing glossaries from all WGs into a unified SKOS-Lite data repository (`taxonomy-data.js`).
 *   **Launch Master Web Portal:** Deploy the fully interactive Shared Taxonomy Explorer and CNCF Landscape 2 instances to GitHub Pages (`https://aaif.github.io/ws-taxonomy-landscape/`) or (`https://taxonomy.github.io/` and `https://landscapt.github.io/`).
 *   **Establish Delegate Governance:** Operationalize the weekly cross-WG delegate sync to review pull requests and resolve terminology intersections.
 
