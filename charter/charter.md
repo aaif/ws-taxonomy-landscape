@@ -19,8 +19,6 @@ The Taxonomy & Landscape Workstream curates and maintains a glossary of agentic 
 ### Foundation Alignment
 Supports the foundation's core pillars of **Interoperability**, **Ecosystem Transparency**, and **Engineering Excellence** by uniting the outputs of all working groups into cohesive, publicly accessible web assets.
 
----
-
 ## 2. Scope
 
 ### Iterative Curation & Boundary Evolution
@@ -51,8 +49,6 @@ Rather than pre-defining hardcoded taxonomy partitions or landscape buckets upfr
 *   **Assumptions:** Assumes each WG Chair will nominate 2 active delegates to participate in weekly synchronization and asynchronous PR reviews.
 *   **Dependencies:** Depends on all WGs providing their baseline glossaries, vendor tool inventories, and regional policy tracking data.
 
----
-
 ## 3. Goals & Deliverables
 
 ### 3–6 Month Goals
@@ -69,8 +65,6 @@ Rather than pre-defining hardcoded taxonomy partitions or landscape buckets upfr
 
 **Definition of Done:** Reviewed by WG delegates, approved by rough consensus/voting, merged into the official GitHub repository, and published to AAIF web properties.
 
----
-
 ## 4. Working Methods
 
 ### Operating Model
@@ -86,16 +80,14 @@ Rather than pre-defining hardcoded taxonomy partitions or landscape buckets upfr
 *   **Asynchronous:** Mailing List (`ws-taxonomy-landscape@lists.aaif.io`), Discord (`#ws-taxonomy-landscape`), GitHub PRs/Issues.
 *   **Synchronous:** Zoom (calendar invite provided to registered delegates).
 
----
-
 ## 5. Membership & Governance
 
 ### Who Can Participate
 Open to all individuals and organizations consistent with foundation policies. We require 2 nominated delegates from each of the Technical Working Groups.
 
 ### Leadership Structure & Division of Labor
-*   **Chair:** Junjie Bu (Google) – *Primary Focus: Technical Taxonomy architecture, SKOS-Lite schema, and web dashboard infrastructure.*
-*   **Co-Chair:** Gala Malbasic (Bloomberg) – *Primary Focus: Landscape `landscape.yml` curation, vendor PR management, and operational PM administration.*
+*   **Chair:** Junjie Bu (Google)
+*   **Co-Chair:** Gala Malbasic (Bloomberg)
 *   **Term:** 12 months, elected by working group chairs.
 
 ### Decision Process & Escalation
@@ -103,16 +95,12 @@ Open to all individuals and organizations consistent with foundation policies. W
 *   **Escalation Path:** AAIF Technical Steering Committee (TSC) / Foundation CTO (Manik).
 *   **Quorum:** 50% of active nominated delegates.
 
----
-
 ## 6. Security, Safety & Responsible AI
 
 ### Data Handling & Integrity
 *   **No Sensitive Data:** Absolutely no proprietary, sensitive, or PII data is permitted in the Taxonomy / Landscape.
 *   **Transparent Attribution:** All vendor tools, open-source projects, and regulatory regimes indexed in the landscape must include clear, verifiable links to their authoritative upstream sources (`homepage_url`, `repo_url`).
 *   **Code of Conduct:** All participants must strictly adhere to the AAIF Code of Conduct; conflicts of interest must be declared openly.
-
----
 
 ## 7. Success Metrics & Next Steps
 
