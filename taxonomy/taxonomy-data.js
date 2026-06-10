@@ -1,5 +1,27 @@
 window.AAIF_TAXONOMY = [
   {
+    "term": "Accountability",
+    "category": "Governance & Compliance",
+    "aliases": ["Agent accountability", "Responsibility attribution"],
+    "broaderTerm": null,
+    "definition": "The defined assignment of responsibility for an agent's actions to identifiable parties — developers, deployers, or operators — specifying who is answerable when harm occurs and what obligations each role carries. Distinct from auditability, which is the technical capacity to record actions; accountability addresses the human and organisational layer of who owns the outcome.",
+    "scopeNote": "Codified in the EU AI Act through the provider/deployer distinction and in the NIST AI RMF Govern function. Proposed for addition by the GRRA WG (2026-06).",
+    "relatedTerms": ["Audit trail", "Agent oversight", "Delegated authorization"],
+    "contrastsWith": [],
+    "workgroups": ["Governance, Risk & Regulatory Alignment", "Identity & Trust"]
+  },
+  {
+    "term": "Agent deactivation",
+    "category": "Governance & Compliance",
+    "aliases": ["Graceful shutdown", "Planned decommissioning"],
+    "broaderTerm": "Agent oversight",
+    "definition": "A planned, orderly process for retiring or suspending an agent — completing or handing off in-flight tasks, revoking credentials, and archiving state and logs. Contrasts with Kill switch, which is an immediate, out-of-band emergency halt.",
+    "scopeNote": "Standardised deactivation protocols were flagged as in-scope in GRRA WG problem discussions (2026-03). Added to resolve the deactivation/emergency-halt distinction. Proposed for addition by the GRRA WG (2026-06).",
+    "relatedTerms": ["Kill switch", "Agent oversight"],
+    "contrastsWith": ["Kill switch"],
+    "workgroups": ["Governance, Risk & Regulatory Alignment", "Workflows & Process Integration"]
+  },
+  {
     "term": "Agent derailment",
     "category": "Agentic Threats",
     "aliases": ["Goal drift", "Misalignment"],
@@ -20,6 +42,17 @@ window.AAIF_TAXONOMY = [
     "relatedTerms": ["Delegated authorization"],
     "contrastsWith": [],
     "workgroups": ["Identity & Trust", "Security & Privacy"]
+  },
+  {
+    "term": "Agent oversight",
+    "category": "Governance & Compliance",
+    "aliases": ["Human oversight", "AI oversight"],
+    "broaderTerm": null,
+    "definition": "The totality of processes, roles, and technical mechanisms through which humans maintain visibility and control over an agent's actions, decisions, and outputs across its operational lifecycle. The umbrella concept under which human-in-the-loop, human-on-the-loop, kill switch, and escalation pathways sit.",
+    "scopeNote": "Mandated by EU AI Act Article 14 for high-risk AI systems and identified as a core requirement in the Berkeley CLTC Agentic AI Risk-Management Standards Profile (2026). Proposed for addition by the GRRA WG (2026-06).",
+    "relatedTerms": ["Human in the loop (HITL)", "Human on the loop (HOTL)", "Kill switch", "Escalation pathway", "Audit trail"],
+    "contrastsWith": [],
+    "workgroups": ["Governance, Risk & Regulatory Alignment", "Security & Privacy", "Accuracy & Reliability"]
   },
   {
     "term": "Agent sabotage",
@@ -55,15 +88,37 @@ window.AAIF_TAXONOMY = [
     "workgroups": ["Workflows & Process Integration", "Accuracy & Reliability"]
   },
   {
+    "term": "Audit trail",
+    "category": "Governance & Compliance",
+    "aliases": ["Audit log", "Agent activity log", "Immutable action log"],
+    "broaderTerm": "Agent oversight",
+    "definition": "A tamper-evident, chronological record of an agent's decisions, tool invocations, data accessed, and actions taken — capturing inputs, outputs, and the reasoning chain at each step. Stored independently of the agent itself to support post-hoc accountability, incident investigation, and regulatory inspection.",
+    "scopeNote": "Cited across EU AI Act, ISO/IEC 42001, and enterprise governance glossaries as the foundational accountability requirement. GRRA WG scope includes incident reporting policies, which depend on this primitive. Proposed for addition by the GRRA WG (2026-06).",
+    "relatedTerms": ["Hooks and checkpoints", "Agent oversight", "Explainability", "Accountability"],
+    "contrastsWith": [],
+    "workgroups": ["Governance, Risk & Regulatory Alignment", "Security & Privacy", "Observability & Traceability"]
+  },
+  {
     "term": "Autonomous",
     "category": "Agentic Controls",
     "aliases": ["Fully autonomous operation"],
     "broaderTerm": null,
     "definition": "A mode or design pattern in which an agent can operate and take actions to some extent without explicit permission from the agent user. The agent interprets a prompt or request and performs one or more actions to carry it out — for example, finding, negotiating, and completing a purchase on a user's behalf.",
     "scopeNote": "Defined during taxonomy review (2026-03-17).",
-    "relatedTerms": ["Agentic workflow"],
+    "relatedTerms": ["Agentic workflow", "Autonomy level"],
     "contrastsWith": ["Human in the loop (HITL)"],
     "workgroups": ["Workflows & Process Integration", "Security & Privacy"]
+  },
+  {
+    "term": "Autonomy level",
+    "category": "Governance & Compliance",
+    "aliases": ["Autonomy classification", "Autonomy tier"],
+    "broaderTerm": null,
+    "definition": "A tiered classification of the degree of independence with which an agent operates, ranging from fully supervised (a human approves every action) through monitored and delegated tiers to fully autonomous. Used to determine which oversight mechanisms, approval gates, and governance controls are proportionate for a given deployment.",
+    "scopeNote": "Explicitly scoped as 'Human-in-the-Loop patterns and autonomy definitions' in the GRRA WG charter (2026). Referenced in the EU AI Act and NIST AI RMF as the basis for proportionate control assignment. Proposed for addition by the GRRA WG (2026-06).",
+    "relatedTerms": ["Human in the loop (HITL)", "Human on the loop (HOTL)", "Autonomous", "Escalation pathway", "Guardrails"],
+    "contrastsWith": [],
+    "workgroups": ["Governance, Risk & Regulatory Alignment", "Security & Privacy", "Accuracy & Reliability"]
   },
   {
     "term": "Blast radius",
@@ -72,7 +127,7 @@ window.AAIF_TAXONOMY = [
     "broaderTerm": null,
     "definition": "The scope and extent of damage or data exposure that can result from a compromised, misconfigured, or rogue agent.",
     "scopeNote": "Samantha Coyle raised this in the context of protecting data from rogue agents (2026-03-03).",
-    "relatedTerms": ["Rogue agent"],
+    "relatedTerms": ["Rogue agent", "Least privilege (agent)"],
     "contrastsWith": [],
     "workgroups": ["Security & Privacy", "Governance, Risk & Regulatory Alignment"]
   },
@@ -83,7 +138,7 @@ window.AAIF_TAXONOMY = [
     "broaderTerm": null,
     "definition": "A mechanism by which a human or system grants an AI agent a scoped set of permissions to act on its behalf, typically with constraints on what actions the agent may perform.",
     "scopeNote": "Discussed alongside capability-based auth and tool invocation restrictions (2026-02-17).",
-    "relatedTerms": ["Agent identity"],
+    "relatedTerms": ["Agent identity", "Least privilege (agent)", "Accountability"],
     "contrastsWith": [],
     "workgroups": ["Identity & Trust", "Security & Privacy"]
   },
@@ -94,7 +149,7 @@ window.AAIF_TAXONOMY = [
     "broaderTerm": null,
     "definition": "Policies that constrain an autonomous agent's actions in a way that cannot be overridden or misinterpreted by the AI agent. These policies are enforced outside the AI inference process, preventing the agent from taking certain actions — for example, an agent SDK policy that blocks access to a tool.",
     "scopeNote": "Defined during taxonomy review (2026-03-17).",
-    "relatedTerms": ["Deterministic workflow"],
+    "relatedTerms": ["Deterministic workflow", "Guardrails", "Kill switch"],
     "contrastsWith": ["Autonomous"],
     "workgroups": ["Security & Privacy", "Governance, Risk & Regulatory Alignment"]
   },
@@ -110,13 +165,46 @@ window.AAIF_TAXONOMY = [
     "workgroups": ["Workflows & Process Integration", "Governance, Risk & Regulatory Alignment"]
   },
   {
+    "term": "Escalation pathway",
+    "category": "Governance & Compliance",
+    "aliases": ["Escalation logic", "Human escalation", "Override path"],
+    "broaderTerm": "Agent oversight",
+    "definition": "A predefined route by which an agent pauses execution and elevates a decision to a human operator or higher-authority system when it encounters a situation outside its authorised scope or confidence threshold. Triggers include confidence thresholds, impact thresholds, anomaly detection, and domain boundary violations.",
+    "scopeNote": "Consistently listed alongside kill switch as a baseline control for autonomously operating agents, including in the NIST AI RMF and the Singapore Model AI Governance Framework for Agentic AI (2026). Proposed for addition by the GRRA WG (2026-06).",
+    "relatedTerms": ["Human in the loop (HITL)", "Human on the loop (HOTL)", "Kill switch", "Agent oversight", "Autonomy level"],
+    "contrastsWith": [],
+    "workgroups": ["Governance, Risk & Regulatory Alignment", "Security & Privacy"]
+  },
+  {
+    "term": "Explainability",
+    "category": "Governance & Compliance",
+    "aliases": ["Explainable AI (XAI)", "Decision transparency"],
+    "broaderTerm": "Agent oversight",
+    "definition": "The capacity of an agentic system to provide a human-interpretable account of why a particular decision was made or action taken — including the reasoning steps, tool calls, and data consulted at each stage. A prerequisite for meaningful human oversight, since operators cannot intervene on decisions they cannot understand.",
+    "scopeNote": "Required by the EU AI Act for high-risk AI systems and listed as a core trustworthy-AI attribute in the NIST AI RMF. Proposed for addition by the GRRA WG (2026-06).",
+    "relatedTerms": ["Audit trail", "Agent oversight"],
+    "contrastsWith": [],
+    "workgroups": ["Governance, Risk & Regulatory Alignment", "Accuracy & Reliability", "Observability & Traceability"]
+  },
+  {
+    "term": "Guardrails",
+    "category": "Governance & Compliance",
+    "aliases": ["AI guardrails", "Policy controls"],
+    "broaderTerm": "Agent oversight",
+    "definition": "Constraints that define what an agent is permitted to access, invoke, and output, spanning soft mechanisms (prompt-level instructions, model-evaluated policies) and hard mechanisms enforced outside the inference process. The hard, non-overridable subset is captured by Deterministic policies.",
+    "scopeNote": "Cited across NIST AI RMF, EU AI Act, and OWASP Agentic Top 10 as a foundational governance primitive. Scoped here as the umbrella term; the existing entry Deterministic policies (alias 'Hard guardrails') remains the architecturally enforced subset. Proposed for addition by the GRRA WG (2026-06).",
+    "relatedTerms": ["Deterministic policies", "Human in the loop (HITL)", "Escalation pathway", "Autonomy level"],
+    "contrastsWith": [],
+    "workgroups": ["Governance, Risk & Regulatory Alignment", "Security & Privacy"]
+  },
+  {
     "term": "Hooks and checkpoints",
     "category": "Security Practices",
     "aliases": ["Interception points", "Execution middleware"],
     "broaderTerm": null,
     "definition": "Standardized interception points in an agentic AI platform's execution pipeline where security controls, logging, or policy enforcement can be applied.",
     "scopeNote": "Bar Kaduri proposed hooks and checkpointing standards (2026-02-17).",
-    "relatedTerms": ["Human in the loop (HITL)"],
+    "relatedTerms": ["Human in the loop (HITL)", "Audit trail"],
     "contrastsWith": [],
     "workgroups": ["Security & Privacy", "Observability & Traceability"]
   },
@@ -127,9 +215,42 @@ window.AAIF_TAXONOMY = [
     "broaderTerm": null,
     "definition": "A design pattern in which a human must review, approve, or intervene in an AI agent's actions at defined checkpoints before the agent may proceed.",
     "scopeNote": "Identified as a key consideration during the initial brainstorm (2026-02-17).",
-    "relatedTerms": ["Hooks and checkpoints"],
-    "contrastsWith": ["Autonomous"],
+    "relatedTerms": ["Hooks and checkpoints", "Agent oversight", "Autonomy level"],
+    "contrastsWith": ["Autonomous", "Human on the loop (HOTL)"],
     "workgroups": ["Workflows & Process Integration", "Security & Privacy"]
+  },
+  {
+    "term": "Human on the loop (HOTL)",
+    "category": "Governance & Compliance",
+    "aliases": ["HOTL", "Supervisory oversight", "Human-on-the-loop"],
+    "broaderTerm": "Agent oversight",
+    "definition": "A supervision pattern in which a human monitors agent execution in real time and retains the ability to intervene, but does not need to approve each action before it proceeds. Represents a higher autonomy tier than Human in the loop (HITL), where pre-approval is required at each decision point.",
+    "scopeNote": "Defined as the complement to HITL across NIST AI RMF and EU AI Act-aligned glossaries; without it the autonomy control spectrum is incomplete. Proposed for addition by the GRRA WG (2026-06).",
+    "relatedTerms": ["Agent oversight", "Autonomy level", "Escalation pathway"],
+    "contrastsWith": ["Human in the loop (HITL)"],
+    "workgroups": ["Governance, Risk & Regulatory Alignment", "Security & Privacy"]
+  },
+  {
+    "term": "Kill switch",
+    "category": "Governance & Compliance",
+    "aliases": ["Emergency shutdown", "Hard stop", "Agent termination control"],
+    "broaderTerm": "Agent oversight",
+    "definition": "A hard, out-of-band mechanism to immediately halt an agent or agent system by revoking its tool access and credentials, bypassing the agent's inference process entirely. It must be technically reliable (not dependent on the agent's cooperation) and non-negotiable (not overridable by the agent). Contrasts with Agent deactivation, a planned operational event.",
+    "scopeNote": "Cited as an essential safety primitive by Berkeley CLTC and NIST AI RMF-aligned guidance. GRRA WG problem discussions flagged standardised emergency-halt protocols as in-scope (2026-03). Proposed for addition by the GRRA WG (2026-06).",
+    "relatedTerms": ["Agent deactivation", "Escalation pathway", "Deterministic policies", "Agent oversight"],
+    "contrastsWith": ["Agent deactivation"],
+    "workgroups": ["Governance, Risk & Regulatory Alignment", "Security & Privacy", "Accuracy & Reliability"]
+  },
+  {
+    "term": "Least privilege (agent)",
+    "category": "Governance & Compliance",
+    "aliases": ["Agent least privilege", "Just-enough access", "Minimal privilege"],
+    "broaderTerm": "Delegated authorization",
+    "definition": "The principle that an agent is granted only the minimum permissions, tool access, and data scope strictly necessary to complete its designated task. In agentic contexts this is enforced dynamically at runtime per request rather than statically at design time, because agents determine their actions at runtime.",
+    "scopeNote": "Codified in NIST SP 800-53 and ISO/IEC 27001; consistently identified in 2026 agentic security guidance (FINOS AIR, CSA) as the primary control for containing blast radius. Proposed for addition by the GRRA WG (2026-06).",
+    "relatedTerms": ["Delegated authorization", "Blast radius", "Agent identity"],
+    "contrastsWith": [],
+    "workgroups": ["Governance, Risk & Regulatory Alignment", "Identity & Trust", "Security & Privacy"]
   },
   {
     "term": "Multi-agent persuasion",
@@ -307,4 +428,4 @@ window.AAIF_TAXONOMY = [
     "contrastsWith": [],
     "workgroups": ["Security & Privacy"]
   }
-]
+];
