@@ -60,7 +60,7 @@ Rather than pre-defining hardcoded taxonomy partitions or landscape buckets upfr
 | Deliverable Name | Format | Target Date |
 | :--- | :--- | :--- |
 | **Shared Taxonomy Explorer (v1.0)** | `taxonomy-data.js` + Web App | 2026-08-15 |
-| **Ecosystem Architecture Map (v1.0)** | `landscape.yml` + Web App (Landscape 2) | 2026-08-15 |
+| **Ecosystem Architecture Map (v1.0)** | `landscape.yml` + Web App (Landscape 2) | 2026-10-15 |
 | **Cross-WG Terminology Arbitration Guide** | Governance Documentation | 2026-08-15 |
 
 **Definition of Done:** Reviewed by WG delegates, approved by rough consensus/voting, merged into the official GitHub repository, and published to AAIF web properties.
