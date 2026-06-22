@@ -1,9 +1,9 @@
 landscape:
   # ============================================================================
-  # 1. AGENT RUNTIMES & FRAMEWORKS
+  # 1. AGENT RUNTIMES, FRAMEWORKS & WORKFLOW ORCHESTRATION
   # Aligns with Workflows & Process Integration WG (+ Accuracy & Reliability WG)
   # ============================================================================
-  - category: Agent Runtimes & Frameworks
+  - category: Agent Runtimes, Frameworks & Workflow Orchestration
     subcategories:
       - subcategory: Autonomous Agent Frameworks
         items:
