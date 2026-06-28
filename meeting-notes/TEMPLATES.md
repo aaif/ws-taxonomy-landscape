@@ -5,8 +5,6 @@
 ## Resources
 
 - [AI Summary](link)
-- [Transcript](link)
-- [Recording](link)
 
 ## Topics Discussed
 
