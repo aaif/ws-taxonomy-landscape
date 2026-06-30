@@ -2,7 +2,11 @@
 
 ## Mission
 
-The mission of this workstream is currently being defined. Check back soon for updates.
+The Taxonomy & Landscape Workstream serves as the horizontal architectural bridge across the AAIF. Our mission is to curate and maintain a unified glossary of agentic AI terms (the Taxonomy) and a CNCF-style ecosystem market map (the Landscape). 
+
+By establishing a shared vocabulary and a single pane of glass for the ecosystem, we eliminate siloed terminology, prevent duplicated research across working groups, and provide enterprise leaders with a cohesive blueprint for the Agentic AI technology stack.
+
+For more details, please see our [Workstream Charter](charter/charter.md).
 
 ## Chairs
 
