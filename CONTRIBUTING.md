@@ -4,6 +4,8 @@ Thank you for contributing to the Agentic AI Foundation (AAIF) Taxonomy & Landsc
 
 This repository maintains the horizontal, shared vocabulary (Taxonomy) and the global market ecosystem map (Landscape) across all active technical working groups.
 
+If you use AI assistance while drafting or reviewing contributed content, follow the [AI Usage Guide](docs/ai-usage-guide.md).
+
 ---
 
 ## 1. Roles & Governance
