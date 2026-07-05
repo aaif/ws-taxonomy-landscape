@@ -37,6 +37,7 @@ All meeting recordings and AI summaries can be found on your [LFX Individual Das
 | [`landscape/`](landscape/) | Master landscape.yml configuration file for the AAIF Ecosystem Architecture Map |
 | [`taxonomy/`](taxonomy/) | Interactive shared taxonomy web dashboard explorer with Tri-Mode Architecture |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Contributor guidelines, pull request workflows, and review roles |
+| [`docs/term-style-guide.md`](docs/term-style-guide.md) | Style guide for candidate terms, disambiguators, aliases, and definitions |
 
 
 
