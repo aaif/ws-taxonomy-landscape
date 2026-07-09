@@ -1,8 +1,8 @@
 # AAIF Taxonomy & Landscape Workstream Charter
-
+**Date Approved:** 2026-06-21
 **Chairs:** Junjie Bu (Google) – Chair | Gala Malbasic (Bloomberg) – Co-Chair  
 **Meeting Cadence:** Weekly on Monday at 8:30 AM PT / 11:30 AM ET / 4:30 PM BST (duration: 30 minutes)  
-**Communication Channels:** Mailing List (`ws-taxonomy-landscape@lists.aaif.io`), Discord (`#ws-taxonomy-landscape`), GitHub (`aaif/ws-taxonomy-landscape`)  
+**Communication Channels:** Mailing List (`ws-taxonomy-landscape@lists.aaif.io`), Discord (`#ws-taxonomy-landscape`), GitHub (`aaif/ws-taxonomy-landscape`) 
 
 ---
 
