@@ -65,7 +65,7 @@ jobs:
           cp -r landscape/landscape.yml dist/landscape/
           # Copy taxonomy explorer to dist/taxonomy
           cp -r taxonomy dist/
-          # Copy master portal landing page to dist/
+          # Copy main portal landing page to dist/
           cp index.html dist/
           # Generate build timestamp in PDT and inject it into dist/index.html
           CURRENT_TIME=$(TZ="America/Los_Angeles" date +"%m/%d/%Y %I:%M%P")

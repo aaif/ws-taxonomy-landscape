@@ -1,6 +1,6 @@
 /**
  * AAIF Taxonomy Explorer Engine (Tri-Mode Architecture)
- * Core logic handling real-time fuzzy filtering, master view toggling (Split vs Grid vs Mindmap),
+ * Core logic handling real-time fuzzy filtering, main view toggling (Split vs Grid vs Mindmap),
  * sidebar tree/A-Z navigation, grid card injection, mindmap tree rendering, and 100% secure DOM manipulation.
  */
 
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Application States Hub
   const state = {
-    masterView: 'grid', // 'split', 'grid', or 'mindmap'
+    mainView: 'grid', // 'split', 'grid', or 'mindmap'
     currentSearch: '',
     currentLetterGrid: 'ALL', // Alphabet filtering for grid view
     activeTerm: 'Agentic AI', // Default active term on load
@@ -19,9 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // DOM Elements Index
-  const masterTabSplit = document.getElementById('master-tab-split');
-  const masterTabGrid = document.getElementById('master-tab-grid');
-  const masterTabMindmap = document.getElementById('master-tab-mindmap');
+  const mainTabSplit = document.getElementById('main-tab-split');
+  const mainTabGrid = document.getElementById('main-tab-grid');
+  const mainTabMindmap = document.getElementById('main-tab-mindmap');
   const splitLayoutContainer = document.getElementById('split-layout-container');
   const gridViewContainer = document.getElementById('grid-view-container');
   const mindmapViewContainer = document.getElementById('mindmap-view-container');
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return groups;
   }
 
-  // ==================== MODE 1: MASTER-DETAIL SPLIT VIEW RENDERING ====================
+  // ==================== MODE 1: MAIN-DETAIL SPLIT VIEW RENDERING ====================
 
   // Render Left Sidebar Navigation (Tree Hierarchy) securely
   function renderSidebar() {
@@ -967,7 +967,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const query = state.currentSearch.toLowerCase().trim();
 
     state.filteredData = taxonomyData.filter(item => {
-      if (state.masterView === 'grid' && state.currentLetterGrid !== 'ALL') {
+      if (state.mainView === 'grid' && state.currentLetterGrid !== 'ALL') {
         const firstLetter = item.term.trim().charAt(0).toUpperCase();
         if (firstLetter !== state.currentLetterGrid) return false;
       }
@@ -987,7 +987,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     state.filteredData.sort((a, b) => a.term.localeCompare(b.term));
 
-    if (state.masterView === 'split') {
+    if (state.mainView === 'split') {
       if (query) {
         activeFiltersBarSplit.style.display = 'flex';
       } else {
@@ -995,7 +995,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       renderSidebar();
       renderDetailPane();
-    } else if (state.masterView === 'grid') {
+    } else if (state.mainView === 'grid') {
       if (state.currentLetterGrid !== 'ALL' || query) {
         activeFiltersBarGrid.style.display = 'flex';
       } else {
@@ -1007,12 +1007,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Master View Toggle Listeners
-  masterTabSplit.addEventListener('click', () => {
-    state.masterView = 'split';
-    masterTabSplit.classList.add('active');
-    masterTabGrid.classList.remove('active');
-    masterTabMindmap.classList.remove('active');
+  // Main View Toggle Listeners
+  mainTabSplit.addEventListener('click', () => {
+    state.mainView = 'split';
+    mainTabSplit.classList.add('active');
+    mainTabGrid.classList.remove('active');
+    mainTabMindmap.classList.remove('active');
 
     splitLayoutContainer.style.display = 'grid';
     gridViewContainer.style.display = 'none';
@@ -1027,11 +1027,11 @@ document.addEventListener('DOMContentLoaded', () => {
     runFilteringPipeline();
   });
 
-  masterTabGrid.addEventListener('click', () => {
-    state.masterView = 'grid';
-    masterTabGrid.classList.add('active');
-    masterTabSplit.classList.remove('active');
-    masterTabMindmap.classList.remove('active');
+  mainTabGrid.addEventListener('click', () => {
+    state.mainView = 'grid';
+    mainTabGrid.classList.add('active');
+    mainTabSplit.classList.remove('active');
+    mainTabMindmap.classList.remove('active');
 
     gridViewContainer.style.display = 'block';
     splitLayoutContainer.style.display = 'none';
@@ -1046,11 +1046,11 @@ document.addEventListener('DOMContentLoaded', () => {
     runFilteringPipeline();
   });
 
-  masterTabMindmap.addEventListener('click', () => {
-    state.masterView = 'mindmap';
-    masterTabMindmap.classList.add('active');
-    masterTabSplit.classList.remove('active');
-    masterTabGrid.classList.remove('active');
+  mainTabMindmap.addEventListener('click', () => {
+    state.mainView = 'mindmap';
+    mainTabMindmap.classList.add('active');
+    mainTabSplit.classList.remove('active');
+    mainTabGrid.classList.remove('active');
 
     mindmapViewContainer.style.display = 'block';
     splitLayoutContainer.style.display = 'none';
