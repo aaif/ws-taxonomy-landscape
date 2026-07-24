@@ -92,22 +92,63 @@ test('duplicate subcategories in one category are caught', () => {
 });
 
 test('a prototype-pollution merge payload does not satisfy required fields', () => {
-  const doc = `defaults: &defaults
-  __proto__:
-    name: injected
-    homepage_url: https://example.com
-    description: injected
-    project: member
-landscape:
+  // Inline merge (no anchor/alias), so this exercises the own-property checks
+  // rather than the alias gate: a merged __proto__ never becomes an own field.
+  const doc = `landscape:
   - category: C
     subcategories:
       - subcategory: S
         items:
-          - <<: *defaults
+          - <<: {__proto__: {name: injected, homepage_url: 'https://example.com', description: injected, project: member}}
 `;
   const errors = validate(doc);
   assert.ok(errors.length > 0, errors.join('\n'));
   assert.ok(hasError(errors, /required field/), 'inherited fields must not count as own fields');
+});
+
+test('nested YAML aliases are rejected before they can amplify', () => {
+  // Each alias reuses a node, so this ~3N-line file would otherwise be N^3 item
+  // visits here and N^3 DOM nodes in the browser. The gate rejects it outright.
+  const doc = `landscape:
+  - &c
+    category: C
+    subcategories:
+      - &s
+        subcategory: S
+        items:
+          - &i {name: a, homepage_url: 'https://x.example', description: d, project: member}
+          - *i
+      - *s
+  - *c
+`;
+  assert.ok(hasError(validate(doc), /anchors\/aliases are not allowed/));
+});
+
+test('a file larger than the byte cap is rejected', () => {
+  const doc = 'landscape:\n' + '#'.repeat(2_000_001);
+  assert.ok(hasError(validate(doc), /larger than \d+ bytes/));
+});
+
+test('an unexpected field on a subcategory is caught', () => {
+  const doc = `landscape:
+  - category: C
+    subcategories:
+      - subcategory: S
+        bogus_sub_field: x
+        items:
+          - {name: y, homepage_url: "https://x.example", description: d, project: member}
+`;
+  assert.ok(hasError(validate(doc), /unknown field 'bogus_sub_field'/));
+});
+
+test('an empty repo_url is caught', () => {
+  const doc = VALID.replace('repo_url: https://github.com/aaif-goose/goose', 'repo_url: ""');
+  assert.ok(hasError(validate(doc), /repo_url is present but empty/));
+});
+
+test('a non-https repo_url is caught', () => {
+  const doc = VALID.replace('https://github.com/aaif-goose/goose', 'http://github.com/aaif-goose/goose');
+  assert.ok(hasError(validate(doc), /repo_url must use https/));
 });
 
 test('an empty subcategories list is rejected', () => {

@@ -37,12 +37,42 @@ const ALLOWED_ITEM_FIELDS = new Set([
 const ALLOWED_CATEGORY_FIELDS = new Set(['category', 'subcategories']);
 const ALLOWED_SUBCATEGORY_FIELDS = new Set(['subcategory', 'items']);
 
+// The landscape is a curated list a few tens of KB in size. A cap keeps a
+// runaway or hostile file from producing an unbounded item list (and DOM) once
+// the site renders it; the real data is far below this.
+const MAX_BYTES = 2_000_000;
+
 function isNonEmptyString(value) {
   return typeof value === 'string' && value.trim() !== '';
 }
 
 function isPlainObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+// YAML anchors/aliases resolve to shared references, so a small file can expand
+// into a huge traversal: N reused category nodes, each holding N reused
+// subcategory nodes, each holding N reused item nodes, is N^3 item visits here
+// (and N^3 DOM nodes in the browser) from ~3N lines of input. The landscape
+// schema never needs anchors, aliases, or merge keys, so reject any object or
+// array that appears more than once. Iterative (an explicit stack, not
+// recursion) so a deeply nested file cannot overflow the call stack, and a
+// self-referential alias terminates on the WeakSet hit rather than looping.
+function hasReusedNode(root) {
+  const seen = new WeakSet();
+  const stack = [root];
+  while (stack.length > 0) {
+    const value = stack.pop();
+    if (value === null || typeof value !== 'object') continue;
+    if (seen.has(value)) return true;
+    seen.add(value);
+    if (Array.isArray(value)) {
+      for (const element of value) stack.push(element);
+    } else {
+      for (const key of Object.keys(value)) stack.push(value[key]);
+    }
+  }
+  return false;
 }
 
 function unexpectedKeys(object, allowed, location, errors) {
@@ -73,6 +103,9 @@ function urlProblem(field, value) {
 }
 
 export function validate(text, source = 'landscape.yml') {
+  if (typeof text === 'string' && Buffer.byteLength(text, 'utf8') > MAX_BYTES) {
+    return [`${source}: file is larger than ${MAX_BYTES} bytes`];
+  }
   let data;
   try {
     data = yaml.load(text);
@@ -89,6 +122,9 @@ export function validate(text, source = 'landscape.yml') {
   }
   if (categories.length === 0) {
     return [`${source}: 'landscape' must contain at least one category`];
+  }
+  if (hasReusedNode(data)) {
+    return [`${source}: YAML anchors/aliases are not allowed`];
   }
 
   const errors = [];
@@ -111,7 +147,7 @@ export function validate(text, source = 'landscape.yml') {
     } else {
       seenCategories.set(categoryKey, `landscape[${categoryIndex}]`);
     }
-    if (!Array.isArray(category.subcategories)) {
+    if (!Object.hasOwn(category, 'subcategories') || !Array.isArray(category.subcategories)) {
       errors.push(`category '${categoryName}': 'subcategories' must be a list`);
       return;
     }
@@ -133,7 +169,7 @@ export function validate(text, source = 'landscape.yml') {
       } else {
         seenSubcategories.set(subcategoryKey, subcategoryIndex);
       }
-      if (!Array.isArray(subcategory.items)) {
+      if (!Object.hasOwn(subcategory, 'items') || !Array.isArray(subcategory.items)) {
         errors.push(`'${categoryName}' / '${subcategoryName}': 'items' must be a list`);
         return;
       }
