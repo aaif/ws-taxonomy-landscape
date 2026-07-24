@@ -53,6 +53,19 @@ jobs:
       #       --output-dir out
       #     cd ..
 
+      # Validate the landscape data before assembling, so a bad file cannot be
+      # deployed even on a direct push to main.
+      - name: Install landscape validator
+        working-directory: scripts
+        run: npm ci --ignore-scripts
+
+      - name: Run validator tests
+        working-directory: scripts
+        run: node --test
+
+      - name: Validate production landscape
+        run: node scripts/validate-landscape.mjs landscape/landscape.yml
+
       - name: Assemble Portal Distribution
         run: |
           mkdir -p dist/landscape/static

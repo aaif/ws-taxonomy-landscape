@@ -2,16 +2,21 @@
 /**
  * Validate landscape/landscape.yml against the schema in docs/data-schemas.md.
  *
- * Parsing uses js-yaml with default options, the same library and settings the
- * site itself uses (landscape/static via the js-yaml CDN). That keeps CI and the
- * browser in agreement: anything the site would reject at load time, such as a
- * duplicate mapping key, fails here too rather than passing review and breaking
- * the rendered map.
+ * Parsing uses js-yaml, the same library the site loads in the browser
+ * (landscape/static via the js-yaml CDN), pinned to the same version. That keeps
+ * CI and the browser in agreement: anything the site would reject at load time,
+ * such as a duplicate mapping key, fails here too rather than passing review and
+ * breaking the rendered map.
  *
- * On top of parsing it checks the category -> subcategory -> item structure, the
- * required item fields, the `project` enum, https URLs, unexpected fields, and
- * duplicate category, subcategory, or entry names. It prints every problem and
- * exits non-zero if there are any.
+ * All schema fields are read as own properties (Object.hasOwn / Object.keys), so
+ * values that only exist on an object's prototype (for example via a YAML merge
+ * key payload) never satisfy a required field or hide from the unknown-field
+ * checks.
+ *
+ * On top of parsing it checks the category -> subcategory -> item structure, that
+ * each level is non-empty, the required item fields, the `project` enum, https
+ * URLs, unexpected fields at every level, and duplicate category, subcategory, or
+ * entry names. It prints every problem and exits non-zero if there are any.
  *
  * Usage: node validate-landscape.mjs [path/to/landscape.yml]
  */
@@ -21,7 +26,7 @@ import yaml from 'js-yaml';
 
 const PROJECT_VALUES = new Set(['graduated', 'incubating', 'member', 'external']);
 const REQUIRED_FIELDS = ['name', 'homepage_url', 'description', 'project'];
-const ALLOWED_FIELDS = new Set([
+const ALLOWED_ITEM_FIELDS = new Set([
   'name',
   'logo',
   'homepage_url',
@@ -29,9 +34,23 @@ const ALLOWED_FIELDS = new Set([
   'description',
   'project',
 ]);
+const ALLOWED_CATEGORY_FIELDS = new Set(['category', 'subcategories']);
+const ALLOWED_SUBCATEGORY_FIELDS = new Set(['subcategory', 'items']);
 
 function isNonEmptyString(value) {
   return typeof value === 'string' && value.trim() !== '';
+}
+
+function isPlainObject(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+function unexpectedKeys(object, allowed, location, errors) {
+  for (const key of Object.keys(object)) {
+    if (!allowed.has(key)) {
+      errors.push(`${location}: unknown field '${key}'`);
+    }
+  }
 }
 
 function urlProblem(field, value) {
@@ -61,7 +80,7 @@ export function validate(text, source = 'landscape.yml') {
     return [`${source}: YAML parse error: ${err.message}`];
   }
 
-  if (data === null || typeof data !== 'object' || Array.isArray(data) || !('landscape' in data)) {
+  if (!isPlainObject(data) || !Object.hasOwn(data, 'landscape')) {
     return [`${source}: top-level 'landscape' key is missing`];
   }
   const categories = data.landscape;
@@ -73,16 +92,19 @@ export function validate(text, source = 'landscape.yml') {
   }
 
   const errors = [];
+  unexpectedKeys(data, new Set(['landscape']), source, errors);
+
   const seenCategories = new Map();
   const seenNames = new Map();
   let itemCount = 0;
 
   categories.forEach((category, categoryIndex) => {
-    if (category === null || typeof category !== 'object' || !isNonEmptyString(category.category)) {
+    if (!isPlainObject(category) || !Object.hasOwn(category, 'category') || !isNonEmptyString(category.category)) {
       errors.push(`landscape[${categoryIndex}]: missing 'category' name`);
       return;
     }
     const categoryName = category.category;
+    unexpectedKeys(category, ALLOWED_CATEGORY_FIELDS, `category '${categoryName}'`, errors);
     const categoryKey = categoryName.trim().toLowerCase();
     if (seenCategories.has(categoryKey)) {
       errors.push(`category '${categoryName}': duplicate category name (also at ${seenCategories.get(categoryKey)})`);
@@ -93,14 +115,18 @@ export function validate(text, source = 'landscape.yml') {
       errors.push(`category '${categoryName}': 'subcategories' must be a list`);
       return;
     }
+    if (category.subcategories.length === 0) {
+      errors.push(`category '${categoryName}': must contain at least one subcategory`);
+    }
 
     const seenSubcategories = new Map();
     category.subcategories.forEach((subcategory, subcategoryIndex) => {
-      if (subcategory === null || typeof subcategory !== 'object' || !isNonEmptyString(subcategory.subcategory)) {
+      if (!isPlainObject(subcategory) || !Object.hasOwn(subcategory, 'subcategory') || !isNonEmptyString(subcategory.subcategory)) {
         errors.push(`category '${categoryName}': subcategory[${subcategoryIndex}] missing 'subcategory' name`);
         return;
       }
       const subcategoryName = subcategory.subcategory;
+      unexpectedKeys(subcategory, ALLOWED_SUBCATEGORY_FIELDS, `'${categoryName}' / '${subcategoryName}'`, errors);
       const subcategoryKey = subcategoryName.trim().toLowerCase();
       if (seenSubcategories.has(subcategoryKey)) {
         errors.push(`'${categoryName}' / '${subcategoryName}': duplicate subcategory name in this category`);
@@ -111,31 +137,34 @@ export function validate(text, source = 'landscape.yml') {
         errors.push(`'${categoryName}' / '${subcategoryName}': 'items' must be a list`);
         return;
       }
+      if (subcategory.items.length === 0) {
+        errors.push(`'${categoryName}' / '${subcategoryName}': must contain at least one item`);
+      }
 
       subcategory.items.forEach((item, itemIndex) => {
         itemCount += 1;
         let location = `'${categoryName}' / '${subcategoryName}' / item[${itemIndex}]`;
-        if (item === null || typeof item !== 'object' || Array.isArray(item)) {
+        if (!isPlainObject(item)) {
           errors.push(`${location}: item must be a mapping`);
           return;
         }
-        if (isNonEmptyString(item.name)) {
+        if (Object.hasOwn(item, 'name') && isNonEmptyString(item.name)) {
           location = `'${categoryName}' / '${subcategoryName}' / '${item.name}'`;
         }
 
         for (const field of REQUIRED_FIELDS) {
-          if (!isNonEmptyString(item[field])) {
+          if (!Object.hasOwn(item, field) || !isNonEmptyString(item[field])) {
             errors.push(`${location}: missing or empty required field '${field}'`);
           }
         }
-        if (isNonEmptyString(item.project) && !PROJECT_VALUES.has(item.project)) {
+        if (Object.hasOwn(item, 'project') && isNonEmptyString(item.project) && !PROJECT_VALUES.has(item.project)) {
           errors.push(`${location}: project '${item.project}' is not one of ${[...PROJECT_VALUES].sort().join(', ')}`);
         }
-        if (isNonEmptyString(item.homepage_url)) {
+        if (Object.hasOwn(item, 'homepage_url') && isNonEmptyString(item.homepage_url)) {
           const problem = urlProblem('homepage_url', item.homepage_url);
           if (problem) errors.push(`${location}: ${problem}`);
         }
-        if ('repo_url' in item) {
+        if (Object.hasOwn(item, 'repo_url')) {
           if (!isNonEmptyString(item.repo_url)) {
             errors.push(`${location}: repo_url is present but empty`);
           } else {
@@ -143,12 +172,8 @@ export function validate(text, source = 'landscape.yml') {
             if (problem) errors.push(`${location}: ${problem}`);
           }
         }
-        for (const key of Object.keys(item)) {
-          if (!ALLOWED_FIELDS.has(key)) {
-            errors.push(`${location}: unknown field '${key}' (allowed: ${[...ALLOWED_FIELDS].sort().join(', ')})`);
-          }
-        }
-        if (isNonEmptyString(item.name)) {
+        unexpectedKeys(item, ALLOWED_ITEM_FIELDS, location, errors);
+        if (Object.hasOwn(item, 'name') && isNonEmptyString(item.name)) {
           const nameKey = item.name.trim().toLowerCase();
           if (seenNames.has(nameKey)) {
             errors.push(`${location}: duplicate entry name (also at ${seenNames.get(nameKey)})`);

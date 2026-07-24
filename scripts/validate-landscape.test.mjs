@@ -90,3 +90,42 @@ test('duplicate subcategories in one category are caught', () => {
     '      - subcategory: Agents\n        items:\n          - {name: c, homepage_url: "https://x.example", description: d, project: member}\n';
   assert.ok(hasError(validate(doc), /duplicate subcategory name/));
 });
+
+test('a prototype-pollution merge payload does not satisfy required fields', () => {
+  const doc = `defaults: &defaults
+  __proto__:
+    name: injected
+    homepage_url: https://example.com
+    description: injected
+    project: member
+landscape:
+  - category: C
+    subcategories:
+      - subcategory: S
+        items:
+          - <<: *defaults
+`;
+  const errors = validate(doc);
+  assert.ok(errors.length > 0, errors.join('\n'));
+  assert.ok(hasError(errors, /required field/), 'inherited fields must not count as own fields');
+});
+
+test('an empty subcategories list is rejected', () => {
+  assert.ok(hasError(validate('landscape:\n  - category: C\n    subcategories: []\n'), /at least one subcategory/));
+});
+
+test('an empty items list is rejected', () => {
+  const doc = 'landscape:\n  - category: C\n    subcategories:\n      - subcategory: S\n        items: []\n';
+  assert.ok(hasError(validate(doc), /at least one item/));
+});
+
+test('an unexpected field on a category is caught', () => {
+  const doc =
+    VALID +
+    '  - category: Extra\n    typo_field: hidden\n    subcategories:\n      - subcategory: S\n        items:\n          - {name: z, homepage_url: "https://x.example", description: d, project: member}\n';
+  assert.ok(hasError(validate(doc), /unknown field 'typo_field'/));
+});
+
+test('an unexpected top-level field is caught', () => {
+  assert.ok(hasError(validate('metadata: hidden\n' + VALID), /unknown field 'metadata'/));
+});
