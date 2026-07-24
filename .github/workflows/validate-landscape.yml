@@ -1,0 +1,26 @@
+name: Validate Landscape
+
+on:
+  pull_request:
+    paths:
+      - "landscape/landscape.yml"
+      - "scripts/validate_landscape.py"
+      - ".github/workflows/validate-landscape.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install PyYAML
+        run: pip install pyyaml
+      - name: Validate landscape.yml
+        run: python scripts/validate_landscape.py landscape/landscape.yml
