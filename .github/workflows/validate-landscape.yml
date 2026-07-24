@@ -1,26 +1,43 @@
 name: Validate Landscape
 
+# Runs on every pull request (no path filter) so it stays reliable as a required
+# check, and on push to main as a second line of defence for direct pushes.
 on:
   pull_request:
-    paths:
-      - "landscape/landscape.yml"
-      - "scripts/validate_landscape.py"
-      - ".github/workflows/validate-landscape.yml"
+  push:
+    branches: ["main"]
 
 permissions:
   contents: read
 
+concurrency:
+  group: validate-landscape-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Check out
         uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-      - name: Install PyYAML
-        run: pip install pyyaml
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: scripts/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: scripts
+
+      - name: Run validator tests
+        run: node --test
+        working-directory: scripts
+
       - name: Validate landscape.yml
-        run: python scripts/validate_landscape.py landscape/landscape.yml
+        run: node scripts/validate-landscape.mjs landscape/landscape.yml

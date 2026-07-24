@@ -1,0 +1,92 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { validate } from './validate-landscape.mjs';
+
+const VALID = `landscape:
+  - category: Frameworks
+    subcategories:
+      - subcategory: Agents
+        items:
+          - name: goose
+            logo: placeholder.svg
+            homepage_url: https://goose-docs.ai/
+            repo_url: https://github.com/aaif-goose/goose
+            description: An open agent.
+            project: member
+`;
+
+function hasError(errors, pattern) {
+  return errors.some((error) => pattern.test(error));
+}
+
+test('valid data produces no errors', () => {
+  assert.deepEqual(validate(VALID), []);
+});
+
+test('the committed landscape.yml passes', () => {
+  const path = fileURLToPath(new URL('../landscape/landscape.yml', import.meta.url));
+  assert.deepEqual(validate(readFileSync(path, 'utf8'), path), []);
+});
+
+test('duplicate mapping keys fail parsing, matching the site', () => {
+  const doc = VALID.replace('name: goose\n', 'name: goose\n            name: shadow\n');
+  assert.ok(hasError(validate(doc), /parse error/i));
+});
+
+test('an empty landscape is rejected', () => {
+  assert.ok(hasError(validate('landscape: []'), /at least one category/));
+});
+
+test('a landscape with no items is rejected', () => {
+  const doc = `landscape:\n  - category: C\n    subcategories:\n      - subcategory: S\n        items: []\n`;
+  assert.ok(hasError(validate(doc), /no items/));
+});
+
+test('a missing required field is caught', () => {
+  const doc = VALID.replace('            description: An open agent.\n', '');
+  assert.ok(hasError(validate(doc), /required field 'description'/));
+});
+
+test('an invalid project value is caught', () => {
+  const doc = VALID.replace('project: member', 'project: hosted');
+  assert.ok(hasError(validate(doc), /project 'hosted' is not one of/));
+});
+
+test('a non-https url is caught', () => {
+  const doc = VALID.replace('https://goose-docs.ai/', 'http://goose-docs.ai/');
+  assert.ok(hasError(validate(doc), /homepage_url must use https/));
+});
+
+test('a url with whitespace is caught', () => {
+  const doc = VALID.replace('https://goose-docs.ai/', 'https://goose docs.ai/');
+  assert.ok(hasError(validate(doc), /must not contain whitespace/));
+});
+
+test('a misspelled optional field is caught', () => {
+  const doc = VALID.replace('repo_url:', 'reop_url:');
+  assert.ok(hasError(validate(doc), /unknown field 'reop_url'/));
+});
+
+test('duplicate entry names are caught', () => {
+  const doc = VALID.replace(
+    '        items:\n',
+    '        items:\n          - {name: goose, homepage_url: "https://x.example", description: d, project: member}\n',
+  );
+  assert.ok(hasError(validate(doc), /duplicate entry name/));
+});
+
+test('duplicate categories are caught', () => {
+  const doc =
+    VALID +
+    '  - category: Frameworks\n    subcategories:\n      - subcategory: Other\n        items:\n          - {name: b, homepage_url: "https://x.example", description: d, project: member}\n';
+  assert.ok(hasError(validate(doc), /duplicate category name/));
+});
+
+test('duplicate subcategories in one category are caught', () => {
+  const doc =
+    VALID +
+    '      - subcategory: Agents\n        items:\n          - {name: c, homepage_url: "https://x.example", description: d, project: member}\n';
+  assert.ok(hasError(validate(doc), /duplicate subcategory name/));
+});
