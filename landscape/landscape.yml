@@ -30,6 +30,12 @@ landscape:
             homepage_url: https://cloud.google.com/products/agent-development-kit
             description: Enterprise framework for building, evaluating, and deploying trustworthy autonomous AI agents and marketplace capabilities.
             project: member
+          - name: goose
+            logo: placeholder.svg
+            homepage_url: https://goose-docs.ai/
+            repo_url: https://github.com/aaif-goose/goose
+            description: Open source, extensible AI agent that goes beyond code suggestions to install, execute, edit, and test with any LLM.
+            project: member
 
       - subcategory: Orchestration Runtimes
         items:
