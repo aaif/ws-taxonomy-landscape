@@ -34,7 +34,7 @@ landscape:
             logo: placeholder.svg
             homepage_url: https://goose-docs.ai/
             repo_url: https://github.com/aaif-goose/goose
-            description: Open source, extensible AI agent that goes beyond code suggestions to install, execute, edit, and test with any LLM.
+            description: Open-source, local-first AI agent framework built on language models and extensible MCP-based tools.
             project: member
 
       - subcategory: Orchestration Runtimes
