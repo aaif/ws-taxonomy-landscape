@@ -217,11 +217,48 @@ test('a single over-long description is rejected', () => {
 
 test('too many items are rejected', () => {
   let items = '';
-  for (let i = 0; i <= 5000; i++) {
+  for (let i = 0; i <= 500; i++) {
     items += `          - {name: n${i}, homepage_url: "https://x.example/${i}", description: d, project: member}\n`;
   }
   const doc = `landscape:\n  - category: C\n    subcategories:\n      - subcategory: S\n        items:\n${items}`;
-  assert.ok(hasError(validate(doc), /more than the 5000 allowed/));
+  assert.ok(hasError(validate(doc), /more than the 500 allowed/));
+});
+
+test('a numeric scalar stays a string under the failsafe schema (browser parity)', () => {
+  // name: 789 must not become a number here while the browser (same options) keeps it a
+  // string; both parse it as "789", so the search .toLowerCase() cannot throw on it.
+  const doc = VALID.replace('name: goose', 'name: 789');
+  assert.deepEqual(validate(doc), []);
+});
+
+test('the browser parses with the same failsafe options as the validator', () => {
+  // Guards the CI/browser parser parity: app.js must load YAML with FAILSAFE_SCHEMA so a
+  // numeric or timestamp scalar cannot diverge between validation and the rendered site.
+  const appjs = readFileSync(fileURLToPath(new URL('../landscape/static/app.js', import.meta.url)), 'utf8');
+  assert.match(appjs, /jsyaml\.load\([^)]*FAILSAFE_SCHEMA/s);
+});
+
+test('an over-long category name is rejected before it inflates errors', () => {
+  const doc = VALID.replace('category: Frameworks', `category: ${'A'.repeat(200)}`);
+  assert.ok(hasError(validate(doc), /category name is longer than/));
+});
+
+test('the number of reported errors is capped', () => {
+  let items = '';
+  for (let i = 0; i < 300; i++) items += '          - {}\n';
+  const doc = `landscape:\n  - category: C\n    subcategories:\n      - subcategory: S\n        items:\n${items}`;
+  const errors = validate(doc);
+  assert.ok(errors.length <= 200, `expected the error count to be capped at 200, got ${errors.length}`);
+});
+
+test('a control or format character in a name is rejected', () => {
+  const doc = VALID.replace('name: goose', 'name: "goo\\u200bse"');
+  assert.ok(hasError(validate(doc), /control or format characters/));
+});
+
+test('an over-long logo is rejected', () => {
+  const doc = VALID.replace('logo: placeholder.svg', `logo: ${'x'.repeat(400)}`);
+  assert.ok(hasError(validate(doc), /logo is longer than/));
 });
 
 test('a url with embedded credentials is rejected', () => {

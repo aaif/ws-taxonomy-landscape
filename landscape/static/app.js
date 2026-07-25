@@ -31,8 +31,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const regex = new RegExp(`(${escapedQuery})`, 'gi');
       const parts = text.split(regex);
 
-      parts.forEach(part => {
-        if (part.toLowerCase() === query.toLowerCase()) {
+      // Bound the nodes a single field can create. A long value with many matches would
+      // otherwise produce one node per fragment; after the cap, append the remainder as a
+      // single text node so the field still renders in full but cannot flood the DOM.
+      const MAX_HIGHLIGHT_NODES = 100;
+      const lowerQuery = query.toLowerCase();
+      for (let i = 0; i < parts.length; i += 1) {
+        if (i >= MAX_HIGHLIGHT_NODES) {
+          parentElement.appendChild(document.createTextNode(parts.slice(i).join('')));
+          break;
+        }
+        const part = parts[i];
+        if (part.toLowerCase() === lowerQuery) {
           const mark = document.createElement('mark');
           mark.className = 'match-highlight';
           mark.textContent = part;
@@ -40,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (part) {
           parentElement.appendChild(document.createTextNode(part));
         }
-      });
+      }
     } catch (e) {
       parentElement.textContent = text;
     }
@@ -235,16 +245,23 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!response.ok) throw new Error('Failed to fetch landscape.yml');
       const yamlText = await response.text();
       
-      state.rawLandscape = jsyaml.load(yamlText);
+      // Parse with the same options as the CI validator (scripts/validate-landscape.mjs):
+      // FAILSAFE_SCHEMA keeps every scalar a string, so a value like `name: 789` cannot
+      // arrive here as a number or Date and then throw in the search .toLowerCase() calls,
+      // and maxDepth bounds nesting. These options must stay in sync with the validator.
+      state.rawLandscape = jsyaml.load(yamlText, { schema: jsyaml.FAILSAFE_SCHEMA, maxDepth: 10 });
       initCategoryBar();
       runFilteringPipeline();
     } catch (error) {
-      landscapeGrid.innerHTML = `
-        <div class="empty-state">
-          <p>Error loading landscape configuration.</p>
-          <span>Please ensure landscape.yml exists and is valid YAML. (${error.message})</span>
-        </div>
-      `;
+      landscapeGrid.replaceChildren();
+      const errorState = document.createElement('div');
+      errorState.className = 'empty-state';
+      const errorTitle = document.createElement('p');
+      errorTitle.textContent = 'Error loading landscape configuration.';
+      const errorDetail = document.createElement('span');
+      errorDetail.textContent = `Please ensure landscape.yml exists and is valid YAML. (${error.message})`;
+      errorState.append(errorTitle, errorDetail);
+      landscapeGrid.appendChild(errorState);
       resultCount.textContent = 'Error loading data';
     }
   }
