@@ -28,28 +28,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     try {
       const escapedQuery = query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-      const regex = new RegExp(`(${escapedQuery})`, 'gi');
-      const parts = text.split(regex);
+      const regex = new RegExp(escapedQuery, 'gi');
 
-      // Bound the nodes a single field can create. A long value with many matches would
-      // otherwise produce one node per fragment; after the cap, append the remainder as a
-      // single text node so the field still renders in full but cannot flood the DOM.
-      const MAX_HIGHLIGHT_NODES = 100;
-      const lowerQuery = query.toLowerCase();
-      for (let i = 0; i < parts.length; i += 1) {
-        if (i >= MAX_HIGHLIGHT_NODES) {
-          parentElement.appendChild(document.createTextNode(parts.slice(i).join('')));
-          break;
+      // Walk matches with exec() and stop after MAX_MATCHES, rather than splitting the whole
+      // string into a fragment array first: split() would allocate one entry per match up
+      // front (a long value with many matches builds a large array before any cap applies).
+      // Here only the matched slices and the surrounding gaps become nodes, and the remainder
+      // after the cap is appended as a single text node so the field still renders in full.
+      const MAX_MATCHES = 100;
+      let cursor = 0;
+      let count = 0;
+      let match;
+      while (count < MAX_MATCHES && (match = regex.exec(text)) !== null) {
+        // A zero-length match cannot advance lastIndex on its own and would loop forever; the
+        // empty query is already handled above, but guard against a pathological pattern anyway.
+        if (match.index === regex.lastIndex) {
+          regex.lastIndex += 1;
+          continue;
         }
-        const part = parts[i];
-        if (part.toLowerCase() === lowerQuery) {
-          const mark = document.createElement('mark');
-          mark.className = 'match-highlight';
-          mark.textContent = part;
-          parentElement.appendChild(mark);
-        } else if (part) {
-          parentElement.appendChild(document.createTextNode(part));
+        if (match.index > cursor) {
+          parentElement.appendChild(document.createTextNode(text.slice(cursor, match.index)));
         }
+        const mark = document.createElement('mark');
+        mark.className = 'match-highlight';
+        mark.textContent = match[0];
+        parentElement.appendChild(mark);
+        cursor = match.index + match[0].length;
+        count += 1;
+      }
+      if (cursor < text.length) {
+        parentElement.appendChild(document.createTextNode(text.slice(cursor)));
       }
     } catch (e) {
       parentElement.textContent = text;
@@ -171,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
             repoLink.setAttribute('href', item.repo_url);
             repoLink.setAttribute('target', '_blank');
             repoLink.setAttribute('rel', 'noopener noreferrer');
-            repoLink.textContent = 'GitHub ↗';
+            repoLink.textContent = 'Repository ↗';
             cardLinks.appendChild(repoLink);
           }
 

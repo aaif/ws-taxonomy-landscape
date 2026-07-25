@@ -26,7 +26,7 @@
  *
  * Usage: node validate-landscape.mjs [path/to/landscape.yml]
  */
-import { readFileSync } from 'node:fs';
+import { readFileSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
 
@@ -102,31 +102,49 @@ function isPlainObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
-// YAML anchors/aliases resolve to shared references, so a small file can expand
-// into a huge traversal: N reused category nodes, each holding N reused
-// subcategory nodes, each holding N reused item nodes, is N^3 item visits here
-// (and N^3 DOM nodes in the browser) from ~3N lines of input. The landscape
-// schema never needs anchors, aliases, or merge keys, so reject any object or
-// array that appears more than once. (A scalar alias shares a primitive, not an
-// object, so it slips past this WeakSet; the per-field length caps and the total
-// item cap bound those, and the FAILSAFE parse schema disables merge keys.) Iterative
-// (an explicit stack, not recursion) so a deeply nested file cannot overflow the call
-// stack, and a self-referential alias terminates on the WeakSet hit rather than looping.
-function hasReusedNode(root) {
+// Bound the whole parsed object graph, not just the schema-relevant parts. A file under
+// MAX_BYTES can still materialize a very wide graph (for example a large unknown top-level key
+// full of empty mappings) that js-yaml builds and this validator would then walk. graphProblem
+// walks once, iteratively (an explicit stack, not recursion, so a deeply nested file cannot
+// overflow the call stack), and returns a problem string as soon as it exceeds a budget or
+// revisits a node, so the walk stops early instead of traversing the whole thing.
+//
+// It also rejects reused nodes: YAML anchors/aliases resolve to shared references, so a small
+// file can expand into an N^3 traversal (and N^3 DOM nodes in the browser) from ~3N lines. The
+// landscape schema never needs anchors, aliases, or merge keys, so any object or array seen
+// more than once is rejected. (A scalar alias shares a primitive, not an object, so it slips
+// past the WeakSet; the per-field length caps and the item cap bound those, and the FAILSAFE
+// parse schema disables merge keys.) A self-referential alias terminates on the WeakSet hit.
+const MAX_CONTAINERS = 5_000;
+const MAX_GRAPH_EDGES = 20_000;
+function graphProblem(root) {
   const seen = new WeakSet();
   const stack = [root];
+  let containers = 0;
+  let edges = 0;
   while (stack.length > 0) {
     const value = stack.pop();
     if (value === null || typeof value !== 'object') continue;
-    if (seen.has(value)) return true;
+    if (seen.has(value)) {
+      return 'reused object or array nodes (YAML aliases or cycles) are not allowed';
+    }
     seen.add(value);
+    if (++containers > MAX_CONTAINERS) {
+      return `has more than ${MAX_CONTAINERS} objects or arrays`;
+    }
     if (Array.isArray(value)) {
-      for (const element of value) stack.push(element);
+      for (const element of value) {
+        if (++edges > MAX_GRAPH_EDGES) return `has more than ${MAX_GRAPH_EDGES} graph edges`;
+        stack.push(element);
+      }
     } else {
-      for (const key of Object.keys(value)) stack.push(value[key]);
+      for (const key of Object.keys(value)) {
+        if (++edges > MAX_GRAPH_EDGES) return `has more than ${MAX_GRAPH_EDGES} graph edges`;
+        stack.push(value[key]);
+      }
     }
   }
-  return false;
+  return null;
 }
 
 function unexpectedKeys(object, allowed, location, errors) {
@@ -199,8 +217,9 @@ export function validate(text, source = 'landscape.yml') {
   if (categories.length === 0) {
     return [`${source}: 'landscape' must contain at least one category`];
   }
-  if (hasReusedNode(data)) {
-    return [`${source}: reused object or array nodes (YAML aliases or cycles) are not allowed`];
+  const graphIssue = graphProblem(data);
+  if (graphIssue) {
+    return [`${source}: ${graphIssue}`];
   }
 
   // Preflight the item count cheaply (list lengths only) so a file with far too many items
@@ -362,6 +381,13 @@ function main() {
   const path = process.argv[2] ?? '../landscape/landscape.yml';
   let text;
   try {
+    // Check the size before reading so an oversized file is not fully read into memory first.
+    // validate() re-checks the byte length for unit tests and other callers.
+    const { size } = statSync(path);
+    if (size > MAX_BYTES) {
+      console.error(`${path}: file is larger than ${MAX_BYTES} bytes`);
+      process.exit(1);
+    }
     text = readFileSync(path, 'utf8');
   } catch (err) {
     console.error(`cannot read ${path}: ${err.message}`);

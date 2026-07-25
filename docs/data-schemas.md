@@ -58,7 +58,7 @@ landscape:
         items:
           - name: Google Cloud Model Armor
             homepage_url: https://cloud.google.com/security/products/model-armor
-            repo_url: https://github.com/... (optional)
+            repo_url: https://github.com/example/project # optional
             description: Enterprise security service providing prompt injection defense...
             project: member
 ```
@@ -89,7 +89,7 @@ The file has a single top-level `landscape:` key holding the list of categories.
 
 *   **Parsing:** the file is parsed with `FAILSAFE_SCHEMA`, so every scalar is a string — a bare `123` or `2026-01-01` is read as text, matching the browser. Reused object or array nodes (YAML aliases or cycles) and merge (`<<`) keys are rejected; a scalar alias is allowed but stays within the per-field and total limits below. Nesting depth and file size (2 MB) are bounded.
 *   **Field lengths:** `name` ≤ 200, `description` ≤ 2000, `project` ≤ 50, `homepage_url` / `repo_url` ≤ 2048, `logo` ≤ 300, and `category` / `subcategory` names ≤ 120 characters.
-*   **Cardinality:** at most 500 items across the whole landscape.
+*   **Cardinality:** at most 500 items across the whole landscape, and at most 5000 objects or arrays in the whole document (a budget that stops the graph walk early on a hostile file).
 *   **URLs:** `homepage_url` and `repo_url` must be `https://`, contain no whitespace, and carry no embedded credentials.
 *   **Fields:** only the fields documented above are allowed at each level; any other key is rejected.
 *   **Characters:** display names and item descriptions must not contain control or format characters (for example zero-width or bidirectional-override characters).

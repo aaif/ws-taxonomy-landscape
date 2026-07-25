@@ -330,3 +330,19 @@ test('unicode-equivalent duplicate names are caught', () => {
   );
   assert.ok(hasError(validate(doc), /duplicate entry name/));
 });
+
+test('a document with too many objects is rejected before a full walk', () => {
+  // A wide unknown top-level key does not count toward the item cap, but the graph budget
+  // stops the walk once it exceeds MAX_CONTAINERS instead of materializing the whole thing.
+  const doc = VALID + 'junk: [' + '{},'.repeat(5001) + ']\n';
+  assert.ok(hasError(validate(doc), /more than \d+ objects or arrays/));
+});
+
+test('the schema example in docs/data-schemas.md validates', () => {
+  // Guards against a docs example that would fail the validator a reader copies it into.
+  const docs = readFileSync(fileURLToPath(new URL('../docs/data-schemas.md', import.meta.url)), 'utf8');
+  const example = docs.split('```').find((b) => b.includes('landscape:') && b.includes('Model Armor'));
+  assert.ok(example, 'expected a landscape example block in docs/data-schemas.md');
+  const yaml = example.replace(/^[a-zA-Z]*\n/, '');
+  assert.deepEqual(validate(yaml), []);
+});
