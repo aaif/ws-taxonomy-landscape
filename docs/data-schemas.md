@@ -51,16 +51,19 @@ Each entry in the master taxonomy array is a JavaScript object representing a co
 The landscape configuration follows a hierarchical CNCF-style structure. Each root category node contains subcategories, which contain individual items:
 
 ```yaml
-- category: Security Guardrails & Firewalls
-  subcategories:
-    - subcategory: Prompt & Runtime Guardrails
-      items:
-        - name: Google Cloud Model Armor
-          homepage_url: https://cloud.google.com/security/products/model-armor
-          repo_url: https://github.com/... (optional)
-          description: Enterprise security service providing prompt injection defense...
-          project: member
+landscape:
+  - category: Security Guardrails & Firewalls
+    subcategories:
+      - subcategory: Prompt & Runtime Guardrails
+        items:
+          - name: Google Cloud Model Armor
+            homepage_url: https://cloud.google.com/security/products/model-armor
+            repo_url: https://github.com/... (optional)
+            description: Enterprise security service providing prompt injection defense...
+            project: member
 ```
+
+The file has a single top-level `landscape:` key holding the list of categories.
 
 ### Landscape Item Field Specifications
 *   **`name`** *(String, Required):* The official name of the tool, framework, protocol, or standard.
@@ -79,7 +82,7 @@ The landscape configuration follows a hierarchical CNCF-style structure. Each ro
 
 ### Landscape Structural Rules
 *   Each **`category`** requires a non-empty `category` name and a non-empty `subcategories` list; each **`subcategory`** requires a non-empty `subcategory` name and a non-empty `items` list.
-*   Category, subcategory, and item names must be unique within their scope (compared case- and Unicode-normalization-insensitively).
+*   Category names and item names must each be unique across the whole landscape; subcategory names must be unique within their category. Names are compared case- and Unicode-normalization-insensitively.
 
 ### Landscape Validation Limits
 `scripts/validate-landscape.mjs` runs in CI with the same js-yaml parser and options the site loads with, and enforces the following so a malformed or hostile file cannot break the rendered map or the validator itself:

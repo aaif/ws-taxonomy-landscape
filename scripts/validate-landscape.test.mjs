@@ -51,12 +51,12 @@ test('a missing required field is caught', () => {
 
 test('an invalid project value is caught', () => {
   const doc = VALID.replace('project: member', 'project: hosted');
-  assert.ok(hasError(validate(doc), /project 'hosted' is not one of/));
+  assert.ok(hasError(validate(doc), /project "hosted" is not one of/));
 });
 
 test('a non-https url is caught', () => {
   const doc = VALID.replace('https://goose-docs.ai/', 'http://goose-docs.ai/');
-  assert.ok(hasError(validate(doc), /homepage_url must use https/));
+  assert.ok(hasError(validate(doc), /homepage_url must start with https/));
 });
 
 test('a url with whitespace is caught', () => {
@@ -66,7 +66,7 @@ test('a url with whitespace is caught', () => {
 
 test('a misspelled optional field is caught', () => {
   const doc = VALID.replace('repo_url:', 'reop_url:');
-  assert.ok(hasError(validate(doc), /unknown field 'reop_url'/));
+  assert.ok(hasError(validate(doc), /unknown field "reop_url"/));
 });
 
 test('duplicate entry names are caught', () => {
@@ -138,7 +138,7 @@ test('an unexpected field on a subcategory is caught', () => {
         items:
           - {name: y, homepage_url: "https://x.example", description: d, project: member}
 `;
-  assert.ok(hasError(validate(doc), /unknown field 'bogus_sub_field'/));
+  assert.ok(hasError(validate(doc), /unknown field "bogus_sub_field"/));
 });
 
 test('an empty repo_url is caught', () => {
@@ -148,7 +148,35 @@ test('an empty repo_url is caught', () => {
 
 test('a non-https repo_url is caught', () => {
   const doc = VALID.replace('https://github.com/aaif-goose/goose', 'http://github.com/aaif-goose/goose');
-  assert.ok(hasError(validate(doc), /repo_url must use https/));
+  assert.ok(hasError(validate(doc), /repo_url must start with https/));
+});
+
+test('a logo that is not a string is rejected (no object graph passes)', () => {
+  const doc = VALID.replace('logo: placeholder.svg', 'logo: [{}, {}, {}]');
+  assert.ok(hasError(validate(doc), /logo must be a string/));
+});
+
+test('an oversized project scalar is rejected before its value is interpolated', () => {
+  const doc = VALID.replace('project: member', `project: ${'x'.repeat(100)}`);
+  assert.ok(hasError(validate(doc), /project is longer than/));
+});
+
+test('an oversized name is rejected before a giant location is built', () => {
+  const doc = VALID.replace('name: goose', `name: ${'n'.repeat(300)}`);
+  assert.ok(hasError(validate(doc), /name is longer than/));
+});
+
+test('a scheme-relative https url without // is rejected', () => {
+  const doc = VALID.replace('https://goose-docs.ai/', 'https:goose-docs.ai/');
+  assert.ok(hasError(validate(doc), /must start with https/));
+});
+
+test('an oversized unknown field key is bounded in the diagnostic', () => {
+  const bigKey = 'z'.repeat(5000);
+  const doc = `landscape:\n  - category: C\n    subcategories:\n      - subcategory: S\n        items:\n          - {name: n, homepage_url: https://x.example, description: d, project: member, ${bigKey}: v}\n`;
+  const errs = validate(doc);
+  assert.ok(errs.some((e) => /unknown field/.test(e)), 'the unknown key is flagged');
+  assert.ok(errs.every((e) => e.length < 300), 'no error echoes the full 5000-char key');
 });
 
 test('an empty subcategories list is rejected', () => {
@@ -164,11 +192,11 @@ test('an unexpected field on a category is caught', () => {
   const doc =
     VALID +
     '  - category: Extra\n    typo_field: hidden\n    subcategories:\n      - subcategory: S\n        items:\n          - {name: z, homepage_url: "https://x.example", description: d, project: member}\n';
-  assert.ok(hasError(validate(doc), /unknown field 'typo_field'/));
+  assert.ok(hasError(validate(doc), /unknown field "typo_field"/));
 });
 
 test('an unexpected top-level field is caught', () => {
-  assert.ok(hasError(validate('metadata: hidden\n' + VALID), /unknown field 'metadata'/));
+  assert.ok(hasError(validate('metadata: hidden\n' + VALID), /unknown field "metadata"/));
 });
 
 test('an inline merge key is rejected (failsafe schema does not merge)', () => {

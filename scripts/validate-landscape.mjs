@@ -64,6 +64,7 @@ const LENGTH_LIMITS = {
   homepage_url: 2_048,
   repo_url: 2_048,
   logo: 300,
+  project: 50,
 };
 
 // Control and format characters (zero-width joiners, bidi overrides, other C0/C1) render
@@ -131,7 +132,10 @@ function hasReusedNode(root) {
 function unexpectedKeys(object, allowed, location, errors) {
   for (const key of Object.keys(object)) {
     if (!allowed.has(key)) {
-      addError(errors, `${location}: unknown field '${key}'`);
+      // Bound and escape the key: an unknown key can be arbitrarily long (or carry control
+      // characters), and it would otherwise be echoed verbatim into the error and the CI log.
+      const shown = key.length > 100 ? `${key.slice(0, 100)}…` : key;
+      addError(errors, `${location}: unknown field ${JSON.stringify(shown)}`);
     }
   }
 }
@@ -139,6 +143,12 @@ function unexpectedKeys(object, allowed, location, errors) {
 function urlProblem(field, value) {
   if (/\s/.test(value)) {
     return `${field} must not contain whitespace (got ${JSON.stringify(value)})`;
+  }
+  // Require the literal scheme: the WHATWG URL parser canonicalizes forms like
+  // "https:example.com" or "https:\\host" to an https: URL, so the protocol check below is
+  // not enough to enforce the documented "must start with https://".
+  if (!value.startsWith('https://')) {
+    return `${field} must start with https:// (got ${JSON.stringify(value)})`;
   }
   let parsed;
   try {
@@ -263,11 +273,38 @@ export function validate(text, source = 'landscape.yml') {
 
       subcategory.items.forEach((item, itemIndex) => {
         itemCount += 1;
-        let location = `'${categoryName}' / '${subcategoryName}' / item[${itemIndex}]`;
+        const baseLocation = `'${categoryName}' / '${subcategoryName}' / item[${itemIndex}]`;
         if (!isPlainObject(item)) {
-          addError(errors, `${location}: item must be a mapping`);
+          addError(errors, `${baseLocation}: item must be a mapping`);
           return;
         }
+
+        // Preflight every schema field for type and length before anything interpolates a
+        // value into a location, normalizes it, or hands it to the URL parser. This rejects a
+        // non-string field (for example a `logo` object graph) and an oversized scalar (for
+        // example a reused alias) using only the bounded baseLocation, so a hostile value
+        // cannot materialize a giant diagnostic or traversal even while the file stays under
+        // the byte and item caps.
+        let bounded = true;
+        for (const [field, max] of Object.entries(LENGTH_LIMITS)) {
+          if (!Object.hasOwn(item, field)) continue;
+          if (typeof item[field] !== 'string') {
+            addError(errors, `${baseLocation}: ${field} must be a string`);
+            bounded = false;
+          } else if (item[field].length > max) {
+            addError(errors, `${baseLocation}: ${field} is longer than ${max} characters`);
+            bounded = false;
+          }
+        }
+        // Reject a control/format character in the name here too, before it is interpolated
+        // into a location that later messages (and the CI log) would echo.
+        if (Object.hasOwn(item, 'name') && typeof item.name === 'string' && CONTROL_OR_FORMAT.test(item.name)) {
+          addError(errors, `${baseLocation}: name contains control or format characters`);
+          bounded = false;
+        }
+        if (!bounded) return;
+
+        let location = baseLocation;
         if (Object.hasOwn(item, 'name') && isNonEmptyString(item.name)) {
           location = `'${categoryName}' / '${subcategoryName}' / '${item.name}'`;
         }
@@ -277,16 +314,8 @@ export function validate(text, source = 'landscape.yml') {
             addError(errors, `${location}: missing or empty required field '${field}'`);
           }
         }
-        for (const [field, max] of Object.entries(LENGTH_LIMITS)) {
-          if (Object.hasOwn(item, field) && typeof item[field] === 'string' && item[field].length > max) {
-            addError(errors, `${location}: ${field} is longer than ${max} characters`);
-          }
-        }
-        if (Object.hasOwn(item, 'name') && isNonEmptyString(item.name) && CONTROL_OR_FORMAT.test(item.name)) {
-          addError(errors, `${location}: name contains control or format characters`);
-        }
         if (Object.hasOwn(item, 'project') && isNonEmptyString(item.project) && !PROJECT_VALUES.has(item.project)) {
-          addError(errors, `${location}: project '${item.project}' is not one of ${[...PROJECT_VALUES].sort().join(', ')}`);
+          addError(errors, `${location}: project ${JSON.stringify(item.project)} is not one of ${[...PROJECT_VALUES].sort().join(', ')}`);
         }
         if (Object.hasOwn(item, 'homepage_url') && isNonEmptyString(item.homepage_url)) {
           const problem = urlProblem('homepage_url', item.homepage_url);
