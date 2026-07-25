@@ -170,3 +170,69 @@ test('an unexpected field on a category is caught', () => {
 test('an unexpected top-level field is caught', () => {
   assert.ok(hasError(validate('metadata: hidden\n' + VALID), /unknown field 'metadata'/));
 });
+
+test('an inline merge key is rejected (failsafe schema does not merge)', () => {
+  const doc = `landscape:
+  - category: C
+    subcategories:
+      - subcategory: S
+        items:
+          - <<: {name: n, homepage_url: "https://x.example", description: d, project: member}
+`;
+  // Under FAILSAFE_SCHEMA "<<" is a plain key, so the merge never happens: the item
+  // has no own required fields and carries an unknown "<<" field.
+  assert.ok(hasError(validate(doc), /required field|unknown field/));
+});
+
+test('a merge alias is rejected', () => {
+  const doc = `landscape:
+  - category: C
+    subcategories:
+      - subcategory: S
+        items:
+          - &base {name: n, homepage_url: "https://x.example", description: d, project: member}
+          - <<: *base
+            name: m
+`;
+  assert.ok(validate(doc).length > 0);
+});
+
+test('a scalar alias reused across items is still length-capped per occurrence', () => {
+  const huge = 'x'.repeat(3000);
+  const doc = `landscape:
+  - category: C
+    subcategories:
+      - subcategory: S
+        items:
+          - {name: a, homepage_url: "https://x.example/a", description: &D ${huge}, project: member}
+          - {name: b, homepage_url: "https://x.example/b", description: *D, project: member}
+`;
+  assert.ok(hasError(validate(doc), /description is longer than/));
+});
+
+test('a single over-long description is rejected', () => {
+  const doc = VALID.replace('An open agent.', 'x'.repeat(3000));
+  assert.ok(hasError(validate(doc), /description is longer than/));
+});
+
+test('too many items are rejected', () => {
+  let items = '';
+  for (let i = 0; i <= 5000; i++) {
+    items += `          - {name: n${i}, homepage_url: "https://x.example/${i}", description: d, project: member}\n`;
+  }
+  const doc = `landscape:\n  - category: C\n    subcategories:\n      - subcategory: S\n        items:\n${items}`;
+  assert.ok(hasError(validate(doc), /more than the 5000 allowed/));
+});
+
+test('a url with embedded credentials is rejected', () => {
+  const doc = VALID.replace('https://goose-docs.ai/', 'https://user:pass@goose-docs.ai/');
+  assert.ok(hasError(validate(doc), /must not contain credentials/));
+});
+
+test('unicode-equivalent duplicate names are caught', () => {
+  const doc = VALID.replace(
+    '        items:\n',
+    '        items:\n          - {name: ｇｏｏｓｅ, homepage_url: "https://x.example", description: d, project: member}\n',
+  );
+  assert.ok(hasError(validate(doc), /duplicate entry name/));
+});

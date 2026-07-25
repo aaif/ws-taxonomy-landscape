@@ -42,8 +42,26 @@ const ALLOWED_SUBCATEGORY_FIELDS = new Set(['subcategory', 'items']);
 // the site renders it; the real data is far below this.
 const MAX_BYTES = 2_000_000;
 
+// Bound the parsed data, not just the file: a file well under MAX_BYTES can still
+// materialize an enormous render workload (one huge description, many items, or a
+// scalar reused via a YAML alias across thousands of items). These caps bound the
+// item count and each text field so the browser cannot be overwhelmed.
+const MAX_TOTAL_ITEMS = 5_000;
+const LENGTH_LIMITS = {
+  name: 200,
+  description: 2_000,
+  homepage_url: 2_048,
+  repo_url: 2_048,
+};
+
 function isNonEmptyString(value) {
   return typeof value === 'string' && value.trim() !== '';
+}
+
+// Normalize a name to a duplicate-detection key: NFKC folds compatibility variants
+// (full-width, composed vs decomposed) so visually equal names collide.
+function normalizeKey(value) {
+  return value.normalize('NFKC').trim().toLowerCase();
 }
 
 function isPlainObject(value) {
@@ -55,7 +73,9 @@ function isPlainObject(value) {
 // subcategory nodes, each holding N reused item nodes, is N^3 item visits here
 // (and N^3 DOM nodes in the browser) from ~3N lines of input. The landscape
 // schema never needs anchors, aliases, or merge keys, so reject any object or
-// array that appears more than once. Iterative (an explicit stack, not
+// array that appears more than once. (A scalar alias shares a primitive, not an
+// object, so it slips past this WeakSet; the per-field length caps bound those,
+// and the FAILSAFE parse schema disables merge keys.) Iterative (an explicit stack, not
 // recursion) so a deeply nested file cannot overflow the call stack, and a
 // self-referential alias terminates on the WeakSet hit rather than looping.
 function hasReusedNode(root) {
@@ -99,6 +119,9 @@ function urlProblem(field, value) {
   if (!parsed.hostname) {
     return `${field} has no host (got ${JSON.stringify(value)})`;
   }
+  if (parsed.username !== '' || parsed.password !== '') {
+    return `${field} must not contain credentials`;
+  }
   return null;
 }
 
@@ -108,7 +131,11 @@ export function validate(text, source = 'landscape.yml') {
   }
   let data;
   try {
-    data = yaml.load(text);
+    // FAILSAFE_SCHEMA parses only strings, sequences, and mappings, which is all the
+    // landscape uses. It also drops merge (`<<`) resolution, so a merge key becomes a
+    // plain (and rejected) unknown field instead of silently merging. maxDepth bounds
+    // nesting so a deeply nested file cannot exhaust the parser.
+    data = yaml.load(text, { schema: yaml.FAILSAFE_SCHEMA, maxDepth: 10 });
   } catch (err) {
     return [`${source}: YAML parse error: ${err.message}`];
   }
@@ -141,7 +168,7 @@ export function validate(text, source = 'landscape.yml') {
     }
     const categoryName = category.category;
     unexpectedKeys(category, ALLOWED_CATEGORY_FIELDS, `category '${categoryName}'`, errors);
-    const categoryKey = categoryName.trim().toLowerCase();
+    const categoryKey = normalizeKey(categoryName);
     if (seenCategories.has(categoryKey)) {
       errors.push(`category '${categoryName}': duplicate category name (also at ${seenCategories.get(categoryKey)})`);
     } else {
@@ -163,7 +190,7 @@ export function validate(text, source = 'landscape.yml') {
       }
       const subcategoryName = subcategory.subcategory;
       unexpectedKeys(subcategory, ALLOWED_SUBCATEGORY_FIELDS, `'${categoryName}' / '${subcategoryName}'`, errors);
-      const subcategoryKey = subcategoryName.trim().toLowerCase();
+      const subcategoryKey = normalizeKey(subcategoryName);
       if (seenSubcategories.has(subcategoryKey)) {
         errors.push(`'${categoryName}' / '${subcategoryName}': duplicate subcategory name in this category`);
       } else {
@@ -193,6 +220,11 @@ export function validate(text, source = 'landscape.yml') {
             errors.push(`${location}: missing or empty required field '${field}'`);
           }
         }
+        for (const [field, max] of Object.entries(LENGTH_LIMITS)) {
+          if (Object.hasOwn(item, field) && typeof item[field] === 'string' && item[field].length > max) {
+            errors.push(`${location}: ${field} is longer than ${max} characters`);
+          }
+        }
         if (Object.hasOwn(item, 'project') && isNonEmptyString(item.project) && !PROJECT_VALUES.has(item.project)) {
           errors.push(`${location}: project '${item.project}' is not one of ${[...PROJECT_VALUES].sort().join(', ')}`);
         }
@@ -210,7 +242,7 @@ export function validate(text, source = 'landscape.yml') {
         }
         unexpectedKeys(item, ALLOWED_ITEM_FIELDS, location, errors);
         if (Object.hasOwn(item, 'name') && isNonEmptyString(item.name)) {
-          const nameKey = item.name.trim().toLowerCase();
+          const nameKey = normalizeKey(item.name);
           if (seenNames.has(nameKey)) {
             errors.push(`${location}: duplicate entry name (also at ${seenNames.get(nameKey)})`);
           } else {
@@ -223,6 +255,9 @@ export function validate(text, source = 'landscape.yml') {
 
   if (itemCount === 0) {
     errors.push(`${source}: landscape contains no items`);
+  }
+  if (itemCount > MAX_TOTAL_ITEMS) {
+    errors.push(`${source}: landscape has ${itemCount} items, more than the ${MAX_TOTAL_ITEMS} allowed`);
   }
   return errors;
 }
