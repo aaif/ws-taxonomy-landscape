@@ -81,8 +81,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Render Landscape Grid
-  function renderLandscape() {
+  // Render Landscape Grid. `query` is the already-normalized search string from
+  // runFilteringPipeline (lower-cased and trimmed); highlighting must use the same value the
+  // filter matched on, so it is passed in rather than re-read from state here.
+  function renderLandscape(query) {
     landscapeGrid.replaceChildren();
 
     let totalItems = 0;
@@ -100,8 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
       resultCount.textContent = 'Showing 0 projects';
       return;
     }
-
-    const query = state.currentSearch;
 
     state.filteredCategories.forEach(catObj => {
       const catGroup = document.createElement('section');
@@ -235,7 +235,10 @@ document.addEventListener('DOMContentLoaded', () => {
       };
     }).filter(Boolean);
 
-    renderLandscape();
+    // Render with the same normalized query the filter used above, so highlighting matches
+    // exactly what was filtered (a query that is only whitespace trims to empty here, so it
+    // filters nothing out and highlights nothing, instead of building a regex from raw spaces).
+    renderLandscape(query);
   }
 
   // Fetch landscape.yml and Initialize
