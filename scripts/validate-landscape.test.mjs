@@ -121,7 +121,7 @@ test('nested YAML aliases are rejected before they can amplify', () => {
       - *s
   - *c
 `;
-  assert.ok(hasError(validate(doc), /anchors\/aliases are not allowed/));
+  assert.ok(hasError(validate(doc), /reused object or array nodes .* are not allowed/));
 });
 
 test('a file larger than the byte cap is rejected', () => {
@@ -177,6 +177,35 @@ test('an oversized unknown field key is bounded in the diagnostic', () => {
   const errs = validate(doc);
   assert.ok(errs.some((e) => /unknown field/.test(e)), 'the unknown key is flagged');
   assert.ok(errs.every((e) => e.length < 300), 'no error echoes the full 5000-char key');
+});
+
+test('an oversized YAML parse error is bounded', () => {
+  const errors = validate('*' + 'a'.repeat(100_000));
+  assert.equal(errors.length, 1);
+  assert.ok(errors[0].length <= 520, `parse error should be bounded, got ${errors[0].length}`);
+});
+
+test('a bounded scalar alias is allowed, matching the documented policy', () => {
+  const doc = `landscape:
+  - category: C
+    subcategories:
+      - subcategory: S
+        items:
+          - name: one
+            homepage_url: https://example.com/one
+            description: &d shared text
+            project: member
+          - name: two
+            homepage_url: https://example.com/two
+            description: *d
+            project: member
+`;
+  assert.deepEqual(validate(doc), []);
+});
+
+test('a bidi control character in a description is rejected', () => {
+  const doc = VALID.replace('description: An open agent.', 'description: "Trusted \\u202e project"');
+  assert.ok(hasError(validate(doc), /description contains control or format characters/));
 });
 
 test('an empty subcategories list is rejected', () => {

@@ -181,7 +181,12 @@ export function validate(text, source = 'landscape.yml') {
     // maxDepth bounds nesting. app.js parses with these same options.
     data = yaml.load(text, { schema: yaml.FAILSAFE_SCHEMA, maxDepth: 10 });
   } catch (err) {
-    return [`${source}: YAML parse error: ${err.message}`];
+    // Bound the parser's message too: js-yaml puts the offending token into it (for example
+    // an undefined alias name), so an oversized token would otherwise flood the output past
+    // the MAX_ERROR_LENGTH cap that every other diagnostic respects.
+    const reason = err instanceof Error ? err.message : String(err);
+    const message = `${source}: YAML parse error: ${reason}`;
+    return [message.length > MAX_ERROR_LENGTH ? `${message.slice(0, MAX_ERROR_LENGTH)}…` : message];
   }
 
   if (!isPlainObject(data) || !Object.hasOwn(data, 'landscape')) {
@@ -195,7 +200,7 @@ export function validate(text, source = 'landscape.yml') {
     return [`${source}: 'landscape' must contain at least one category`];
   }
   if (hasReusedNode(data)) {
-    return [`${source}: YAML anchors/aliases are not allowed`];
+    return [`${source}: reused object or array nodes (YAML aliases or cycles) are not allowed`];
   }
 
   // Preflight the item count cheaply (list lengths only) so a file with far too many items
@@ -291,16 +296,21 @@ export function validate(text, source = 'landscape.yml') {
           if (typeof item[field] !== 'string') {
             addError(errors, `${baseLocation}: ${field} must be a string`);
             bounded = false;
-          } else if (item[field].length > max) {
+            continue;
+          }
+          if (item[field].length > max) {
             addError(errors, `${baseLocation}: ${field} is longer than ${max} characters`);
             bounded = false;
+            continue;
           }
-        }
-        // Reject a control/format character in the name here too, before it is interpolated
-        // into a location that later messages (and the CI log) would echo.
-        if (Object.hasOwn(item, 'name') && typeof item.name === 'string' && CONTROL_OR_FORMAT.test(item.name)) {
-          addError(errors, `${baseLocation}: name contains control or format characters`);
-          bounded = false;
+          // Names and descriptions are rendered directly, so reject control/format characters
+          // (zero-width, bidi) that would let them spoof. This runs only after the value is
+          // known to be within its length cap, so the test cost stays bounded even for a
+          // scalar alias reused across many items.
+          if ((field === 'name' || field === 'description') && CONTROL_OR_FORMAT.test(item[field])) {
+            addError(errors, `${baseLocation}: ${field} contains control or format characters`);
+            bounded = false;
+          }
         }
         if (!bounded) return;
 
