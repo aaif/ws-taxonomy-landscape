@@ -20,28 +20,29 @@ document.addEventListener('DOMContentLoaded', () => {
   const categoryBar = document.getElementById('category-bar');
   const resultCount = document.getElementById('result-count');
 
-  // Helper to append highlighted query substrings using pure DOM methods
-  function appendHighlightedText(parentElement, text, query) {
-    if (!query) {
+  // Helper to append highlighted query substrings using pure DOM methods. `highlight` is a
+  // per-render context { regex, budget } shared across every field, so the regex is compiled
+  // once and the total number of <mark> nodes for the whole render is bounded, not just the
+  // count per field.
+  function appendHighlightedText(parentElement, text, highlight) {
+    if (!highlight || highlight.budget.remaining <= 0) {
       parentElement.textContent = text;
       return;
     }
     try {
-      const escapedQuery = query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-      const regex = new RegExp(escapedQuery, 'gi');
+      const { regex, budget } = highlight;
+      regex.lastIndex = 0;
 
-      // Walk matches with exec() and stop after MAX_MATCHES, rather than splitting the whole
-      // string into a fragment array first: split() would allocate one entry per match up
-      // front (a long value with many matches builds a large array before any cap applies).
-      // Here only the matched slices and the surrounding gaps become nodes, and the remainder
-      // after the cap is appended as a single text node so the field still renders in full.
-      const MAX_MATCHES = 100;
+      // Walk matches with exec() and stop after MAX_MATCHES_PER_FIELD (or once the shared
+      // render budget runs out), rather than splitting the whole string into a fragment array
+      // first. Only the matched slices and the surrounding gaps become nodes; the remainder is
+      // appended as a single text node so the field still renders in full.
+      const MAX_MATCHES_PER_FIELD = 100;
       let cursor = 0;
       let count = 0;
       let match;
-      while (count < MAX_MATCHES && (match = regex.exec(text)) !== null) {
-        // A zero-length match cannot advance lastIndex on its own and would loop forever; the
-        // empty query is already handled above, but guard against a pathological pattern anyway.
+      while (count < MAX_MATCHES_PER_FIELD && budget.remaining > 0 && (match = regex.exec(text)) !== null) {
+        // A zero-length match cannot advance lastIndex on its own and would loop forever.
         if (match.index === regex.lastIndex) {
           regex.lastIndex += 1;
           continue;
@@ -55,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         parentElement.appendChild(mark);
         cursor = match.index + match[0].length;
         count += 1;
+        budget.remaining -= 1;
       }
       if (cursor < text.length) {
         parentElement.appendChild(document.createTextNode(text.slice(cursor)));
@@ -111,13 +113,20 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // Compile the search regex once for the whole render and share a total <mark> budget across
+    // every field, so the number of highlight nodes is bounded per render, not just per field.
+    // A whitespace-only query has already been normalized to empty by the caller.
+    const highlight = query
+      ? { regex: new RegExp(query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi'), budget: { remaining: 2_000 } }
+      : null;
+
     state.filteredCategories.forEach(catObj => {
       const catGroup = document.createElement('section');
       catGroup.className = 'landscape-category-group';
 
       const catTitle = document.createElement('h2');
       catTitle.className = 'landscape-category-title';
-      appendHighlightedText(catTitle, catObj.category, query);
+      appendHighlightedText(catTitle, catObj.category, highlight);
       catGroup.appendChild(catTitle);
 
       catObj.subcategories.forEach(subcatObj => {
@@ -128,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const subTitle = document.createElement('h3');
         subTitle.className = 'subcat-title';
-        appendHighlightedText(subTitle, subcatObj.subcategory, query);
+        appendHighlightedText(subTitle, subcatObj.subcategory, highlight);
         subGroup.appendChild(subTitle);
 
         const itemsGrid = document.createElement('div');
@@ -145,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           const cardTitle = document.createElement('h4');
           cardTitle.className = 'card-title';
-          appendHighlightedText(cardTitle, item.name, query);
+          appendHighlightedText(cardTitle, item.name, highlight);
           cardHeader.appendChild(cardTitle);
 
           const tierBadge = document.createElement('span');
@@ -157,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           const cardDesc = document.createElement('p');
           cardDesc.className = 'card-desc';
-          appendHighlightedText(cardDesc, item.description || '', query);
+          appendHighlightedText(cardDesc, item.description || '', highlight);
           card.appendChild(cardDesc);
 
           const cardLinks = document.createElement('div');

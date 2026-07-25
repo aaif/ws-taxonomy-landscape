@@ -43,10 +43,12 @@ const ALLOWED_ITEM_FIELDS = new Set([
 const ALLOWED_CATEGORY_FIELDS = new Set(['category', 'subcategories']);
 const ALLOWED_SUBCATEGORY_FIELDS = new Set(['subcategory', 'items']);
 
-// The landscape is a curated list a few tens of KB in size. A cap keeps a
-// runaway or hostile file from producing an unbounded item list (and DOM) once
-// the site renders it; the real data is far below this.
-const MAX_BYTES = 2_000_000;
+// The landscape is a curated list a few tens of KB in size. This byte cap is the real bound
+// on what js-yaml parses and materializes (the graph budget below only bounds the subsequent
+// walk, not the parse), so keep it close to the data: the committed file is ~14 KB and the
+// 500-item cap keeps a realistic file well under this, while a hostile file cannot force a
+// multi-megabyte parse.
+const MAX_BYTES = 512_000;
 
 // Bound the parsed data, not just the file. A file well under MAX_BYTES can still
 // materialize an enormous render workload in the browser (one huge name, many items, or
@@ -138,7 +140,10 @@ function graphProblem(root) {
         stack.push(element);
       }
     } else {
-      for (const key of Object.keys(value)) {
+      // for...in with an own-property guard rather than Object.keys(), so a very wide mapping
+      // hits the edge budget without first allocating a full array of its keys.
+      for (const key in value) {
+        if (!Object.hasOwn(value, key)) continue;
         if (++edges > MAX_GRAPH_EDGES) return `has more than ${MAX_GRAPH_EDGES} graph edges`;
         stack.push(value[key]);
       }

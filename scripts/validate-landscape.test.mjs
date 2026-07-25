@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { validate } from './validate-landscape.mjs';
@@ -332,8 +333,9 @@ test('unicode-equivalent duplicate names are caught', () => {
 });
 
 test('a document with too many objects is rejected before a full walk', () => {
-  // A wide unknown top-level key does not count toward the item cap, but the graph budget
-  // stops the walk once it exceeds MAX_CONTAINERS instead of materializing the whole thing.
+  // A wide unknown top-level key does not count toward the item cap. js-yaml still parses the
+  // bounded input (the byte cap limits that), but the graph budget stops the validation walk
+  // once it exceeds MAX_CONTAINERS instead of traversing the whole graph.
   const doc = VALID + 'junk: [' + '{},'.repeat(5001) + ']\n';
   assert.ok(hasError(validate(doc), /more than \d+ objects or arrays/));
 });
@@ -345,4 +347,19 @@ test('the schema example in docs/data-schemas.md validates', () => {
   assert.ok(example, 'expected a landscape example block in docs/data-schemas.md');
   const yaml = example.replace(/^[a-zA-Z]*\n/, '');
   assert.deepEqual(validate(yaml), []);
+});
+
+test('the browser js-yaml version, SRI, and parse options match the pinned bundle', () => {
+  // If js-yaml is bumped without updating index.html, the browser rejects the script on an SRI
+  // mismatch and the site fails to load, while these Node tests would still pass. Lock the CDN
+  // version and the integrity hash to the installed bundle, and keep maxDepth in sync.
+  const pkg = JSON.parse(readFileSync(fileURLToPath(new URL('./package.json', import.meta.url)), 'utf8'));
+  const version = (pkg.dependencies || {})['js-yaml'] || (pkg.devDependencies || {})['js-yaml'];
+  const bundle = readFileSync(fileURLToPath(new URL('./node_modules/js-yaml/dist/js-yaml.min.js', import.meta.url)));
+  const expectedSri = `sha512-${createHash('sha512').update(bundle).digest('base64')}`;
+  const html = readFileSync(fileURLToPath(new URL('../landscape/static/index.html', import.meta.url)), 'utf8');
+  assert.ok(html.includes(`js-yaml@${version}/`), `index.html should load js-yaml@${version}`);
+  assert.ok(html.includes(expectedSri), 'index.html SRI must match the installed js-yaml bundle');
+  const appJs = readFileSync(fileURLToPath(new URL('../landscape/static/app.js', import.meta.url)), 'utf8');
+  assert.match(appJs, /maxDepth:\s*10/, 'app.js must keep maxDepth: 10 in sync with the validator');
 });
