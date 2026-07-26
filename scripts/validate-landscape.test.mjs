@@ -340,6 +340,13 @@ test('a document with too many objects is rejected before a full walk', () => {
   assert.ok(hasError(validate(doc), /more than \d+ objects or arrays/));
 });
 
+test('a document with too many references is rejected by the edge budget', () => {
+  // Only a couple of containers (one array), but many scalar elements, so the edge budget
+  // triggers before the container budget does.
+  const doc = VALID + 'junk: [' + '1,'.repeat(20001) + ']\n';
+  assert.ok(hasError(validate(doc), /more than \d+ graph edges/));
+});
+
 test('the schema example in docs/data-schemas.md validates', () => {
   // Guards against a docs example that would fail the validator a reader copies it into.
   const docs = readFileSync(fileURLToPath(new URL('../docs/data-schemas.md', import.meta.url)), 'utf8');
@@ -361,5 +368,9 @@ test('the browser js-yaml version, SRI, and parse options match the pinned bundl
   assert.ok(html.includes(`js-yaml@${version}/`), `index.html should load js-yaml@${version}`);
   assert.ok(html.includes(expectedSri), 'index.html SRI must match the installed js-yaml bundle');
   const appJs = readFileSync(fileURLToPath(new URL('../landscape/static/app.js', import.meta.url)), 'utf8');
-  assert.match(appJs, /maxDepth:\s*10/, 'app.js must keep maxDepth: 10 in sync with the validator');
+  const validatorJs = readFileSync(fileURLToPath(new URL('./validate-landscape.mjs', import.meta.url)), 'utf8');
+  const appDepth = appJs.match(/maxDepth:\s*(\d+)/)?.[1];
+  const validatorDepth = validatorJs.match(/maxDepth:\s*(\d+)/)?.[1];
+  assert.ok(appDepth && validatorDepth, 'both app.js and the validator set maxDepth');
+  assert.equal(appDepth, validatorDepth, 'app.js and the validator must use the same maxDepth');
 });

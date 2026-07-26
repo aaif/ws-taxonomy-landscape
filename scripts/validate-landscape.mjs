@@ -383,7 +383,10 @@ export function validate(text, source = 'landscape.yml') {
 }
 
 function main() {
-  const path = process.argv[2] ?? '../landscape/landscape.yml';
+  // Resolve the default relative to this script, not the current working directory, so it is
+  // the repo's landscape.yml regardless of where the command is run from.
+  const defaultPath = fileURLToPath(new URL('../landscape/landscape.yml', import.meta.url));
+  const path = process.argv[2] ?? defaultPath;
   let text;
   try {
     // Check the size before reading so an oversized file is not fully read into memory first.
