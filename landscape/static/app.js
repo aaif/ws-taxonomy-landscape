@@ -20,6 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const categoryBar = document.getElementById('category-bar');
   const resultCount = document.getElementById('result-count');
 
+  // Escape a user query so it is matched as a literal (not a pattern) in a RegExp. Filtering
+  // and highlighting build their regexes from this with the case-insensitive `i` flag (no `u`),
+  // so they apply the same ECMAScript case-folding and an item is highlighted exactly when the
+  // filter matched it.
+  function escapeRegExp(text) {
+    return text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  }
+
   // Helper to append highlighted query substrings using pure DOM methods. `highlight` is a
   // per-render context { regex, budget } shared across every field, so the regex is compiled
   // once and the total number of <mark> nodes for the whole render is bounded, not just the
@@ -117,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // every field, so the number of highlight nodes is bounded per render, not just per field.
     // A whitespace-only query has already been normalized to empty by the caller.
     const highlight = query
-      ? { regex: new RegExp(query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi'), budget: { remaining: 2_000 } }
+      ? { regex: new RegExp(escapeRegExp(query), 'gi'), budget: { remaining: 2_000 } }
       : null;
 
     state.filteredCategories.forEach(catObj => {
@@ -213,7 +221,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function runFilteringPipeline() {
     if (!state.rawLandscape || !state.rawLandscape.landscape) return;
 
-    const query = state.currentSearch.toLowerCase().trim();
+    const rawQuery = state.currentSearch.trim();
+    // Filter and highlight share one escaped regex (case-insensitive `i`, no `u`) so an item is
+    // highlighted exactly when the filter matched it. A `.test()` regex without the global flag
+    // is stateless, so it is safely reused across every field.
+    const filterRegex = rawQuery ? new RegExp(escapeRegExp(rawQuery), 'i') : null;
 
     // Filter Categories and Subcategories
     state.filteredCategories = state.rawLandscape.landscape.map(catObj => {
@@ -225,15 +237,13 @@ document.addEventListener('DOMContentLoaded', () => {
       // Filter Subcategories and Items
       const filteredSubcats = catObj.subcategories.map(subcatObj => {
         const filteredItems = subcatObj.items.filter(item => {
-          if (!query) return true;
+          if (!filterRegex) return true;
 
-          const matchName = (item.name || '').toLowerCase().includes(query);
-          const matchDesc = (item.description || '').toLowerCase().includes(query);
-          const matchTier = (item.project || '').toLowerCase().includes(query);
-          const matchHome = (item.homepage_url || '').toLowerCase().includes(query);
-          const matchRepo = (item.repo_url || '').toLowerCase().includes(query);
-
-          return matchName || matchDesc || matchTier || matchHome || matchRepo;
+          return filterRegex.test(item.name || '') ||
+            filterRegex.test(item.description || '') ||
+            filterRegex.test(item.project || '') ||
+            filterRegex.test(item.homepage_url || '') ||
+            filterRegex.test(item.repo_url || '');
         });
 
         if (filteredItems.length === 0) return null;
@@ -252,10 +262,10 @@ document.addEventListener('DOMContentLoaded', () => {
       };
     }).filter(Boolean);
 
-    // Render with the same normalized query the filter used above, so highlighting matches
-    // exactly what was filtered (a query that is only whitespace trims to empty here, so it
-    // filters nothing out and highlights nothing, instead of building a regex from raw spaces).
-    renderLandscape(query);
+    // Highlight with the same query and escaping the filter used, so an item is highlighted
+    // exactly when it matched (a whitespace-only query trims to empty, filtering nothing out
+    // and highlighting nothing).
+    renderLandscape(rawQuery);
   }
 
   // Fetch landscape.yml and Initialize
