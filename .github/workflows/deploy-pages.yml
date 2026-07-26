@@ -89,6 +89,18 @@ jobs:
           sed -i "s|BUILD_TIMESTAMP|$CURRENT_TIME|g" dist/index.html
 
 
+      - name: Reject symlinks in the Pages artifact
+        run: |
+          # upload-pages-artifact packs the tree with `tar --dereference`, so a symlink copied
+          # into dist would be published as the bytes of whatever it points at (for example a
+          # runner-local file). Fail the deploy if any symlink is present rather than leak it.
+          links="$(find dist -type l -print)"
+          if [ -n "$links" ]; then
+            echo "::error::Symlinks are not allowed in the Pages artifact"
+            printf '%s\n' "$links"
+            exit 1
+          fi
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
