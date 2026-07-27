@@ -118,8 +118,8 @@ body {
   font-weight: 300;
 }
 
-/* Master UI View Toggle */
-.master-view-toggle {
+/* Main UI View Toggle */
+.main-view-toggle {
   display: flex;
   max-width: fit-content;
   margin: 0 auto 24px auto;
@@ -133,7 +133,7 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-.master-tab-btn {
+.main-tab-btn {
   flex: 0 1 auto;
   background: none;
   border: none;
@@ -148,19 +148,19 @@ body {
   transition: var(--transition-smooth);
 }
 
-.master-tab-btn:hover {
+.main-tab-btn:hover {
   color: var(--text-primary);
   background: rgba(255, 255, 255, 0.05);
 }
 
-.master-tab-btn.active {
+.main-tab-btn.active {
   background: var(--accent-purple);
   color: #ffffff;
   font-weight: 600;
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
 }
 
-/* Master-Detail Split Layout */
+/* Main-Detail Split Layout */
 .split-layout {
   display: grid;
   grid-template-columns: 380px 1fr;
@@ -1058,15 +1058,15 @@ body.light-mode .back-link:hover {
   color: #0f172a;
 }
 
-body.light-mode .master-view-toggle {
+body.light-mode .main-view-toggle {
   background: #ffffff;
   border-color: #cbd5e1;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
-body.light-mode .master-tab-btn:hover {
+body.light-mode .main-tab-btn:hover {
   background: #f1f5f9;
 }
-body.light-mode .master-tab-btn.active {
+body.light-mode .main-tab-btn.active {
   background: #4f46e5;
   color: #ffffff;
   font-weight: 600;

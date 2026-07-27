@@ -6,7 +6,7 @@ To ensure automated builds, parsing pipelines, and UI mindmap rendering run succ
 
 ## A. Taxonomy Glossary Schema (`taxonomy/taxonomy-data.js`)
 
-Each entry in the master taxonomy array is a JavaScript object representing a concept in our SKOS-Lite taxonomy.
+Each entry in the main taxonomy array is a JavaScript object representing a concept in our SKOS-Lite taxonomy.
 
 ```javascript
 {
