@@ -41,3 +41,9 @@ jobs:
 
       - name: Validate landscape.yml
         run: node scripts/validate-landscape.mjs landscape/landscape.yml
+
+      - name: Check browser JavaScript syntax
+        run: node --check landscape/static/app.js
+
+      - name: Reject symlinks in the deployed sources
+        run: bash scripts/check-no-symlinks.sh

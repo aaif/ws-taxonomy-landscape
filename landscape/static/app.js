@@ -20,12 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const categoryBar = document.getElementById('category-bar');
   const resultCount = document.getElementById('result-count');
 
-  // Escape a user query so it is matched as a literal (not a pattern) in a RegExp. Filtering
-  // and highlighting build their regexes from this with the case-insensitive `i` flag (no `u`),
-  // so they apply the same ECMAScript case-folding and an item is highlighted exactly when the
-  // filter matched it.
+  // Escape a user query so it is matched as a literal (not a pattern) in a RegExp. Only the regex
+  // syntax characters are escaped, not `-` (which is literal outside a character class), so the
+  // result is valid under the `u` flag. Filtering and highlighting build their regexes from this
+  // with `iu`/`giu`, so both apply Unicode simple case-folding (a Kelvin sign matches `k`, a
+  // capital sharp-s matches `ß`) and stay in agreement. Locale-specific folds such as Turkish
+  // dotted-I are not covered by simple case-folding and are not matched.
   function escapeRegExp(text) {
-    return text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
   // Helper to append highlighted query substrings using pure DOM methods. `highlight` is a
@@ -99,9 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Render Landscape Grid. `query` is the already-normalized search string from
-  // runFilteringPipeline (lower-cased and trimmed); highlighting must use the same value the
-  // filter matched on, so it is passed in rather than re-read from state here.
+  // Render Landscape Grid. `query` is the trimmed search string from runFilteringPipeline;
+  // highlighting builds its regex from the same string (and the same escaping) the filter used,
+  // so it is passed in rather than re-read from state here.
   function renderLandscape(query) {
     landscapeGrid.replaceChildren();
 
@@ -125,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // every field, so the number of highlight nodes is bounded per render, not just per field.
     // A whitespace-only query has already been normalized to empty by the caller.
     const highlight = query
-      ? { regex: new RegExp(escapeRegExp(query), 'gi'), budget: { remaining: 2_000 } }
+      ? { regex: new RegExp(escapeRegExp(query), 'giu'), budget: { remaining: 2_000 } }
       : null;
 
     state.filteredCategories.forEach(catObj => {
@@ -222,10 +224,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!state.rawLandscape || !state.rawLandscape.landscape) return;
 
     const rawQuery = state.currentSearch.trim();
-    // Filter and highlight share one escaped regex (case-insensitive `i`, no `u`) so an item is
-    // highlighted exactly when the filter matched it. A `.test()` regex without the global flag
-    // is stateless, so it is safely reused across every field.
-    const filterRegex = rawQuery ? new RegExp(escapeRegExp(rawQuery), 'i') : null;
+    // Filter and highlight share one escaped regex (Unicode case-insensitive, `iu`) so the same
+    // matching decides both. A `.test()` regex without the global flag is stateless, so it is
+    // safely reused across every field.
+    const filterRegex = rawQuery ? new RegExp(escapeRegExp(rawQuery), 'iu') : null;
 
     // Filter Categories and Subcategories
     state.filteredCategories = state.rawLandscape.landscape.map(catObj => {
@@ -262,9 +264,10 @@ document.addEventListener('DOMContentLoaded', () => {
       };
     }).filter(Boolean);
 
-    // Highlight with the same query and escaping the filter used, so an item is highlighted
-    // exactly when it matched (a whitespace-only query trims to empty, filtering nothing out
-    // and highlighting nothing).
+    // Highlight the rendered text with the same query and escaping the filter used. The filter
+    // also searches the tier and URLs, which are not rendered as highlightable text, so a match
+    // there filters the card in without a visible mark. A whitespace-only query trims to empty,
+    // filtering nothing out and highlighting nothing.
     renderLandscape(rawQuery);
   }
 

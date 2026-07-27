@@ -70,18 +70,7 @@ jobs:
         run: node scripts/validate-landscape.mjs landscape/landscape.yml
 
       - name: Reject symlinks in the deployed sources
-        run: |
-          # A symlink committed to a deployed path would be copied into dist and then
-          # dereferenced by upload-pages-artifact (tar --dereference), publishing its target's
-          # bytes (for example a runner-local file) to public Pages. Reject any symlink in the
-          # sources here, before assembly, so this does not depend on how cp handles them. Only
-          # the paths that get copied are checked, to avoid node_modules symlinks under scripts/.
-          links="$(find landscape taxonomy index.html -type l -print)"
-          if [ -n "$links" ]; then
-            echo "::error::Symlinks are not allowed in the deployed sources"
-            printf '%s\n' "$links"
-            exit 1
-          fi
+        run: bash scripts/check-no-symlinks.sh
 
       - name: Assemble Portal Distribution
         run: |
