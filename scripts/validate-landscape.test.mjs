@@ -296,6 +296,19 @@ test('the browser parses with the same failsafe options as the validator', () =>
   assert.match(appjs, /jsyaml\.load\([^)]*FAILSAFE_SCHEMA/s);
 });
 
+test('the browser search regexes stay Unicode-aware and u-safe', () => {
+  // Guards against reintroducing the case-folding gap, the same way the FAILSAFE_SCHEMA and
+  // maxDepth checks guard parser parity. The filter and highlight regexes must carry the `u`
+  // flag so both apply Unicode simple case-folding (a Kelvin sign matches `k`), and escapeRegExp
+  // must not escape `-`, because a `\-` identity escape throws once the `u` flag is set.
+  const appjs = readFileSync(fileURLToPath(new URL('../landscape/static/app.js', import.meta.url)), 'utf8');
+  assert.match(appjs, /new RegExp\(escapeRegExp\([^)]*\),\s*'iu'\)/, 'the filter regex must use the iu flags');
+  assert.match(appjs, /new RegExp\(escapeRegExp\([^)]*\),\s*'giu'\)/, 'the highlight regex must use the giu flags');
+  const escClass = appjs.match(/function escapeRegExp[\s\S]*?text\.replace\((\/\[.*?\]\/g)/);
+  assert.ok(escClass, 'escapeRegExp escapes a character class');
+  assert.ok(!escClass[1].includes('-'), 'escapeRegExp must not escape "-" so the pattern stays valid under u');
+});
+
 test('an over-long category name is rejected before it inflates errors', () => {
   const doc = VALID.replace('category: Frameworks', `category: ${'A'.repeat(200)}`);
   assert.ok(hasError(validate(doc), /category name is longer than/));
