@@ -1,12 +1,12 @@
 # Taxonomy & Landscape Workstream
 
+For more information, review the [Workstream Charter](charter/charter.md).
+
 ## Mission
 
 The Taxonomy & Landscape Workstream serves as the horizontal architectural bridge across the AAIF. Our mission is to curate and maintain a unified glossary of agentic AI terms (the Taxonomy) and a CNCF-style ecosystem market map (the Landscape). 
 
 By establishing a shared vocabulary and a single pane of glass for the ecosystem, we eliminate siloed terminology, prevent duplicated research across working groups, and provide enterprise leaders with a cohesive blueprint for the Agentic AI technology stack.
-
-For more details, please see our [Workstream Charter](charter/charter.md).
 
 ## Chairs
 
@@ -17,17 +17,15 @@ The Workstream Chairs were appointed by the Working Group Chairs from the curren
 
 ## Meetings
 
-Meeting details are still being determined.
+This working group meets **weekly on Mondays at 8:30AM PT** (USA Pacific Time; [Convert to local time zone](http://www.thetimezoneconverter.com/?t=8:30AM&tz=San%20Francisco)).
 
-**Working Group Meetings are only open to AAIF members at this time.** Participants must be invited to join. 
-
-If someone from an AAIF member organization would like to join, please [sign up here](https://forms.gle/mqvEADnhCsmsvmC69) using your business email address.
+**[Join the Meeting](https://app.lfx.dev/meetings/97227615758?password=e01d6118-0622-42d6-bdb5-f80b34253d62)**
 
 ## Meeting Agenda and Minutes
 
 [Running Notes Doc](https://docs.google.com/document/d/1nn5dH89ao65hmRHjUD1rJUAd3rUIiIkrLLMkv-h-U3w/edit?usp=sharing)
 
-All meeting recordings and AI summaries can be found on your [LFX Individual Dashboard](openprofile.dev). Create a Linux Foundation (LFX) account to see all meetings, AI summaries, recordings, etc. all in one place.
+All meeting recordings and AI summaries can be found at [app.lfx.dev](https://app.lfx.dev). Create a Linux Foundation (LFX) account to see all meetings, AI summaries, recordings, etc. all in one place.
 
 ## Repository Structure
 
@@ -38,20 +36,16 @@ All meeting recordings and AI summaries can be found on your [LFX Individual Das
 | [`taxonomy/`](taxonomy/) | Interactive shared taxonomy web dashboard explorer with Tri-Mode Architecture |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Contributor guidelines, pull request workflows, and review roles |
 
-
-
 ## Communication
 
-Reach out on the private working group mailing list: ws-taxonomy-landscape@lists.aaif.io
+Join the public workstream [mailing list](https://lists.aaif.io/g/ws-taxonomy-landscape): ws-taxonomy-landscape@lists.aaif.io
 
-Join the private Working Group [Discord channel](https://discord.com/channels/1461090924791595243/1504201248025346110).
+Reach out on the public Working Group [Discord channel](https://discord.com/channels/1461090924791595243/1504201248025346110). New to the AAIF Discord Server? [Join here](https://discord.com/invite/9zTwngHAMy). 
 
 Need help? email: support@aaif.io.
 
 ## Join a Working Group
-The TC supports multiple technical working groups. **Working Groups are only open to AAIF members at this time.** Participants must be invited to join. 
-
-If someone from an AAIF member organization would like to join, please [sign up here](https://forms.gle/mqvEADnhCsmsvmC69) using your business email address.
+The TC supports multiple technical working groups. Working Groups are open to the public and cross-functional participation is actively encouraged. [View the full calendar of public meetings](https://zoom-lfx.platform.linuxfoundation.org/meetings/agentic-ai-foundation). 
 
 The current list of working groups are:
    - Accuracy & Reliability
@@ -61,6 +55,7 @@ The current list of working groups are:
    - Observability & Traceability
    - Security & Privacy
    - Workflows & Process Integration
+   - Taxonomy & Landscape (a Cross-Working Group Workstream)
 
 ## Commitment to Neutrality
 
