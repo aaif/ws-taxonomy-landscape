@@ -4,5 +4,4 @@ All monthly reports submitted by the Taxonomy and Landscape Workstream to the Te
 
 | Reporting Period | Link | Summary |
 |------------------|------|---------|
-
-_No reports have been submitted yet. The first report will cover 2026-06._
+| 2026-06 | [Full report](2026-06-report.md) | We secured charter approvals, defined data schemas, and launched the web portal pipelines. |
