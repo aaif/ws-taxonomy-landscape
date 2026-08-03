@@ -293,11 +293,15 @@ document.addEventListener('DOMContentLoaded', () => {
     appendHighlightedText(cardTitle, activeItem.term, query);
     cardHeader.appendChild(cardTitle);
 
-    const catClass = mapCategoryClass(activeItem.category);
-    const catTag = document.createElement('span');
-    catTag.className = `category-tag ${catClass}`;
-    catTag.textContent = activeItem.category;
-    cardHeader.appendChild(catTag);
+    // `category` is currently deferred across the taxonomy (see
+    // docs/data-schemas.md); skip the tag rather than render an empty pill.
+    if (activeItem.category) {
+      const catClass = mapCategoryClass(activeItem.category);
+      const catTag = document.createElement('span');
+      catTag.className = `category-tag ${catClass}`;
+      catTag.textContent = activeItem.category;
+      cardHeader.appendChild(catTag);
+    }
 
     card.appendChild(cardHeader);
 
@@ -409,22 +413,26 @@ document.addEventListener('DOMContentLoaded', () => {
       card.appendChild(conDiv);
     }
 
-    const wgDiv = document.createElement('div');
-    wgDiv.className = 'card-workgroups';
+    // A term may legitimately have no owning working group while the
+    // ownership model is undecided; don't render a dangling label.
+    if (activeItem.workgroups && activeItem.workgroups.length > 0) {
+      const wgDiv = document.createElement('div');
+      wgDiv.className = 'card-workgroups';
 
-    const wgLabel = document.createElement('span');
-    wgLabel.className = 'wg-label';
-    wgLabel.textContent = 'WGs:';
-    wgDiv.appendChild(wgLabel);
+      const wgLabel = document.createElement('span');
+      wgLabel.className = 'wg-label';
+      wgLabel.textContent = 'WGs:';
+      wgDiv.appendChild(wgLabel);
 
-    activeItem.workgroups.forEach(wg => {
-      const wgBadge = document.createElement('span');
-      wgBadge.className = 'wg-badge';
-      appendHighlightedText(wgBadge, wg, query);
-      wgDiv.appendChild(wgBadge);
-    });
+      activeItem.workgroups.forEach(wg => {
+        const wgBadge = document.createElement('span');
+        wgBadge.className = 'wg-badge';
+        appendHighlightedText(wgBadge, wg, query);
+        wgDiv.appendChild(wgBadge);
+      });
 
-    card.appendChild(wgDiv);
+      card.appendChild(wgDiv);
+    }
 
     mainContentPane.appendChild(card);
   }
@@ -480,11 +488,14 @@ document.addEventListener('DOMContentLoaded', () => {
       appendHighlightedText(cardTitle, item.term, query);
       cardHeader.appendChild(cardTitle);
 
-      const catClass = mapCategoryClass(item.category);
-      const catTag = document.createElement('span');
-      catTag.className = `category-tag ${catClass}`;
-      catTag.textContent = item.category;
-      cardHeader.appendChild(catTag);
+      // See note above: skip the tag while `category` is deferred.
+      if (item.category) {
+        const catClass = mapCategoryClass(item.category);
+        const catTag = document.createElement('span');
+        catTag.className = `category-tag ${catClass}`;
+        catTag.textContent = item.category;
+        cardHeader.appendChild(catTag);
+      }
 
       card.appendChild(cardHeader);
 
@@ -608,22 +619,25 @@ document.addEventListener('DOMContentLoaded', () => {
         card.appendChild(conDiv);
       }
 
-      const wgDiv = document.createElement('div');
-      wgDiv.className = 'card-workgroups';
+      // See note above: skip the label when a term has no owning working group.
+      if (item.workgroups && item.workgroups.length > 0) {
+        const wgDiv = document.createElement('div');
+        wgDiv.className = 'card-workgroups';
 
-      const wgLabel = document.createElement('span');
-      wgLabel.className = 'wg-label';
-      wgLabel.textContent = 'Workgroups:';
-      wgDiv.appendChild(wgLabel);
+        const wgLabel = document.createElement('span');
+        wgLabel.className = 'wg-label';
+        wgLabel.textContent = 'Workgroups:';
+        wgDiv.appendChild(wgLabel);
 
-      item.workgroups.forEach(wg => {
-        const wgBadge = document.createElement('span');
-        wgBadge.className = 'wg-badge';
-        appendHighlightedText(wgBadge, wg, query);
-        wgDiv.appendChild(wgBadge);
-      });
+        item.workgroups.forEach(wg => {
+          const wgBadge = document.createElement('span');
+          wgBadge.className = 'wg-badge';
+          appendHighlightedText(wgBadge, wg, query);
+          wgDiv.appendChild(wgBadge);
+        });
 
-      card.appendChild(wgDiv);
+        card.appendChild(wgDiv);
+      }
 
       cardsGridContainer.appendChild(card);
     });
@@ -822,11 +836,15 @@ document.addEventListener('DOMContentLoaded', () => {
     appendHighlightedText(cardTitle, activeItem.term, query);
     cardHeader.appendChild(cardTitle);
 
-    const catClass = mapCategoryClass(activeItem.category);
-    const catTag = document.createElement('span');
-    catTag.className = `category-tag ${catClass}`;
-    catTag.textContent = activeItem.category;
-    cardHeader.appendChild(catTag);
+    // `category` is currently deferred across the taxonomy (see
+    // docs/data-schemas.md); skip the tag rather than render an empty pill.
+    if (activeItem.category) {
+      const catClass = mapCategoryClass(activeItem.category);
+      const catTag = document.createElement('span');
+      catTag.className = `category-tag ${catClass}`;
+      catTag.textContent = activeItem.category;
+      cardHeader.appendChild(catTag);
+    }
 
     card.appendChild(cardHeader);
 
@@ -935,22 +953,25 @@ document.addEventListener('DOMContentLoaded', () => {
       card.appendChild(conDiv);
     }
 
-    const wgDiv = document.createElement('div');
-    wgDiv.className = 'card-workgroups';
+    // See note above: skip the label when a term has no owning working group.
+    if (activeItem.workgroups && activeItem.workgroups.length > 0) {
+      const wgDiv = document.createElement('div');
+      wgDiv.className = 'card-workgroups';
 
-    const wgLabel = document.createElement('span');
-    wgLabel.className = 'wg-label';
-    wgLabel.textContent = 'Workgroups:';
-    wgDiv.appendChild(wgLabel);
+      const wgLabel = document.createElement('span');
+      wgLabel.className = 'wg-label';
+      wgLabel.textContent = 'Workgroups:';
+      wgDiv.appendChild(wgLabel);
 
-    activeItem.workgroups.forEach(wg => {
-      const wgBadge = document.createElement('span');
-      wgBadge.className = 'wg-badge';
-      appendHighlightedText(wgBadge, wg, query);
-      wgDiv.appendChild(wgBadge);
-    });
+      activeItem.workgroups.forEach(wg => {
+        const wgBadge = document.createElement('span');
+        wgBadge.className = 'wg-badge';
+        appendHighlightedText(wgBadge, wg, query);
+        wgDiv.appendChild(wgBadge);
+      });
 
-    card.appendChild(wgDiv);
+      card.appendChild(wgDiv);
+    }
 
     mindmapModalContent.appendChild(card);
 
