@@ -81,7 +81,7 @@ window.AAIF_TAXONOMY = [
   {
     term: 'Intent',
     category: '',
-    aliases: [],
+    aliases: ['Intended purpose'],
     broaderTerm: null,
     definition: 'Definition pending — term accepted; definition under working group discussion.',
     relatedTerms: [],
@@ -167,5 +167,89 @@ window.AAIF_TAXONOMY = [
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Workflows & Process Integration', 'Identity & Trust']
+  },
+  {
+    term: 'Handoff',
+    category: '',
+    aliases: ['Hand-off'],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration', 'Observability & Traceability', 'Governance, Risk & Regulatory Alignment']
+  },
+
+  // ---------------------------------------------------------------------
+  // Governance, Risk & Regulatory Alignment
+  // ---------------------------------------------------------------------
+  {
+    term: 'Governance',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Governance, Risk & Regulatory Alignment']
+  },
+  {
+    term: 'Autonomy level',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Governance, Risk & Regulatory Alignment']
+  },
+  {
+    term: 'Risk classification',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Governance, Risk & Regulatory Alignment', 'Security & Privacy']
+  },
+  {
+    term: 'Accountability',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Governance, Risk & Regulatory Alignment', 'Identity & Trust', 'Observability & Traceability']
+  },
+  {
+    term: 'Kill switch',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Governance, Risk & Regulatory Alignment', 'Security & Privacy', 'Workflows & Process Integration']
+  },
+  {
+    term: 'AI agent bill of materials',
+    category: '',
+    aliases: ['AI-BOM'],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Governance, Risk & Regulatory Alignment']
+  },
+  {
+    term: 'Reversibility',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Governance, Risk & Regulatory Alignment', 'Workflows & Process Integration']
   }
 ];
