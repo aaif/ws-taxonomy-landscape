@@ -33,7 +33,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'The environment, framework, runtime, or control layer that hosts, coordinates, monitors, and/or constrains an agent\'s behavior.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: []
