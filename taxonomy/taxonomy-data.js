@@ -215,6 +215,16 @@ window.AAIF_TAXONOMY = [
     contrastsWith: ['Agent misuse'],
     workgroups: ['Security & Privacy']
   },
+  {
+    term: 'Rogue agent',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An Agent that operates outside its authorized boundaries, whether due to misuse, misconfiguration, or derailment.',
+    relatedTerms: ['Agent derailment', 'Agent sabotage', 'Agent misuse'],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy']
+  },
 
   // ---------------------------------------------------------------------
   // Governance, Risk & Regulatory Alignment
