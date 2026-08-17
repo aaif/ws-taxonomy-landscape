@@ -73,7 +73,8 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'The tendency for models to lose accuracy on tasks as context approaches its maximum length.',
+    scopeNote: 'This is an anecdotal situation repeatedly observed across members of the industry. AI developers might handle context exhaustion, among other related context management issues, in their own ways, such as by pre-emptively compacting context.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: []
@@ -103,9 +104,9 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A composed capability that packages logic, tools, or sub-steps into a reusable unit.',
     relatedTerms: [],
-    contrastsWith: [],
+    contrastsWith: ['Tool'],
     workgroups: []
   },
 
@@ -173,10 +174,46 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: ['Hand-off'],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
-    relatedTerms: [],
+    definition: 'The explicit transfer of responsibility, execution context, state, or authority from one participant, Workflow, or execution unit to another.',
+    relatedTerms: ['Delegation', 'Human in the loop'],
     contrastsWith: [],
     workgroups: ['Workflows & Process Integration', 'Observability & Traceability', 'Governance, Risk & Regulatory Alignment']
+  },
+
+  // ---------------------------------------------------------------------
+  // Security & Privacy
+  // ---------------------------------------------------------------------
+  {
+    term: 'Agent derailment',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An unintended deviation in an Agent\'s behavior that causes it to pursue goals or take actions outside of its intended scope, without external cause.',
+    scopeNote: 'Agent Derailment would happen either due to a mistake in the model or a lack of guardrails. Contrast with Agent Misuse/Mishandling/Sabotage, where deviations are caused by external parties',
+    relatedTerms: [],
+    contrastsWith: ['Agent misuse', 'Agent sabotage'],
+    workgroups: ['Security & Privacy', 'Accuracy & Reliability']
+  },
+  {
+    term: 'Agent misuse',
+    category: '',
+    aliases: ['Agent mishandling'],
+    broaderTerm: null,
+    definition: 'Deliberate manipulation of an Agent\'s behavior by an external party, causing it to act against its intended purpose.',
+    scopeNote: 'This could be for pedestrian purposes (asking an airline chatbot to write a cookie recipe). Contrast with "agent sabotage", which is a kind of agent misuse with severe consequences.',
+    relatedTerms: [],
+    contrastsWith: ['Agent derailment', 'Agent sabotage'],
+    workgroups: ['Security & Privacy']
+  },
+  {
+    term: 'Agent sabotage',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Agent misuse leading to severe or criminal consequences.',
+    relatedTerms: [],
+    contrastsWith: ['Agent misuse'],
+    workgroups: ['Security & Privacy']
   },
 
   // ---------------------------------------------------------------------
@@ -197,8 +234,9 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
-    relatedTerms: [],
+    definition: 'How independently an agent acts.',
+    scopeNote: 'A tiered rating system. Used to decide how much oversight an agent needs. Relevant for risk classification.',
+    relatedTerms: ['Risk classification'],
     contrastsWith: [],
     workgroups: ['Governance, Risk & Regulatory Alignment']
   },
@@ -227,9 +265,9 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'An out-of-band stop that instantly halts an agent by cutting its access, regardless of the agent\'s own logic.',
     relatedTerms: [],
-    contrastsWith: [],
+    contrastsWith: ['Reversibility'],
     workgroups: ['Governance, Risk & Regulatory Alignment', 'Security & Privacy', 'Workflows & Process Integration']
   },
   {
@@ -237,7 +275,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: ['AI-BOM'],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'An inventory of an agent\'s models, tools, APIs, and third-party components, with provenance and versions.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Governance, Risk & Regulatory Alignment']
@@ -247,9 +285,9 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'Whether and how an agent\'s action can be undone.',
     relatedTerms: [],
-    contrastsWith: [],
+    contrastsWith: ['Kill switch'],
     workgroups: ['Governance, Risk & Regulatory Alignment', 'Workflows & Process Integration']
   }
 ];
