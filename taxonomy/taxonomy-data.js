@@ -53,7 +53,8 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'Agentic output that a human was involved in reviewing, modifying, or enhancing.',
+    scopeNote: 'This is an assurance to other humans that the content is worth consuming - namely, that it isn\'t \'AI slop\'.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: []
