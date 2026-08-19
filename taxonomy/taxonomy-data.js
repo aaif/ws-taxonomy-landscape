@@ -127,7 +127,8 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'A unique and stable label or reference (eg, email address, username, account ID, public key)',
+    definition: 'A unique and stable label or reference',
+    scopeNote: 'Examples of identifiers include email address, username, account ID, public key. An identifier may represent the agent, the responsible or OBO party/parties, or other metadata.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Identity & Trust']
@@ -149,7 +150,8 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'The act of granting another entity limited authority to act on behalf of a user, organization, or system. Delegations contain scope. Each subagent operates under a delegation that traces back to the originating principal.',
+    definition: 'The act of granting another entity limited authority to act on behalf of a user, organization, or system.',
+    scopeNote: 'Each subagent operates under a delegation that traces back to the originating principal. A delegation may contain the scope of authority and available actions.',
     relatedTerms: ['Handoff'],
     contrastsWith: [],
     workgroups: ['Identity & Trust', 'Workflows & Process Integration', 'Observability & Traceability']
