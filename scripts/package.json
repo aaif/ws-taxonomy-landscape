@@ -1,0 +1,14 @@
+{
+  "name": "aaif-landscape-tools",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CI tooling for validating the AAIF landscape data with the same parser the site uses.",
+  "type": "module",
+  "scripts": {
+    "validate": "node validate-landscape.mjs ../landscape/landscape.yml",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "js-yaml": "4.3.0"
+  }
+}
