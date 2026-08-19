@@ -33,7 +33,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'A harness is the control layer and software infrastructure that sits between a stateless AI model and the external world, turning it into an agent capable of executing complex tasks.',
+    definition: 'A harness is the software control layer that sits between a stateless AI model and the external world, turning it into an agent capable of executing a breadth of complex tasks.',
     scopeNote: 'In a traditional pipeline, a harness might just be a thin layer for sanitizing inputs and outputs. In an agentic workflow, the harness manages: Control Flow (orchestrating the loop and stopping conditions); Environment Access (connections to tools, APIs, and browsers); State & Memory (persisting context across turns); Input/Output Shaping (prompt templates and parsing); and Observability (logging and evals). Ultimately, the harness restrains, coordinates, and empowers a foundational model to operate effectively within a specific system.',
     relatedTerms: [],
     contrastsWith: [],
