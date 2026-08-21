@@ -162,7 +162,81 @@ landscape:
             project: member
 
   # ============================================================================
-  # 5. AGENTIC COMMERCE & WALLETS
+  # 5. ATTESTATION & VERIFIABLE EVIDENCE
+  # Aligns with Identity & Trust WG (+ Security & Privacy, Governance & Risk)
+  # ============================================================================
+  - category: Attestation & Verifiable Evidence
+    subcategories:
+      - subcategory: Attestation Standards & Verification
+        items:
+          - name: IETF RATS
+            logo: placeholder.svg
+            homepage_url: https://datatracker.ietf.org/wg/rats/about/
+            description: Remote attestation procedures architecture defining attester, verifier and relying party roles and the evidence, results and endorsement flows between them.
+            project: external
+          - name: Veraison
+            logo: placeholder.svg
+            homepage_url: https://veraison-project.org
+            repo_url: https://github.com/veraison/services
+            description: Attestation verification services implementing RATS verifier roles across multiple hardware evidence formats.
+            project: external
+          - name: Keylime
+            logo: placeholder.svg
+            homepage_url: https://keylime.dev
+            repo_url: https://github.com/keylime/keylime
+            description: CNCF remote attestation and runtime integrity monitoring for bootstrapping trust in workloads on untrusted infrastructure.
+            project: external
+
+      - subcategory: Transparency & Provenance
+        items:
+          - name: IETF SCITT
+            logo: placeholder.svg
+            homepage_url: https://datatracker.ietf.org/wg/scitt/about/
+            repo_url: https://github.com/ietf-scitt/draft-birkholz-scitt-architecture
+            description: Supply chain integrity, transparency and trust architecture defining append-only registries and inclusion receipts for signed statements.
+            project: external
+          - name: in-toto
+            logo: placeholder.svg
+            homepage_url: https://in-toto.io
+            repo_url: https://github.com/in-toto/in-toto
+            description: CNCF framework for cryptographically verifying that each step of a supply chain was carried out by the intended party.
+            project: external
+          - name: Sigstore
+            logo: placeholder.svg
+            homepage_url: https://www.sigstore.dev
+            repo_url: https://github.com/sigstore/sigstore
+            description: Keyless signing and transparency logging for software artifacts, providing the identity and log substrate many provenance claims rest on.
+            project: external
+          - name: SLSA
+            logo: placeholder.svg
+            homepage_url: https://slsa.dev
+            repo_url: https://github.com/slsa-framework/slsa
+            description: OpenSSF specification of build provenance levels, describing how an artifact was produced and how strongly that claim is guaranteed.
+            project: external
+
+      - subcategory: Agent Action & Runtime Evidence
+        items:
+          - name: Agent Action Capsule
+            logo: placeholder.svg
+            homepage_url: https://agentactioncapsule.org
+            repo_url: https://github.com/action-state-group/agent-action-capsule
+            description: Open SCITT statement profile for recording and verifying what an AI agent did, as an independently checkable record of an action and its effect.
+            project: external
+          - name: TRACE
+            logo: placeholder.svg
+            homepage_url: https://trace.agentrust-io.com
+            repo_url: https://github.com/agentrust-io/trace-spec
+            description: Open attestation standard binding the model, runtime, policy and tool calls of an agent execution into a record a third party can verify offline.
+            project: external
+          - name: Agent Manifest
+            logo: placeholder.svg
+            homepage_url: https://manifest.agentrust-io.com
+            repo_url: https://github.com/agentrust-io/agent-manifest
+            description: Deployment-time binding of the artifacts that define an agent to hardware evidence, so a verifier can check the agent that ran is the agent that was published.
+            project: external
+
+  # ============================================================================
+  # 6. AGENTIC COMMERCE & WALLETS
   # Aligns with Agentic Commerce WG
   # ============================================================================
   - category: Agentic Commerce & Wallets
@@ -186,7 +260,7 @@ landscape:
             project: member
 
   # ============================================================================
-  # 6. GLOBAL GOVERNANCE & REGULATORY REGIMES
+  # 7. GLOBAL GOVERNANCE & REGULATORY REGIMES
   # Aligns with Governance, Risk & Regulatory Alignment WG (Debbie's Focus)
   # ============================================================================
   - category: Global Governance & Regulatory Regimes
@@ -237,7 +311,7 @@ landscape:
             project: incubating
 
   # ============================================================================
-  # 7. AGENT EVALUATION & BENCHMARKING HARNESSES
+  # 8. AGENT EVALUATION & BENCHMARKING HARNESSES
   # Aligns with Accuracy & Reliability WG
   # ============================================================================
   - category: Agent Evaluation & Benchmarking Harnesses
