@@ -176,7 +176,7 @@ landscape:
             project: external
           - name: Veraison
             logo: placeholder.svg
-            homepage_url: https://veraison-project.org
+            homepage_url: https://www.veraison-project.org
             repo_url: https://github.com/veraison/services
             description: Attestation verification services implementing RATS verifier roles across multiple hardware evidence formats.
             project: external
