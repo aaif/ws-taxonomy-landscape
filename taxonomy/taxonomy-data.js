@@ -35,7 +35,7 @@ window.AAIF_TAXONOMY = [
     broaderTerm: null,
     definition: 'A harness is the software control layer that sits between an AI model and the external world, enabling it to execute a breadth of complex tasks.',
     scopeNote: 'In a traditional pipeline, a harness might just be a thin layer for sanitizing inputs and outputs. In an agentic workflow, the harness manages: Control Flow (orchestrating the loop and stopping conditions); Environment Access (connections to tools, APIs, and browsers); State & Memory (persisting context across turns); Input/Output Shaping (prompt templates and parsing); and Observability (logging and evals). Ultimately, the harness restrains, coordinates, and empowers a foundational model to operate effectively within a specific system.',
-    relatedTerms: [],
+    relatedTerms: ['Meta-harness'],
     contrastsWith: [],
     workgroups: []
   },
@@ -44,8 +44,9 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
-    relatedTerms: [],
+    definition: 'The scaffolding, environment, runtime, framework or control layer that builds, selects, configures, or supervises harnesses themselves. Where a harness runs one agent\'s loop, a meta-harness answers "which harness (tools, prompts, model, control flow) should be assembled for this task, and how do multiple agents/harnesses coordinate."',
+    scopeNote: 'The scope of the meta-harness is the full path from initial input to final outcome, which in most systems includes more than just agents and their harnesses: non-agentic models and services such as speech, vision, image, audio, video, OCR, and more, along with supporting libraries and deterministic workflow code. Observability marks the sharpest distinction. Harness-level observability is intra-agent: the trace of a single run, built to debug one agent\'s behavior at one step. Meta-harness-level observability spans agents, non-agentic stages, and runs, answering what no single harness\'s logs can, such as which configuration performs better, where failures cluster, how one stage\'s output shaped another\'s input, and whether a change improved outcomes system-wide.',
+    relatedTerms: ['Harness'],
     contrastsWith: [],
     workgroups: []
   },
