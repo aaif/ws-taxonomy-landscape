@@ -138,8 +138,9 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
-    relatedTerms: [],
+    definition: 'Attestation is the process by which a system produces evidence about its own state that a third party can verify without having to trust the system that produced it.',
+    scopeNote: 'Attestation is a binding step rather than a category of thing. What is bound matters more than that binding occurred: platform attestation establishes properties of the environment an agent ran in, and a separate signed binding is required to tie a specific agent identity or artifact to that environment. Architectures that treat "attested identity" as a single step tend to hide the second binding, which is where most of the failure modes live. Attestation establishes what was measured and by whom. It does not establish that the measurement was complete, that the measured thing behaved correctly, or that the platform holds against an adversary with physical control of the hardware.',
+    relatedTerms: ['Trust', 'Identifier'],
     contrastsWith: [],
     workgroups: ['Identity & Trust', 'Security & Privacy', 'Governance, Risk & Regulatory Alignment']
   },
