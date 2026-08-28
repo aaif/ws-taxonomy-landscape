@@ -117,7 +117,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'How and how much another party believes an agent\'s identity.',
+    definition: 'How and how much another party believes an agent\'s assertions, capabilities, and reasoning.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Identity & Trust']
@@ -150,8 +150,8 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'The act of granting another entity limited authority to act on behalf of a user, organization, or system.',
-    scopeNote: 'Each subagent operates under a delegation that traces back to the originating principal. A delegation may contain the scope of authority and available actions.',
+    definition: 'The act of granting another entity authority to act on behalf of a user, organization, or system.',
+    scopeNote: 'Subagents should operate under a delegation that traces back to an originating principal. A delegation may contain the scope of authority and available actions.',
     relatedTerms: ['Handoff'],
     contrastsWith: [],
     workgroups: ['Identity & Trust', 'Workflows & Process Integration', 'Observability & Traceability']
