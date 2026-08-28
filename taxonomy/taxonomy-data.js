@@ -118,7 +118,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'How and how much another party believes an agent\'s assertions, capabilities, and reasoning.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Identity & Trust']
@@ -128,7 +128,8 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A unique and stable label or reference',
+    scopeNote: 'Examples of identifiers include email address, username, account ID, public key. An identifier may represent the agent, the responsible or OBO party/parties, or other metadata.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Identity & Trust']
@@ -138,7 +139,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A verifiable claim made by an entity about itself or another entity, system, event, property, or condition.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Identity & Trust', 'Security & Privacy', 'Governance, Risk & Regulatory Alignment']
@@ -150,8 +151,9 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
-    relatedTerms: [],
+    definition: 'The act of granting another entity authority to act on behalf of a user, organization, or system.',
+    scopeNote: 'Subagents should operate under a delegation that traces back to an originating principal. A delegation may contain the scope of authority and available actions.',
+    relatedTerms: ['Handoff'],
     contrastsWith: [],
     workgroups: ['Identity & Trust', 'Workflows & Process Integration', 'Observability & Traceability']
   },
