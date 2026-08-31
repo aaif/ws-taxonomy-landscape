@@ -63,7 +63,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'A workflow that includes a human-required step.',
+    definition: 'An agentic workflow that includes a human-required step.',
     scopeNote: 'A design pattern in which a human must review, approve, or intervene in an AI agent\'s actions at defined checkpoints before the agent may proceed. Contrasts with Human on the Loop - HITL requires human action, whereas HOTL allows for optional human action. Compare with Handoff - a subtype (agent -> human -> agent), as opposed to other subtypes of hand-offs like ???',
     relatedTerms: [],
     contrastsWith: [],
