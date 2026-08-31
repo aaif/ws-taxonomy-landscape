@@ -164,7 +164,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: ['Agent discovery'],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'The process by which a Workflow, or a participant acting on its behalf, identifies candidate participants, capabilities, tools, resources, or services that may be relevant to performing an Activity or progressing the Workflow toward its goal. Discovery may use capability descriptions, registries, metadata, configuration, policies, or other mechanisms. It produces a set of candidate options and associated descriptive information, but it does not by itself imply selection, authorization, trust, or invocation.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Workflows & Process Integration', 'Identity & Trust']
@@ -174,10 +174,60 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: ['Hand-off'],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
-    relatedTerms: [],
+    definition: 'The transfer of responsibility for continuing an Activity, Workflow segment, or Workflow from one participant to another, together with the relevant State, Context, or information needed to continue execution. A Handoff concerns continuation of work. It does not by itself imply transfer of authorization, accountability, or broader authority.',
+    relatedTerms: [Delegation],
     contrastsWith: [],
     workgroups: ['Workflows & Process Integration', 'Observability & Traceability', 'Governance, Risk & Regulatory Alignment']
+  },
+   {
+    term: 'Determinism',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The property of a component or execution step such that, given the same relevant inputs and initial state, it produces the same execution behavior and observable result.',
+    relatedTerms: ['Deterministic', 'Non-deterministic'],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration', 'Observability & Traceability', 'Accuracy & Reliability']
+  },
+  {
+    term: 'Orchestration',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A coordination pattern in which a designated orchestrator directs Activities, manages their sequencing, and determines subsequent actions based on Workflow State and results.',
+    relatedTerms: ['Orchestrator', 'Choreography'],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration', 'Observability & Traceability']
+  },
+  {
+    term: 'Agentic Lifecycle',
+    category: '',
+    aliases: ['Lifecycle'],
+    broaderTerm: null,
+    definition: 'The stages through which an agentic system progresses from definition and configuration through operation to evaluation, adaptation, suspension, or retirement.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration', 'Observability & Traceability']
+  },
+  {
+    term: 'Activity',
+    category: '',
+    aliases: ['Task', 'Action'],
+    broaderTerm: null,
+    definition: ' A bounded unit of work performed as part of a Workflow, with defined or identifiable inputs, outputs, and execution outcome. An Activity may be performed by an agent, human, tool, service, or other participant.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration']
+  },
+  {
+    term: 'Agentic Workflow',
+    category: '',
+    aliases: ['Workflow'],
+    broaderTerm: null,
+    definition: 'A coordinated progression of Activities toward a defined goal or outcome in which one or more Agents participate in determining, sequencing, selecting, or performing work.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration']
   },
 
   // ---------------------------------------------------------------------
