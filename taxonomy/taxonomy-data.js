@@ -252,5 +252,59 @@ window.AAIF_TAXONOMY = [
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Governance, Risk & Regulatory Alignment', 'Workflows & Process Integration']
+  },
+
+  // ---------------------------------------------------------------------
+  // Security & Privacy
+  // ---------------------------------------------------------------------
+  {
+    term: 'Agent derailment',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An unintended deviation in an AI agent\'s behavior that causes it to pursue goals or take actions outside its intended scope, without malicious external cause.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy']
+  },
+  {
+    term: 'Agent sabotage',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Deliberate manipulation of an AI agent\'s behavior by an external party, causing it to act against its intended purpose, to an elevated degree with severe or criminal consequences.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy']
+  },
+  {
+    term: 'Agent mishandling/misuse',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Deliberate manipulation of an AI agent\'s behavior by an external party, causing it to act against its intended purpose.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy']
+  },
+  {
+    term: 'Rogue agent',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An AI agent that operates outside its authorized boundaries, whether due to compromise, misconfiguration, or emergent behavior.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy']
+  },
+  {
+    term: 'Privacy-preserving execution',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Patterns in which an AI agent can operate on encrypted or protected data without exposing the underlying content, using techniques such as zero-knowledge proofs or trusted execution environments.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy']
   }
 ];
