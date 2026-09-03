@@ -4,7 +4,7 @@ Welcome to the Agentic AI Foundation (AAIF) Taxonomy & Landscape Workstream. Thi
 
 ## Why this is a workstream
 
-The Taxonomy & Landscape group is a cross-working-group **workstream**, not a standalone Working Group (WG). Each WG has its own subject areas and may organize breakout groups to pursue its work. Those groups identify terms that need clear, shared definitions and send representatives—called **Domain Editors** in this repository—to shepherd the terms through the taxonomy process.
+The Taxonomy & Landscape group is a cross-working-group **workstream**, not a standalone Working Group (WG). Each WG has its own subject areas and may organize breakout groups to pursue its work. Those groups identify terms that need clear definitions and send "Domain Editor" representatives to shepherd the terms through the taxonomy process.
 
 The workstream does not replace the WGs' subject-matter expertise. It provides a shared review and governance process so that AAIF terminology is consistent, useful across groups, and owned by the right WG.
 
