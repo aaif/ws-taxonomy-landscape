@@ -34,7 +34,7 @@ A WG or breakout group identifies a term that may need an AAIF definition. Its r
 - how its agentic AI meaning differs from an established definition, if one exists;
 - which WG should own the definition; and
 - which other WGs use or are affected by the term.
-
+Note: some terms are identified as "Universal", if its relevant to 3+ working groups.
 ### 2. Add it to the candidate spreadsheet
 
 Add the term to the [Taxonomy Working Spreadsheet](https://docs.google.com/spreadsheets/d/1Oa-x7nBISIOuqaC-BnsQ1R-iPdwZ6Otk3dpWlqpI_z4/edit?gid=0#gid=0). The spreadsheet is the workstream's intake and decision log.
