@@ -2,6 +2,8 @@
 
 For more information, review the [Workstream Charter](charter/charter.md).
 
+New to the workstream? Start with the [onboarding guide](ONBOARDING.md) for an overview of how candidate terms move from Working Group discussion to the official shared taxonomy.
+
 ## Mission
 
 The Taxonomy & Landscape Workstream serves as the horizontal architectural bridge across the AAIF. Our mission is to curate and maintain a unified glossary of agentic AI terms (the Taxonomy) and a CNCF-style ecosystem market map (the Landscape). 
