@@ -8,6 +8,22 @@ The Taxonomy & Landscape group is a cross-working-group **workstream**, not a st
 
 The workstream does not replace the WGs' subject-matter expertise. It provides a shared review and governance process so that AAIF terminology is consistent, useful across groups, and owned by the right WG.
 
+## Working Group representatives
+
+Each WG nominates representatives, called **Domain Editors**, to bring terms into the workstream, coordinate definition work with their WG, and participate in cross-WG review. The current representatives are:
+
+| Working Group | Representatives |
+| --- | --- |
+| Accuracy & Reliability | Casper Nielsen ([@CasperGN](https://github.com/CasperGN)); Matthew Khouzam ([@MatthewKhouzam](https://github.com/MatthewKhouzam)) |
+| Agentic Commerce | Leonardo Galesky ([@galesky-a](https://github.com/galesky-a)) |
+| Governance, Risk & Regulatory Alignment | Amithash Kankanallu Jagadish ([@kjamithash](https://github.com/kjamithash)) |
+| Identity & Trust | Julianna Mealin ([@julianna-ciq](https://github.com/julianna-ciq)) |
+| Observability & Traceability | Pavan Sudheendra ([@91pavan](https://github.com/91pavan)); Matt Lee ([@mr-lee](https://github.com/mr-lee)) |
+| Security & Privacy | Jautau White; Katherine Druckman |
+| Workflows & Process Integration | Sumanth Sathyanarayana ([@mssumanth](https://github.com/mssumanth)) |
+
+This roster was last updated on September 3, 2026. See the [historical running meeting notes](https://docs.google.com/document/d/1nn5dH89ao65hmRHjUD1rJUAd3rUIiIkrLLMkv-h-U3w/edit?tab=t.0) for earlier assignments, and update this section when a WG changes its representatives.
+
 ## The terminology lifecycle
 
 ### 1. Identify a candidate term
