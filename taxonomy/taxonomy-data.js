@@ -252,5 +252,19 @@ window.AAIF_TAXONOMY = [
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Governance, Risk & Regulatory Alignment', 'Workflows & Process Integration']
+  },
+
+  // ---------------------------------------------------------------------
+  // Observability & Traceability
+  // ---------------------------------------------------------------------
+  {
+    term: 'Agent trajectory',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The observable path an agent could take or has taken through a task or conversation across invocations, steps, handoffs, checkpoints, and outcomes.',
+    relatedTerms: ['Handoff'],
+    contrastsWith: [],
+    workgroups: ['Observability & Traceability', 'Workflows & Process Integration', 'Accuracy & Reliability']
   }
 ];
