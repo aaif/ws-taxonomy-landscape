@@ -4,25 +4,28 @@ Thank you for contributing to the Agentic AI Foundation (AAIF) Taxonomy & Landsc
 
 This repository maintains the horizontal, shared vocabulary (Taxonomy) and the global market ecosystem map (Landscape) across all active technical working groups.
 
+> [!IMPORTANT]
+> **Taxonomy contributions only:** The workstream is currently focused exclusively on the Taxonomy. Landscape work remains on the future roadmap, but the contribution and review process for it has not yet been accepted. Until that process is approved and this guide is updated, pull requests that propose Landscape changes will be closed.
+
 ---
 
 ## 1. Roles & Governance
 
 To maintain data integrity and keep the curation workload distributed, we divide repository participation and governance into three distinct roles:
 
-*   **Contributors (Anyone):** Any community member, external partner, or working group participant can contribute. Anyone is welcome to submit pull requests, propose new glossary terms, suggest landscape updates, or file issues.
-*   **Domain Editors (WG Delegates):** Nominated technical experts representing the 7 active Technical Working Groups. They act as core curators who **actively author and drive** their respective domains' taxonomy and landscape entries. While they do not have direct merge access, a consensus of their peer approvals (at least two or three Domain Editors from different workgroups) is required to advance and approve any changes.
+*   **Contributors (Anyone):** Any community member, external partner, or working group participant can contribute. Anyone is welcome to submit pull requests, propose new glossary terms, or file issues within the current Taxonomy scope.
+*   **Domain Editors (WG Delegates):** Nominated technical experts representing the 7 active Technical Working Groups. They act as core curators who **actively author and drive** their respective domains' taxonomy entries. While they do not have direct merge access, a consensus of their peer approvals (at least two or three Domain Editors from different workgroups) is required to advance and approve any changes.
 *   **Maintainers (Workstream Chairs):** **Junjie Bu** & **Gala Malbasic** hold write access to the repository and have final administrative authority to merge approved Pull Requests.
 
 ---
 
 ## 2. Contribution Pathways
 
-We support two ways to contribute to the taxonomy and landscape:
+We support two ways to contribute to the Taxonomy:
 
 *   **Option A: The Git & Pull Request Workflow (Code Contributors):** Best for technical domain editors. You will clone the repo, make edits directly to the data files, run a local preview web server to test, and submit a PR.
     *   👉 For step-by-step instructions on setting up Git, starting a local server, and submitting PRs, see the **[Local Development & Git Workflow Guide](docs/local-development.md)**.
-*   **Option B: The Asynchronous Proposal Workflow (General Contributors):** If you prefer not to write code or use Git, you can propose glossary additions or landscape tools by opening an issue on our GitHub Issues page.
+*   **Option B: The Asynchronous Proposal Workflow (General Contributors):** If you prefer not to write code or use Git, you can propose glossary additions by opening an issue on our GitHub Issues page.
     *   👉 Follow the templates on our Issues page to submit the raw details, and a Domain Editor will review and merge them on your behalf.
 
 ---
@@ -31,7 +34,7 @@ We support two ways to contribute to the taxonomy and landscape:
 
 To ensure automated builds and parsing pipelines run successfully, all additions must strictly adhere to our metadata schemas. 
 *   **Taxonomy Glossary:** Uses a SKOS-Lite-compliant schema mapping display terms, categories, parent nodes (`broaderTerm`), definitions, and aligned working groups.
-*   **Ecosystem Landscape:** Follows a CNCF-style structure mapping tools, protocols, and regulatory bodies to categories.
+*   **Ecosystem Landscape:** A schema is documented for future-roadmap planning, but Landscape contributions are not currently accepted.
 *   👉 For field-by-field specifications, enum lists, and code examples, see the **[Data Schema Specifications & Guidelines](docs/data-schemas.md)**.
 
 ---
