@@ -180,56 +180,10 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: ['Hand-off'],
     broaderTerm: null,
-    definition: 'The explicit transfer of responsibility, execution context, state, or authority from one participant, Workflow, or execution unit to another.',
-    relatedTerms: ['Delegation', 'Human in the loop'],
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Workflows & Process Integration', 'Observability & Traceability', 'Governance, Risk & Regulatory Alignment']
-  },
-
-  // ---------------------------------------------------------------------
-  // Security & Privacy
-  // ---------------------------------------------------------------------
-  {
-    term: 'Agent derailment',
-    category: '',
-    aliases: [],
-    broaderTerm: null,
-    definition: 'An unintended deviation in an Agent\'s behavior that causes it to pursue goals or take actions outside of its intended scope, without external cause.',
-    scopeNote: 'Agent Derailment would happen either due to a mistake in the model or a lack of guardrails. Contrast with Agent Misuse/Mishandling/Sabotage, where deviations are caused by external parties',
-    relatedTerms: [],
-    contrastsWith: ['Agent misuse', 'Agent sabotage'],
-    workgroups: ['Security & Privacy', 'Accuracy & Reliability']
-  },
-  {
-    term: 'Agent misuse',
-    category: '',
-    aliases: ['Agent mishandling'],
-    broaderTerm: null,
-    definition: 'Deliberate manipulation of an Agent\'s behavior by an external party, causing it to act against its intended purpose.',
-    scopeNote: 'This could be for pedestrian purposes (asking an airline chatbot to write a cookie recipe). Contrast with "agent sabotage", which is a kind of agent misuse with severe consequences.',
-    relatedTerms: [],
-    contrastsWith: ['Agent derailment', 'Agent sabotage'],
-    workgroups: ['Security & Privacy']
-  },
-  {
-    term: 'Agent sabotage',
-    category: '',
-    aliases: [],
-    broaderTerm: null,
-    definition: 'Agent misuse leading to severe or criminal consequences.',
-    relatedTerms: [],
-    contrastsWith: ['Agent misuse'],
-    workgroups: ['Security & Privacy']
-  },
-  {
-    term: 'Rogue agent',
-    category: '',
-    aliases: [],
-    broaderTerm: null,
-    definition: 'An Agent that operates outside its authorized boundaries, whether due to misuse, misconfiguration, or derailment.',
-    relatedTerms: ['Agent derailment', 'Agent sabotage', 'Agent misuse'],
-    contrastsWith: [],
-    workgroups: ['Security & Privacy']
   },
 
   // ---------------------------------------------------------------------
