@@ -87,16 +87,19 @@ Tracked here so they are visible to contributors rather than buried in meeting n
 The landscape configuration follows a hierarchical CNCF-style structure. Each root category node contains subcategories, which contain individual items:
 
 ```yaml
-- category: Security Guardrails & Firewalls
-  subcategories:
-    - subcategory: Prompt & Runtime Guardrails
-      items:
-        - name: Google Cloud Model Armor
-          homepage_url: https://cloud.google.com/security/products/model-armor
-          repo_url: https://github.com/... (optional)
-          description: Enterprise security service providing prompt injection defense...
-          project: member
+landscape:
+  - category: Security Guardrails & Firewalls
+    subcategories:
+      - subcategory: Prompt & Runtime Guardrails
+        items:
+          - name: Google Cloud Model Armor
+            homepage_url: https://cloud.google.com/security/products/model-armor
+            repo_url: https://github.com/example/project # optional
+            description: Enterprise security service providing prompt injection defense...
+            project: member
 ```
+
+The file has a single top-level `landscape:` key holding the list of categories.
 
 ### Landscape Item Field Specifications
 *   **`name`** *(String, Required):* The official name of the tool, framework, protocol, or standard.
@@ -111,5 +114,20 @@ The landscape configuration follows a hierarchical CNCF-style structure. Each ro
         *   `incubating` - Active AAIF work-in-progress standards/projects
         *   `member` - Member-contributed tools/projects
         *   `external` - Non-member open-source tools/frameworks
+*   **`logo`** *(String, Optional):* Path to the item's logo asset.
+
+### Landscape Structural Rules
+*   Each **`category`** requires a non-empty `category` name and a non-empty `subcategories` list; each **`subcategory`** requires a non-empty `subcategory` name and a non-empty `items` list.
+*   Category names and item names must each be unique across the whole landscape; subcategory names must be unique within their category. Names are compared case- and Unicode-normalization-insensitively.
+
+### Landscape Validation Limits
+`scripts/validate-landscape.mjs` runs in CI with the same js-yaml parser and options the site loads with, and enforces the following so a malformed or hostile file cannot break the rendered map or the validator itself:
+
+*   **Parsing:** the file is parsed with `FAILSAFE_SCHEMA`, so every scalar is a string — a bare `123` or `2026-01-01` is read as text, matching the browser. Reused object or array nodes (YAML aliases or cycles) and merge (`<<`) keys are rejected; a scalar alias is allowed but stays within the per-field and total limits below. Nesting depth and file size (512 KB) are bounded; the size cap is what limits how much the parser materializes.
+*   **Field lengths:** `name` ≤ 200, `description` ≤ 2000, `project` ≤ 50, `homepage_url` / `repo_url` ≤ 2048, `logo` ≤ 300, and `category` / `subcategory` names ≤ 120 characters.
+*   **Cardinality:** at most 500 items across the whole landscape, and at most 5000 objects or arrays and 20,000 references in the whole document (a budget that stops the validation walk early on a hostile file; it does not change what the parser already materialized).
+*   **URLs:** `homepage_url` and `repo_url` must be `https://`, contain no whitespace, and carry no embedded credentials.
+*   **Fields:** only the fields documented above are allowed at each level; any other key is rejected.
+*   **Characters:** display names and item descriptions must not contain control or format characters (for example zero-width or bidirectional-override characters).
 
 ---
