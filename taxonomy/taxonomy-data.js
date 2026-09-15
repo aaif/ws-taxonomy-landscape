@@ -204,9 +204,8 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'How independently an agent acts.',
-    scopeNote: 'A tiered rating system. Used to decide how much oversight an agent needs. Relevant for risk classification.',
-    relatedTerms: ['Risk classification'],
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Governance, Risk & Regulatory Alignment']
   },
@@ -235,9 +234,9 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'An out-of-band stop that instantly halts an agent by cutting its access, regardless of the agent\'s own logic.',
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
     relatedTerms: [],
-    contrastsWith: ['Reversibility'],
+    contrastsWith: [],
     workgroups: ['Governance, Risk & Regulatory Alignment', 'Security & Privacy', 'Workflows & Process Integration']
   },
   {
