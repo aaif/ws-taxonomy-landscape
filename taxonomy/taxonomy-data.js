@@ -117,7 +117,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'How and how much another party believes an agent\'s assertions, capabilities, and reasoning.',
+    definition: 'How and to what extent another party believes an agent\'s assertions, capabilities, and reasoning.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Identity & Trust']
@@ -128,7 +128,7 @@ window.AAIF_TAXONOMY = [
     aliases: [],
     broaderTerm: null,
     definition: 'A unique and stable label or reference',
-    scopeNote: 'Examples of identifiers include email address, username, account ID, public key. An identifier may represent the agent, the responsible or OBO party/parties, or other metadata.',
+    scopeNote: 'Examples of identifiers include email address, username, account ID, public key. An identifier may represent the agent, the responsible or OBO party/parties, or other metadata. The identifier should be unique within the scope of its use.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Identity & Trust']
@@ -151,7 +151,7 @@ window.AAIF_TAXONOMY = [
     aliases: [],
     broaderTerm: null,
     definition: 'The act of granting another entity authority to act on behalf of a user, organization, or system.',
-    scopeNote: 'Subagents should operate under a delegation that traces back to an originating principal. A delegation may contain the scope of authority and available actions.',
+    scopeNote: 'Subagents should operate under a delegation that traces back to an originating principal. A delegation may contain the scope of authority and available actions. 'Delegation' is a subtype of handoff.',
     relatedTerms: ['Handoff'],
     contrastsWith: [],
     workgroups: ['Identity & Trust', 'Workflows & Process Integration', 'Observability & Traceability']
