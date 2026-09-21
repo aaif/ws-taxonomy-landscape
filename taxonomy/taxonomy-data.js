@@ -109,6 +109,16 @@ window.AAIF_TAXONOMY = [
     contrastsWith: [],
     workgroups: []
   },
+  {
+    term: 'Reasoning',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The process by which an agent interprets information, evaluates options, draws conclusions, or decides what to do next.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: []
+  },
 
   // ---------------------------------------------------------------------
   // Identity & Trust
@@ -257,16 +267,6 @@ window.AAIF_TAXONOMY = [
   // ---------------------------------------------------------------------
   // Observability & Traceability
   // ---------------------------------------------------------------------
-  {
-    term: 'Reasoning',
-    category: '',
-    aliases: [],
-    broaderTerm: null,
-    definition: 'The process by which an agent interprets information, evaluates options, draws conclusions, or decides what to do next.',
-    relatedTerms: [],
-    contrastsWith: [],
-    workgroups: ['Observability & Traceability', 'Accuracy & Reliability']
-  },
   {
     term: 'Agent trajectory',
     category: '',
