@@ -1,33 +1,48 @@
 name: Validate Taxonomy Data
 
 # Prevents a broken taxonomy/taxonomy-data.js from reaching main.
-# The browser loads that file directly via <script>, so a single syntax
-# error (e.g. an unescaped quote) will not break any dependent viewers.
+# A viewer loads that file directly via <script>, so a single syntax
+# error (e.g. an unescaped quote) will break any dependent viewer.
 # Regression origin: commit 36cd708 "Fix unescaped quote in Delegation scopeNote".
+#
+# Runs when a maintainer reviews the PR, plus manual dispatch; main is
+# push-protected, so the required check still gates every change before merge.
+#
+# Compute-abuse guards (per review): running an outside contributor's PR on
+# every push could burn CI minutes. Instead this only fires on
+# `pull_request_review` — i.e. once a maintainer actually reviews the PR — so a
+# drive-by contributor cannot trigger CI on their own. `workflow_dispatch` lets
+# a maintainer run it on demand. The job is also bounded with `timeout-minutes`,
+# superseded runs are cancelled via `concurrency`, and the validator refuses to
+# parse an oversized data file.
 
 on:
-  push:
-    branches: ["main"]
-    paths:
-      - "taxonomy/taxonomy-data.js"
-      - "tools/validate-taxonomy.mjs"
-      - ".github/workflows/validate-taxonomy.yml"
-  pull_request:
-    paths:
-      - "taxonomy/taxonomy-data.js"
-      - "tools/validate-taxonomy.mjs"
-      - ".github/workflows/validate-taxonomy.yml"
+  # Fires when a maintainer submits/edits a review, gating CI behind a trusted
+  # human action rather than any anonymous push.
+  pull_request_review:
+    types: [submitted, edited]
   workflow_dispatch:
 
 permissions:
   contents: read
 
+# Cancel an in-progress run when the PR is updated, so stacked reviews don't
+# accumulate concurrent jobs.
+concurrency:
+  group: validate-taxonomy-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # pull_request_review checks out the base by default; check out the
+          # reviewed PR head so we validate the proposed changes.
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -36,3 +51,6 @@ jobs:
 
       - name: Validate taxonomy-data.js
         run: node tools/validate-taxonomy.mjs
+
+      - name: Run validator tests
+        run: node --test tools/validate-taxonomy.test.mjs
