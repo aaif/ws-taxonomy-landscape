@@ -84,7 +84,10 @@ Tracked here so they are visible to contributors rather than buried in meeting n
 
 ## B. Ecosystem Landscape Schema (`landscape/landscape.yml`)
 
-The landscape configuration follows a hierarchical CNCF-style structure. Each root category node contains subcategories, which contain individual items:
+> [!IMPORTANT]
+> **Future roadmap:** This schema is retained for planning and reference only. The workstream is currently accepting Taxonomy contributions exclusively. The Landscape contribution and review process has not yet been accepted, so pull requests that propose Landscape changes will be closed until that process is approved and the contributor guidance is updated.
+
+The landscape configuration will follow a hierarchical CNCF-style structure. Each root category node will contain subcategories, which will contain individual items:
 
 ```yaml
 - category: Security Guardrails & Firewalls

@@ -2,6 +2,11 @@
 
 For more information, review the [Workstream Charter](charter/charter.md).
 
+New to the workstream? Start with the [onboarding guide](ONBOARDING.md) for an overview of how candidate terms move from Working Group discussion to the official shared taxonomy.
+
+> [!IMPORTANT]
+> **Current contribution scope:** The workstream is currently focused exclusively on the **Taxonomy**. The **Landscape** remains on the future roadmap, but its contribution and review process has not yet been accepted. Until that process is approved and these guidelines are updated, pull requests that propose Landscape changes will be closed.
+
 ## Mission
 
 The Taxonomy & Landscape Workstream serves as the horizontal architectural bridge across the AAIF. Our mission is to curate and maintain a unified glossary of agentic AI terms (the Taxonomy) and a CNCF-style ecosystem market map (the Landscape). 
@@ -32,7 +37,7 @@ All meeting recordings and AI summaries can be found at [app.lfx.dev](https://ap
 | Folder | Description |
 |--------|-------------|
 | [`charter/`](charter/) | Official workstream charter and governance documentation |
-| [`landscape/`](landscape/) | Main landscape.yml configuration file for the AAIF Ecosystem Architecture Map |
+| [`landscape/`](landscape/) | Future-roadmap AAIF Ecosystem Architecture Map; changes are not currently accepted |
 | [`taxonomy/`](taxonomy/) | Interactive shared taxonomy web dashboard explorer with Tri-Mode Architecture |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Contributor guidelines, pull request workflows, and review roles |
 

@@ -35,7 +35,7 @@ window.AAIF_TAXONOMY = [
     broaderTerm: null,
     definition: 'A harness is the software control layer that sits between an AI model and the external world, enabling it to execute a breadth of complex tasks.',
     scopeNote: 'In a traditional pipeline, a harness might just be a thin layer for sanitizing inputs and outputs. In an agentic workflow, the harness manages: Control Flow (orchestrating the loop and stopping conditions); Environment Access (connections to tools, APIs, and browsers); State & Memory (persisting context across turns); Input/Output Shaping (prompt templates and parsing); and Observability (logging and evals). Ultimately, the harness restrains, coordinates, and empowers a foundational model to operate effectively within a specific system.',
-    relatedTerms: [],
+    relatedTerms: ['Meta-harness'],
     contrastsWith: [],
     workgroups: []
   },
@@ -44,8 +44,9 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
-    relatedTerms: [],
+    definition: 'A meta-harness is the software control layer that builds, selects, configures, or supervises harnesses themselves.',
+    scopeNote: 'Where a harness runs one agent\'s loop, a meta-harness answers "which harness (tools, prompts, model, control flow) should be assembled for this task, and how do multiple agents/harnesses coordinate." The scope of the meta-harness is the full path from initial input to final outcome, which may include non-agentic models and services such as speech, vision, image, audio, video, and OCR, along with supporting libraries and deterministic workflow code. Observability marks the sharpest distinction. Harness-level observability is intra-agent: the trace of a single run, built to debug one agent\'s behavior at one step. Meta-harness-level observability spans agents, non-agentic stages, and runs, answering what no single harness\'s logs can, such as which configuration performs better, where failures cluster, how one stage\'s output shaped another\'s input, and whether a change improved outcomes system-wide.',
+    relatedTerms: ['Harness'],
     contrastsWith: [],
     workgroups: []
   },
@@ -54,7 +55,8 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'Agentic output that a human was involved in reviewing, modifying, or enhancing.',
+    scopeNote: 'This is an assurance to other humans that the content is worth consuming - namely, that it isn\'t \'AI slop\'.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: []
@@ -64,9 +66,10 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
-    relatedTerms: [],
-    contrastsWith: [],
+    definition: 'An agentic workflow that includes a human-required step.',
+    scopeNote: 'A design pattern in which a human must review, approve, or intervene in an AI agent\'s actions at defined checkpoints before the agent may proceed. Contrasts with Human *on* the Loop - HOTL allows for optional human action, whereas HITL *requires* human action. Compare with Handoff - a subtype (agent -> human -> agent), as opposed to other subtypes of hand-offs like Agent-to-agent delegation.',
+    relatedTerms: ["Handoff"],
+    contrastsWith: ["Human on the loop"],
     workgroups: []
   },
   {
@@ -118,7 +121,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'How and to what extent another party believes an agent\'s assertions, capabilities, and reasoning.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Identity & Trust']
@@ -128,7 +131,8 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A unique and stable label or reference',
+    scopeNote: 'Examples of identifiers include email address, username, account ID, public key. An identifier may represent the agent, the responsible or OBO party/parties, or other metadata. The identifier should be unique within the scope of its use.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Identity & Trust']
@@ -138,7 +142,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A verifiable claim made by an entity about itself or another entity, system, event, property, or condition.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Identity & Trust', 'Security & Privacy', 'Governance, Risk & Regulatory Alignment']
@@ -150,8 +154,9 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
-    relatedTerms: [],
+    definition: 'The act of granting another entity authority to act on behalf of a user, organization, or system.',
+    scopeNote: 'Subagents should operate under a delegation that traces back to an originating principal. A delegation may contain the scope of authority and available actions. 'Delegation' is a subtype of handoff.',
+    relatedTerms: ['Handoff'],
     contrastsWith: [],
     workgroups: ['Identity & Trust', 'Workflows & Process Integration', 'Observability & Traceability']
   },
