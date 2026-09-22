@@ -77,7 +77,8 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'The tendency for models to lose accuracy on tasks as context approaches its maximum length.',
+    scopeNote: 'This is an anecdotal situation repeatedly observed across members of the industry. AI developers might handle context exhaustion, among other related context management issues, in their own ways, such as by pre-emptively compacting context.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: []
@@ -107,9 +108,9 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A composed capability that packages logic, tools, or sub-steps into a reusable unit.',
     relatedTerms: [],
-    contrastsWith: [],
+    contrastsWith: ['Tool'],
     workgroups: []
   },
 
@@ -243,7 +244,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: ['AI-BOM'],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'An inventory of an agent\'s models, tools, APIs, and third-party components, with provenance and versions.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Governance, Risk & Regulatory Alignment']
@@ -253,9 +254,9 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'Whether and how an agent\'s action can be undone.',
     relatedTerms: [],
-    contrastsWith: [],
+    contrastsWith: ['Kill switch'],
     workgroups: ['Governance, Risk & Regulatory Alignment', 'Workflows & Process Integration']
   }
 ];
