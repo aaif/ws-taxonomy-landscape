@@ -1,0 +1,49 @@
+name: Validate Landscape
+
+# Runs on every pull request (no path filter) so it stays reliable as a required
+# check, and on push to main as a second line of defence for direct pushes.
+on:
+  pull_request:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-landscape-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: scripts/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+        working-directory: scripts
+
+      - name: Run validator tests
+        run: node --test
+        working-directory: scripts
+
+      - name: Validate landscape.yml
+        run: node scripts/validate-landscape.mjs landscape/landscape.yml
+
+      - name: Check browser JavaScript syntax
+        run: node --check landscape/static/app.js
+
+      - name: Reject symlinks in the deployed sources
+        run: bash scripts/check-no-symlinks.sh
