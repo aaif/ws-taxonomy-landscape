@@ -112,6 +112,16 @@ window.AAIF_TAXONOMY = [
     contrastsWith: [],
     workgroups: []
   },
+  {
+    term: 'Reasoning',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The process by which an agent interprets information, evaluates options, draws conclusions, or decides what to do next.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: []
+  },
 
   // ---------------------------------------------------------------------
   // Identity & Trust
@@ -180,7 +190,7 @@ window.AAIF_TAXONOMY = [
     aliases: ['Hand-off'],
     broaderTerm: null,
     definition: 'Definition pending — term accepted; definition under working group discussion.',
-    relatedTerms: [],
+    relatedTerms: ['Agent trajectory', 'Context propagation'],
     contrastsWith: [],
     workgroups: ['Workflows & Process Integration', 'Observability & Traceability', 'Governance, Risk & Regulatory Alignment']
   },
@@ -257,5 +267,69 @@ window.AAIF_TAXONOMY = [
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Governance, Risk & Regulatory Alignment', 'Workflows & Process Integration']
+  },
+
+  // ---------------------------------------------------------------------
+  // Observability & Traceability
+  // ---------------------------------------------------------------------
+  {
+    term: 'Agent trajectory',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The observable path an agent could take or has taken through a task or conversation across invocations, steps, handoffs, checkpoints, and outcomes.',
+    relatedTerms: ['Handoff', 'Traceability'],
+    contrastsWith: [],
+    workgroups: ['Observability & Traceability', 'Workflows & Process Integration', 'Accuracy & Reliability']
+  },
+  {
+    term: 'Context propagation',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The carrying of trace, correlation, or execution context across protocol, tool, agent, or workflow boundaries.',
+    relatedTerms: ['Context assembly', 'Handoff'],
+    contrastsWith: [],
+    workgroups: ['Observability & Traceability', 'Workflows & Process Integration', 'Security & Privacy']
+  },
+  {
+    term: 'Context assembly',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The process by which candidate information is selected, compacted, dropped, or placed into working context.',
+    relatedTerms: ['Context propagation', 'Memory access', 'Retrieval'],
+    contrastsWith: [],
+    workgroups: ['Observability & Traceability', 'Workflows & Process Integration']
+  },
+  {
+    term: 'Memory access',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Observable read, write, update, or search activity against agent-accessible memory.',
+    relatedTerms: ['Context assembly'],
+    contrastsWith: [],
+    workgroups: ['Observability & Traceability', 'Workflows & Process Integration']
+  },
+  {
+    term: 'Retrieval',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A request to a generative AI service or framework that retrieves relevant information or context from a search system or other retrieval source.',
+    relatedTerms: ['Context assembly'],
+    contrastsWith: [],
+    workgroups: ['Observability & Traceability', 'Workflows & Process Integration']
+  },
+  {
+    term: 'Traceability',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The ability to track, observe, and understand how AI agents behave as they carry out tasks within a workflow.',
+    relatedTerms: ['Agent trajectory'],
+    contrastsWith: [],
+    workgroups: ['Observability & Traceability']
   }
 ];
