@@ -58,6 +58,15 @@ landscape:
             description: Library for building stateful, multi-actor applications with LLMs using cyclical graph definitions.
             project: external
 
+      - subcategory: Gateways & Control Planes
+        items:
+          - name: agentgateway
+            logo: placeholder.svg
+            homepage_url: https://agentgateway.dev/
+            repo_url: https://github.com/agentgateway/agentgateway
+            description: Gateway and control plane for agentic AI that unifies MCP, agent to agent communication, LLM inference, APIs, and services.
+            project: member
+
 
   # ============================================================================
   # 2. PROTOCOLS & DISCOVERY REGISTRIES
@@ -99,6 +108,15 @@ landscape:
             repo_url: https://github.com/spiffe/spiffe
             description: Standards providing cryptographic identity documents (SVIDs) and decentralized identifiers for agent attestation.
             project: external
+
+      - subcategory: Conventions & File Formats
+        items:
+          - name: AGENTS.md
+            logo: placeholder.svg
+            homepage_url: https://agents.md/
+            repo_url: https://github.com/agentsmd/agents.md
+            description: Open file format for giving coding agents instructions and project context in a repository.
+            project: member
 
   # ============================================================================
   # 3. SECURITY GUARDRAILS & FIREWALLS
