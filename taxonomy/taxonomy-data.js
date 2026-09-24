@@ -113,6 +113,17 @@ window.AAIF_TAXONOMY = [
     workgroups: []
   },
   {
+    term: 'Subagent',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An agent spawned by an existing agent',
+    scopeNote: 'For example, an Audit Subagent for credential checks, a Policy Subagent for real-time compliance rules, a Pricing Subagent, or a Contract Subagent; each operates in a way that traces back to the originating principal. Subagents may have a variety of properties, including authentication, identity, accessibility by entities beyond the parent agent, operating environments, and permissions. None of these properties is implied by being a subagent.',
+    relatedTerms: ['Agent'],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
     term: 'Reasoning',
     category: '',
     aliases: [],
