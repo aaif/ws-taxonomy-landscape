@@ -112,6 +112,17 @@ window.AAIF_TAXONOMY = [
     contrastsWith: [],
     workgroups: []
   },
+  {
+    term: 'Subagent',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An agent spawned by an existing agent',
+    scopeNote: 'For example, an Audit Subagent for credential checks, a Policy Subagent for real-time compliance rules, a Pricing Subagent, or a Contract Subagent; each operates in a way that traces back to the originating principal. Subagents may have a variety of properties, including authentication, identity, accessibility by entities beyond the parent agent, operating environments, and permissions. None of these properties is implied by being a subagent.',
+    relatedTerms: ['Agent'],
+    contrastsWith: [],
+    workgroups: []
+  },
 
   // ---------------------------------------------------------------------
   // Identity & Trust
@@ -155,7 +166,7 @@ window.AAIF_TAXONOMY = [
     aliases: [],
     broaderTerm: null,
     definition: 'The act of granting another entity authority to act on behalf of a user, organization, or system.',
-    scopeNote: 'Subagents should operate under a delegation that traces back to an originating principal. A delegation may contain the scope of authority and available actions. 'Delegation' is a subtype of handoff.',
+    scopeNote: "Subagents should operate under a delegation that traces back to an originating principal. A delegation may contain the scope of authority and available actions. 'Delegation' is a subtype of handoff.",
     relatedTerms: ['Handoff'],
     contrastsWith: [],
     workgroups: ['Identity & Trust', 'Workflows & Process Integration', 'Observability & Traceability']
