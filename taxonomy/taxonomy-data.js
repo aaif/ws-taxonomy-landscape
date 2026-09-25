@@ -257,5 +257,89 @@ window.AAIF_TAXONOMY = [
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Governance, Risk & Regulatory Alignment', 'Workflows & Process Integration']
+  },
+
+  // ---------------------------------------------------------------------
+  // Agentic Commerce
+  // ---------------------------------------------------------------------
+  {
+    term: 'Delegated payment',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Agentic Commerce']
+  },
+  {
+    term: 'Agentic commerce',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Agentic Commerce']
+  },
+  {
+    term: 'Agentic commerce protocol',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Agentic Commerce']
+  },
+  {
+    term: 'Mandate',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Agentic Commerce']
+  },
+  {
+    term: 'Agentic checkout',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Agentic Commerce']
+  },
+  {
+    term: 'Agent-mediated transaction',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Agentic Commerce']
+  },
+  {
+    term: 'Agent-initiated transaction',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Agentic Commerce']
+  },
+  {
+    term: 'Agent-completed transaction',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Agentic Commerce']
   }
 ];
