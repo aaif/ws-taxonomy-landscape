@@ -16,13 +16,13 @@ landscape:
           - name: CrewAI
             logo: placeholder.svg
             homepage_url: https://www.crewai.com
-            repo_url: https://github.com/joaomdmoura/crewAI
+            repo_url: https://github.com/crewAIInc/crewAI
             description: Framework for orchestrating role-playing, autonomous AI agents for enterprise workflows.
             project: external
           - name: OpenHands (formerly OpenDevin)
             logo: placeholder.svg
-            homepage_url: https://openhands.ai
-            repo_url: https://github.com/All-Hands-AI/OpenHands
+            homepage_url: https://www.openhands.dev/
+            repo_url: https://github.com/OpenHands/OpenHands
             description: Autonomous AI software engineer framework operating at project granularity.
             project: external
           - name: Google Agent Development Kit (ADK)
@@ -75,8 +75,8 @@ landscape:
             project: member
           - name: Agent-to-Agent (A2A) Protocol
             logo: placeholder.svg
-            homepage_url: https://github.com/Agent2Agent
-            repo_url: https://github.com/Agent2Agent/specification
+            homepage_url: https://a2a-protocol.org/
+            repo_url: https://github.com/a2aproject/A2A
             description: Interoperability protocol enabling autonomous AI agents to discover, negotiate, and collaborate across organizations.
             project: external
 
@@ -110,14 +110,14 @@ landscape:
         items:
           - name: Meta Llama Guard
             logo: placeholder.svg
-            homepage_url: https://ai.meta.com/llama/
+            homepage_url: https://developer.meta.com/ai/llama-protections/
             repo_url: https://github.com/meta-llama/PurpleLlama
             description: Safeguard model providing input prompt classification and output response filtering for autonomous agents.
             project: external
           - name: NeMo Guardrails
             logo: placeholder.svg
-            homepage_url: https://github.com/NVIDIA/NeMo-Guardrails
-            repo_url: https://github.com/NVIDIA/NeMo-Guardrails
+            homepage_url: https://docs.nvidia.com/nemo/guardrails/
+            repo_url: https://github.com/NVIDIA-NeMo/Guardrails
             description: Open-source toolkit for adding programmable guardrails and deterministic dialog boundaries to LLM systems.
             project: external
           - name: Google Cloud Model Armor
@@ -246,7 +246,7 @@ landscape:
         items:
           - name: Braintrust
             logo: placeholder.svg
-            homepage_url: https://www.braintrustdata.com
+            homepage_url: https://www.braintrust.dev/
             description: Enterprise AI evaluation, logging, and prompt management platform for continuous agentic benchmarking.
             project: external
           - name: LangSmith Evaluation
