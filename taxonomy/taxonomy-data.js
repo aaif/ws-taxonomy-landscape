@@ -297,7 +297,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A bounded, verifiable record of a principal’s intent, approval, or authority for an agent-mediated commerce action. Examples include intent mandates, checkout or cart mandates, and payment mandates seen in Agentic Commerce protocols.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
