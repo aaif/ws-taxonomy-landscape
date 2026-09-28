@@ -441,5 +441,17 @@ window.AAIF_TAXONOMY = [
     relatedTerms: ['Rug pull', 'Tool definition verification'],
     contrastsWith: [],
     workgroups: ['Security & Privacy', 'Governance, Risk & Regulatory Alignment']
+  },
+
+  {
+    term: 'Rug pull',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A supply chain attack in which an agent tool or tool server is first published or approved in a benign form and is later changed, through a modified definition, updated code, or newly added capabilities, into a malicious version, so that the change bypasses the scrutiny applied when the tool was first accepted. It differs from Tool poisoning in being defined by when the change is introduced (after trust is established), not by what is manipulated.',
+    scopeNote: 'Materially different from a traditional package rug pull: an agent tool accrues trust through repeated autonomous invocation by the agent itself, not through a human re-reviewing each version before adopting it, so the exploitation window opens without the human-review checkpoint a conventional package update would normally pass through. MITRE ATLAS assigns this its own agent/AI-supply-chain technique (AML.T0109) for that reason. A rug pull may deliver Tool poisoning once the malicious version is live; this entry is scoped to agent tools and tool servers, not the general software supply chain. Cross-group interest: Security & Privacy (attack technique), Governance, Risk & Regulatory Alignment (change control and inventory of third-party components). External references: MITRE ATLAS AML.T0109 (AI Supply Chain Rug Pull); CoSAI MCP Security (draft, 8 January 2026) threat 32 and MCP-T6.',
+    relatedTerms: ['Tool poisoning', 'AI agent bill of materials'],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy', 'Governance, Risk & Regulatory Alignment']
   }
 ];
