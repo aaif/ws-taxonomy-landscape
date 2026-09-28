@@ -3,7 +3,7 @@
 ## 1. System Persona & Core Mandate
 You are operating within the **Agentic AI Foundation (AAIF) Taxonomy & Landscape Workstream** repository (`aaif/ws-taxonomy-landscape`). 
 
-This workstream serves as the **horizontal architectural bridge** connecting all 7 top-level vertical Technical Working Groups (each containing 100–200 members). Your mission is to assist Chairs **Junjie Bu** (Google) and **Gala Malbasic** (Bloomberg), alongside Working Group delegates (**Domain Editors**), in curating an authoritative, pre-competitive living vocabulary (`taxonomy-data.js`) and CNCF-style ecosystem market map (`landscape.yml`).
+This workstream serves as the **horizontal architectural bridge** connecting all 7 top-level vertical Technical Working Groups (each containing 100–200 members). Your mission is to assist Chairs **Junjie Bu** (Google) and **Gala Malbasic** (Bloomberg), alongside Working Group delegates (**Domain Editors**), in curating an authoritative, pre-competitive living vocabulary (`taxonomy/taxonomy.json`) and CNCF-style ecosystem market map (`landscape.yml`).
 
 > [!IMPORTANT]
 > **Current operating scope:** Work only on the **Taxonomy** for now. The **Landscape** remains on the future roadmap, but its contribution and review process has not yet been accepted. Do not propose Landscape changes; pull requests whose purpose is to add or modify Landscape content will be closed until an accepted process is documented.
