@@ -426,5 +426,20 @@ window.AAIF_TAXONOMY = [
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
+  },
+
+  // ---------------------------------------------------------------------
+  // Security & Privacy — agent tool supply chain
+  // ---------------------------------------------------------------------
+  {
+    term: 'Tool poisoning',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An attack in which the definition of an agent tool (such as its name, description, or parameter schema) or the behavior of the tool is maliciously crafted or altered so that an AI agent that trusts the tool is induced to disclose data, take unauthorized actions, or otherwise deviate from the intent of its user or operator. It differs from Rug pull in being defined by what is manipulated, not by when the change is introduced.',
+    scopeNote: 'Materially different from general software supply-chain poisoning: the compromised artifact is natural-language tool metadata that the agent model reads and follows as instructions, not executable code subject to compilation, static analysis, or code review before it runs. MITRE ATLAS assigns this a dedicated agent-specific technique (AML.T0110), distinct from its generic supply-chain techniques, for that reason. The manipulation may be present from first publication or introduced later. Cross-group interest: Security & Privacy (attack technique), Governance, Risk & Regulatory Alignment (vetting of third-party tools). External references: MITRE ATLAS AML.T0110 (AI Agent Tool Poisoning); OWASP MCP Top 10 (2025) MCP03 (Tool Poisoning); CoSAI MCP Security (draft, 8 January 2026) threat 2.',
+    relatedTerms: ['Rug pull', 'Tool definition verification'],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy', 'Governance, Risk & Regulatory Alignment']
   }
 ];
