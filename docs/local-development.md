@@ -9,7 +9,7 @@ This guide details the technical workflow for setting up a local preview environ
 
 ## 1. Local Development Setup
 
-The standards portal is built as a pure, zero-dependency client-side web application. This allows you to preview all changes instantly.
+The standards portal is a pure client-side web application. Its validation tooling uses Node.js and Zod.
 
 ### Running a Local Preview Server
 1. Clone the repository and navigate to the directory:
@@ -38,8 +38,10 @@ When the local server is running, preview the Taxonomy dashboard directly:
 
 ### Pre-Submission Validation Checklist
 Before committing and pushing your changes, perform these sanity checks:
-1. **JavaScript Syntax Verification:** Open the browser's Developer Tools Console (`F12` or `Cmd+Opt+I`) on the local taxonomy page. Verify that there are no JavaScript syntax errors, parsing exceptions, or warnings.
-2. **Link Health:** Check that any links you add resolve correctly and use secure `https://` URLs where available.
+1. **Install dependencies:** Run `npm ci --ignore-scripts`.
+2. **Validate and test:** Run `npm run check` to parse `taxonomy/taxonomy.json`, validate it against the Zod schema, and run the validator regression tests.
+3. **Browser verification:** Open the browser's Developer Tools Console (`F12` or `Cmd+Opt+I`) on the local taxonomy page. Verify that there are no loading or rendering errors.
+4. **Link health:** Check that any links you add resolve correctly and use secure `https://` URLs where available.
 
 ---
 
@@ -53,7 +55,7 @@ All code contributions must be proposed via Git branches targeting the `main` br
    ```
 2. **Commit Your Changes:** Follow clean, descriptive commit conventions:
    ```bash
-   git add taxonomy/taxonomy-data.js
+   git add taxonomy/taxonomy.json
    git commit -m "add(taxonomy): define Attestation and map to Security WG"
    ```
 3. **Push to Your Fork:** Push the branch to your GitHub fork:
