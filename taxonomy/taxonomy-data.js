@@ -465,5 +465,17 @@ window.AAIF_TAXONOMY = [
     relatedTerms: ['Tool poisoning', 'Rug pull', 'Attestation'],
     contrastsWith: [],
     workgroups: ['Security & Privacy', 'Identity & Trust']
+  },
+
+  {
+    term: 'Cross-client data leakage',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The unintended disclosure of the data of one client, user, or tenant to another when a shared agent tool server, transport, session, or context is reused across clients without adequate isolation. It differs from data exfiltration in that the receiving party need not be malicious and no attacker need be present.',
+    scopeNote: 'Can result from an implementation flaw in how shared components separate clients. Cross-group interest: Security & Privacy (disclosure), Identity & Trust (binding a session to a single principal). External references: OWASP MCP Top 10 (2025) MCP10 (Context Injection & Over-Sharing); CoSAI MCP Security (draft, 8 January 2026) MCP-T2, whose listed examples include context bleeding and cross-tenant data exposure; GHSA-345p-7cg4-v4c7 / CVE-2026-25536 (High, CVSS 7.1, CWE-362), "Cross-Client Data Leak via Shared Server/Transport Instance Reuse" in @modelcontextprotocol/sdk, fixed in 1.26.0, is a published instance of this pattern.',
+    relatedTerms: ['Session'],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy', 'Identity & Trust']
   }
 ];
