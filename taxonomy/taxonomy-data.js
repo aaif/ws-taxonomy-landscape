@@ -277,7 +277,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'Commerce workflows in which AI agents participate in discovery, negotiation, checkout, payment, or post-purchase activity on behalf of people, organizations, or software systems.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
