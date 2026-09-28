@@ -453,5 +453,17 @@ window.AAIF_TAXONOMY = [
     relatedTerms: ['Tool poisoning', 'AI agent bill of materials'],
     contrastsWith: [],
     workgroups: ['Security & Privacy', 'Governance, Risk & Regulatory Alignment']
+  },
+
+  {
+    term: 'Tool definition verification',
+    category: '',
+    aliases: ['Tools manifest verification'],
+    broaderTerm: null,
+    definition: 'The practice of checking that the definition of an agent tool (its name, description, parameter schema, and declared capabilities) is authentic and unchanged from what was reviewed and approved, for example by comparing it with a signed or pinned reference before the agent is permitted to use it. It differs from Attestation, which is a verifiable claim made by an entity, in that verification is the act of checking a received definition against a trusted reference.',
+    scopeNote: 'A control, not an attack: one way to detect Tool poisoning and Rug pull. The trusted reference may itself be conveyed by an attestation. Some sources call a tool definition a tool manifest, hence the alias. Cross-group interest: Security & Privacy (detection control), Identity & Trust (authenticity of the tool publisher). External references: CoSAI MCP Security (draft, 8 January 2026) MCP-T6 (Missing Integrity/Verification Controls); OWASP MCP Top 10 (2025) MCP03 and MCP04 (signing and integrity checks for tool manifests).',
+    relatedTerms: ['Tool poisoning', 'Rug pull', 'Attestation'],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy', 'Identity & Trust']
   }
 ];
