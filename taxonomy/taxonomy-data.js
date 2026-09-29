@@ -368,11 +368,11 @@ window.AAIF_TAXONOMY = [
     workgroups: ['Agentic Commerce']
   },
   {
-    term: 'Agentic commerce protocol',
+    term: 'Agentic commerce protocols',
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'An interoperability specification for agents and commerce systems to exchange structured data, actions, and signals across one or more commerce lifecycle phases.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
