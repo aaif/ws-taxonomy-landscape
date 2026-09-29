@@ -29,6 +29,16 @@ window.AAIF_TAXONOMY = [
   // INTERESTED groups is an open decision.
   // ---------------------------------------------------------------------
   {
+    term: 'Hallucination',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A facially plausible detail or position in AI output that lacks any available support or basis.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
     term: 'Harness',
     category: '',
     aliases: [],
