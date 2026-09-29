@@ -352,7 +352,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A process for obtaining a merchant- and amount-constrained payment token without exposing the original payment credential to the agent. (Note - Assumes attenuation)',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
