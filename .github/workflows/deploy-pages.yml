@@ -24,9 +24,12 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -36,7 +39,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       # - name: Install landscape2
       #   run: |
@@ -52,6 +55,22 @@ jobs:
       #       --logos-path logos \
       #       --output-dir out
       #     cd ..
+
+      # Validate the landscape data before assembling, so a bad file cannot be
+      # deployed even on a direct push to main.
+      - name: Install landscape validator
+        working-directory: scripts
+        run: npm ci --ignore-scripts
+
+      - name: Run validator tests
+        working-directory: scripts
+        run: node --test
+
+      - name: Validate production landscape
+        run: node scripts/validate-landscape.mjs landscape/landscape.yml
+
+      - name: Reject symlinks in the deployed sources
+        run: bash scripts/check-no-symlinks.sh
 
       - name: Assemble Portal Distribution
         run: |
@@ -72,6 +91,18 @@ jobs:
           echo "Generated build timestamp: $CURRENT_TIME"
           sed -i "s|BUILD_TIMESTAMP|$CURRENT_TIME|g" dist/index.html
 
+
+      - name: Reject symlinks in the Pages artifact
+        run: |
+          # upload-pages-artifact packs the tree with `tar --dereference`, so a symlink copied
+          # into dist would be published as the bytes of whatever it points at (for example a
+          # runner-local file). Fail the deploy if any symlink is present rather than leak it.
+          links="$(find dist -type l -print)"
+          if [ -n "$links" ]; then
+            echo "::error::Symlinks are not allowed in the Pages artifact"
+            printf '%s\n' "$links"
+            exit 1
+          fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

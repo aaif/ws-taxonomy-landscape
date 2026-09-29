@@ -20,27 +20,57 @@ document.addEventListener('DOMContentLoaded', () => {
   const categoryBar = document.getElementById('category-bar');
   const resultCount = document.getElementById('result-count');
 
-  // Helper to append highlighted query substrings using pure DOM methods
-  function appendHighlightedText(parentElement, text, query) {
-    if (!query) {
+  // Escape a user query so it is matched as a literal (not a pattern) in a RegExp. Only the regex
+  // syntax characters are escaped, not `-` (which is literal outside a character class), so the
+  // result is valid under the `u` flag. Filtering and highlighting build their regexes from this
+  // with `iu`/`giu`, so both apply Unicode simple case-folding (a Kelvin sign matches `k`, a
+  // capital sharp-s matches `ß`) and stay in agreement. Locale-specific folds such as Turkish
+  // dotted-I are not covered by simple case-folding and are not matched.
+  function escapeRegExp(text) {
+    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  // Helper to append highlighted query substrings using pure DOM methods. `highlight` is a
+  // per-render context { regex, budget } shared across every field, so the regex is compiled
+  // once and the total number of <mark> nodes for the whole render is bounded, not just the
+  // count per field.
+  function appendHighlightedText(parentElement, text, highlight) {
+    if (!highlight || highlight.budget.remaining <= 0) {
       parentElement.textContent = text;
       return;
     }
     try {
-      const escapedQuery = query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-      const regex = new RegExp(`(${escapedQuery})`, 'gi');
-      const parts = text.split(regex);
+      const { regex, budget } = highlight;
+      regex.lastIndex = 0;
 
-      parts.forEach(part => {
-        if (part.toLowerCase() === query.toLowerCase()) {
-          const mark = document.createElement('mark');
-          mark.className = 'match-highlight';
-          mark.textContent = part;
-          parentElement.appendChild(mark);
-        } else if (part) {
-          parentElement.appendChild(document.createTextNode(part));
+      // Walk matches with exec() and stop after MAX_MATCHES_PER_FIELD (or once the shared
+      // render budget runs out), rather than splitting the whole string into a fragment array
+      // first. Only the matched slices and the surrounding gaps become nodes; the remainder is
+      // appended as a single text node so the field still renders in full.
+      const MAX_MATCHES_PER_FIELD = 100;
+      let cursor = 0;
+      let count = 0;
+      let match;
+      while (count < MAX_MATCHES_PER_FIELD && budget.remaining > 0 && (match = regex.exec(text)) !== null) {
+        // A zero-length match cannot advance lastIndex on its own and would loop forever.
+        if (match.index === regex.lastIndex) {
+          regex.lastIndex += 1;
+          continue;
         }
-      });
+        if (match.index > cursor) {
+          parentElement.appendChild(document.createTextNode(text.slice(cursor, match.index)));
+        }
+        const mark = document.createElement('mark');
+        mark.className = 'match-highlight';
+        mark.textContent = match[0];
+        parentElement.appendChild(mark);
+        cursor = match.index + match[0].length;
+        count += 1;
+        budget.remaining -= 1;
+      }
+      if (cursor < text.length) {
+        parentElement.appendChild(document.createTextNode(text.slice(cursor)));
+      }
     } catch (e) {
       parentElement.textContent = text;
     }
@@ -71,8 +101,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Render Landscape Grid
-  function renderLandscape() {
+  // Render Landscape Grid. `query` is the trimmed search string from runFilteringPipeline;
+  // highlighting builds its regex from the same string (and the same escaping) the filter used,
+  // so it is passed in rather than re-read from state here.
+  function renderLandscape(query) {
     landscapeGrid.replaceChildren();
 
     let totalItems = 0;
@@ -91,7 +123,12 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const query = state.currentSearch;
+    // Compile the search regex once for the whole render and share a total <mark> budget across
+    // every field, so the number of highlight nodes is bounded per render, not just per field.
+    // A whitespace-only query has already been normalized to empty by the caller.
+    const highlight = query
+      ? { regex: new RegExp(escapeRegExp(query), 'giu'), budget: { remaining: 2_000 } }
+      : null;
 
     state.filteredCategories.forEach(catObj => {
       const catGroup = document.createElement('section');
@@ -99,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const catTitle = document.createElement('h2');
       catTitle.className = 'landscape-category-title';
-      appendHighlightedText(catTitle, catObj.category, query);
+      appendHighlightedText(catTitle, catObj.category, highlight);
       catGroup.appendChild(catTitle);
 
       catObj.subcategories.forEach(subcatObj => {
@@ -110,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const subTitle = document.createElement('h3');
         subTitle.className = 'subcat-title';
-        appendHighlightedText(subTitle, subcatObj.subcategory, query);
+        appendHighlightedText(subTitle, subcatObj.subcategory, highlight);
         subGroup.appendChild(subTitle);
 
         const itemsGrid = document.createElement('div');
@@ -127,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           const cardTitle = document.createElement('h4');
           cardTitle.className = 'card-title';
-          appendHighlightedText(cardTitle, item.name, query);
+          appendHighlightedText(cardTitle, item.name, highlight);
           cardHeader.appendChild(cardTitle);
 
           const tierBadge = document.createElement('span');
@@ -139,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           const cardDesc = document.createElement('p');
           cardDesc.className = 'card-desc';
-          appendHighlightedText(cardDesc, item.description || '', query);
+          appendHighlightedText(cardDesc, item.description || '', highlight);
           card.appendChild(cardDesc);
 
           const cardLinks = document.createElement('div');
@@ -161,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
             repoLink.setAttribute('href', item.repo_url);
             repoLink.setAttribute('target', '_blank');
             repoLink.setAttribute('rel', 'noopener noreferrer');
-            repoLink.textContent = 'GitHub ↗';
+            repoLink.textContent = 'Repository ↗';
             cardLinks.appendChild(repoLink);
           }
 
@@ -186,7 +223,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function runFilteringPipeline() {
     if (!state.rawLandscape || !state.rawLandscape.landscape) return;
 
-    const query = state.currentSearch.toLowerCase().trim();
+    const rawQuery = state.currentSearch.trim();
+    // Filter and highlight share one escaped regex (Unicode case-insensitive, `iu`) so the same
+    // matching decides both. A `.test()` regex without the global flag is stateless, so it is
+    // safely reused across every field.
+    const filterRegex = rawQuery ? new RegExp(escapeRegExp(rawQuery), 'iu') : null;
 
     // Filter Categories and Subcategories
     state.filteredCategories = state.rawLandscape.landscape.map(catObj => {
@@ -198,15 +239,13 @@ document.addEventListener('DOMContentLoaded', () => {
       // Filter Subcategories and Items
       const filteredSubcats = catObj.subcategories.map(subcatObj => {
         const filteredItems = subcatObj.items.filter(item => {
-          if (!query) return true;
+          if (!filterRegex) return true;
 
-          const matchName = (item.name || '').toLowerCase().includes(query);
-          const matchDesc = (item.description || '').toLowerCase().includes(query);
-          const matchTier = (item.project || '').toLowerCase().includes(query);
-          const matchHome = (item.homepage_url || '').toLowerCase().includes(query);
-          const matchRepo = (item.repo_url || '').toLowerCase().includes(query);
-
-          return matchName || matchDesc || matchTier || matchHome || matchRepo;
+          return filterRegex.test(item.name || '') ||
+            filterRegex.test(item.description || '') ||
+            filterRegex.test(item.project || '') ||
+            filterRegex.test(item.homepage_url || '') ||
+            filterRegex.test(item.repo_url || '');
         });
 
         if (filteredItems.length === 0) return null;
@@ -225,7 +264,11 @@ document.addEventListener('DOMContentLoaded', () => {
       };
     }).filter(Boolean);
 
-    renderLandscape();
+    // Highlight the rendered text with the same query and escaping the filter used. The filter
+    // also searches the tier and URLs, which are not rendered as highlightable text, so a match
+    // there filters the card in without a visible mark. A whitespace-only query trims to empty,
+    // filtering nothing out and highlighting nothing.
+    renderLandscape(rawQuery);
   }
 
   // Fetch landscape.yml and Initialize
@@ -235,16 +278,23 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!response.ok) throw new Error('Failed to fetch landscape.yml');
       const yamlText = await response.text();
       
-      state.rawLandscape = jsyaml.load(yamlText);
+      // Parse with the same options as the CI validator (scripts/validate-landscape.mjs):
+      // FAILSAFE_SCHEMA keeps every scalar a string, so a value like `name: 789` cannot
+      // arrive here as a number or Date and then throw in the search .toLowerCase() calls,
+      // and maxDepth bounds nesting. These options must stay in sync with the validator.
+      state.rawLandscape = jsyaml.load(yamlText, { schema: jsyaml.FAILSAFE_SCHEMA, maxDepth: 10 });
       initCategoryBar();
       runFilteringPipeline();
     } catch (error) {
-      landscapeGrid.innerHTML = `
-        <div class="empty-state">
-          <p>Error loading landscape configuration.</p>
-          <span>Please ensure landscape.yml exists and is valid YAML. (${error.message})</span>
-        </div>
-      `;
+      landscapeGrid.replaceChildren();
+      const errorState = document.createElement('div');
+      errorState.className = 'empty-state';
+      const errorTitle = document.createElement('p');
+      errorTitle.textContent = 'Error loading landscape configuration.';
+      const errorDetail = document.createElement('span');
+      errorDetail.textContent = `Please ensure landscape.yml exists and is valid YAML. (${error.message})`;
+      errorState.append(errorTitle, errorDetail);
+      landscapeGrid.appendChild(errorState);
       resultCount.textContent = 'Error loading data';
     }
   }
