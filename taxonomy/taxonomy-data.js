@@ -342,6 +342,9 @@ window.AAIF_TAXONOMY = [
     relatedTerms: ['Agent trajectory'],
     contrastsWith: [],
     workgroups: ['Observability & Traceability']
+  },
+
+  // ---------------------------------------------------------------------
   // Agentic Commerce
   // ---------------------------------------------------------------------
   {
