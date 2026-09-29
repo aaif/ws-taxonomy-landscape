@@ -398,11 +398,11 @@ window.AAIF_TAXONOMY = [
     workgroups: ['Agentic Commerce']
   },
   {
-    term: 'Agent-mediated transaction',
+    term: 'Agent-in-the-loop transaction',
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A commerce transaction in which an agent participates in one or more lifecycle phases, without implying that the agent initiated, approved, or completed it.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
