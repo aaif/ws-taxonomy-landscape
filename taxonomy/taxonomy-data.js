@@ -51,6 +51,17 @@ window.AAIF_TAXONOMY = [
     workgroups: []
   },
   {
+    term: 'Model',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Something that can read and write both structured and unstructured text.',
+    scopeNote: 'For agents, a model typically refers to a large language model (LLM), but it could also refer to a small language model (SLM) or vision-language model (VLM). This definition does not preclude non-language models; for example, a hidden Markov model could support a simple but computationally efficient agent. Models typically comprise calibrated weights, such as those distributed in GGUF format, and software that transforms inputs and applies those weights, such as the llama.cpp inference runtime.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
     term: 'Human curated',
     category: '',
     aliases: [],
