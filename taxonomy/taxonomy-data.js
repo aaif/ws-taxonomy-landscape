@@ -426,5 +426,56 @@ window.AAIF_TAXONOMY = [
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
+  },
+
+  // ---------------------------------------------------------------------
+  // Security & Privacy — agent tool supply chain
+  // ---------------------------------------------------------------------
+  {
+    term: 'Tool poisoning',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An attack in which the definition of an agent tool (such as its name, description, or parameter schema) or the behavior of the tool is maliciously crafted or altered so that an AI agent that trusts the tool is induced to disclose data, take unauthorized actions, or otherwise deviate from the intent of its user or operator. It differs from Rug pull in being defined by what is manipulated, not by when the change is introduced.',
+    scopeNote: 'Materially different from general software supply-chain poisoning: the compromised artifact is natural-language tool metadata that the agent model reads and follows as instructions, not executable code subject to compilation, static analysis, or code review before it runs. MITRE ATLAS assigns this a dedicated agent-specific technique (AML.T0110), distinct from its generic supply-chain techniques, for that reason. The manipulation may be present from first publication or introduced later. Cross-group interest: Security & Privacy (attack technique), Governance, Risk & Regulatory Alignment (vetting of third-party tools). External references: MITRE ATLAS AML.T0110 (AI Agent Tool Poisoning); OWASP MCP Top 10 (2025) MCP03 (Tool Poisoning); CoSAI MCP Security (draft, 8 January 2026) threat 2.',
+    relatedTerms: ['Rug pull', 'Tool definition verification'],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy', 'Governance, Risk & Regulatory Alignment']
+  },
+
+  {
+    term: 'Rug pull',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A supply chain attack in which an agent tool or tool server is first published or approved in a benign form and is later changed, through a modified definition, updated code, or newly added capabilities, into a malicious version, so that the change bypasses the scrutiny applied when the tool was first accepted. It differs from Tool poisoning in being defined by when the change is introduced (after trust is established), not by what is manipulated.',
+    scopeNote: 'Materially different from a traditional package rug pull: an agent tool accrues trust through repeated autonomous invocation by the agent itself, not through a human re-reviewing each version before adopting it, so the exploitation window opens without the human-review checkpoint a conventional package update would normally pass through. MITRE ATLAS assigns this its own agent/AI-supply-chain technique (AML.T0109) for that reason. A rug pull may deliver Tool poisoning once the malicious version is live; this entry is scoped to agent tools and tool servers, not the general software supply chain. Cross-group interest: Security & Privacy (attack technique), Governance, Risk & Regulatory Alignment (change control and inventory of third-party components). External references: MITRE ATLAS AML.T0109 (AI Supply Chain Rug Pull); CoSAI MCP Security (draft, 8 January 2026) threat 32 and MCP-T6.',
+    relatedTerms: ['Tool poisoning', 'AI agent bill of materials'],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy', 'Governance, Risk & Regulatory Alignment']
+  },
+
+  {
+    term: 'Tool definition verification',
+    category: '',
+    aliases: ['Tools manifest verification'],
+    broaderTerm: null,
+    definition: 'The practice of checking that the definition of an agent tool (its name, description, parameter schema, and declared capabilities) is authentic and unchanged from what was reviewed and approved, for example by comparing it with a signed or pinned reference before the agent is permitted to use it. It differs from Attestation, which is a verifiable claim made by an entity, in that verification is the act of checking a received definition against a trusted reference.',
+    scopeNote: 'A control, not an attack: one way to detect Tool poisoning and Rug pull. The trusted reference may itself be conveyed by an attestation. Some sources call a tool definition a tool manifest, hence the alias. Cross-group interest: Security & Privacy (detection control), Identity & Trust (authenticity of the tool publisher). External references: CoSAI MCP Security (draft, 8 January 2026) MCP-T6 (Missing Integrity/Verification Controls); OWASP MCP Top 10 (2025) MCP03 and MCP04 (signing and integrity checks for tool manifests).',
+    relatedTerms: ['Tool poisoning', 'Rug pull', 'Attestation'],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy', 'Identity & Trust']
+  },
+
+  {
+    term: 'Cross-client data leakage',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The unintended disclosure of the data of one client, user, or tenant to another when a shared agent tool server, transport, session, or context is reused across clients without adequate isolation. It differs from data exfiltration in that the receiving party need not be malicious and no attacker need be present.',
+    scopeNote: 'Can result from an implementation flaw in how shared components separate clients. Cross-group interest: Security & Privacy (disclosure), Identity & Trust (binding a session to a single principal). External references: OWASP MCP Top 10 (2025) MCP10 (Context Injection & Over-Sharing); CoSAI MCP Security (draft, 8 January 2026) MCP-T2, whose listed examples include context bleeding and cross-tenant data exposure; GHSA-345p-7cg4-v4c7 / CVE-2026-25536 (High, CVSS 7.1, CWE-362), "Cross-Client Data Leak via Shared Server/Transport Instance Reuse" in @modelcontextprotocol/sdk, fixed in 1.26.0, is a published instance of this pattern.',
+    relatedTerms: ['Session'],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy', 'Identity & Trust']
   }
 ];
