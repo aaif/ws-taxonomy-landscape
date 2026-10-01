@@ -190,7 +190,8 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: ['Agent discovery'],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'The process by which a Workflow identifies candidate participants, capabilities, or tools that may be relevant to performing an Activity or advancing the Workflow toward its goal.',
+    scopeNote: 'Discovery may use descriptions of the capabilities, registries, metadata, configuration, policies, or other mechanisms. It identifies candidate options and related information, but does not by itself imply selection, authorization, trust, or invocation.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Workflows & Process Integration', 'Identity & Trust']
@@ -200,10 +201,65 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: ['Hand-off'],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
-    relatedTerms: ['Agent trajectory', 'Context propagation'],
+    definition: 'The transfer of responsibility for continuing execution from one participant to another.',
+    scopeNote: 'A Handoff may occur at the level of an Activity, Workflow segment, or Workflow and may include the relevant State, Context, or other information needed to continue execution. A Handoff does not by itself imply transfer of authorization, accountability, or broader authority.',
+    relatedTerms: ['Delegation'],
     contrastsWith: [],
     workgroups: ['Workflows & Process Integration', 'Observability & Traceability', 'Governance, Risk & Regulatory Alignment']
+  },
+   {
+    term: 'Determinism',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The property by which an Execution produces the same behavior given the same inputs and state.',
+    scopeNote: 'Determinism may apply to an Execution as a whole or to a specific layer, component, or decision point within it. Deterministic behavior at one level does not imply determinism at every other level. In workflow systems, for example, Control Flow may be deterministic while an individual Activity may produce variable outputs, particularly when LLM-driven. This definition does not prescribe how Determinism is measured, scored or evaluated.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration', 'Observability & Traceability', 'Accuracy & Reliability']
+  },
+  {
+    term: 'Orchestration',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A coordination pattern in which a designated orchestrator directs Activities, manages their sequencing, and determines subsequent actions based on Workflow State and results.',
+    relatedTerms: ['Orchestrator', 'Choreography'],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration', 'Observability & Traceability']
+  },
+  {
+    term: 'Agentic lifecycle',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The stages through which an agentic system progresses from definition and configuration through operation, evaluation, adaptation and retirement.',
+    scopeNote: 'Agentic Lifecycle refers to the lifecycle of the overall agentic system, rather than a single Agent or Workflow Execution. Its stages may repeat or occur in different orders.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration', 'Observability & Traceability']
+  },
+  {
+    term: 'Activity',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: ' A bounded unit of work performed as part of a Workflow, with defined or identifiable inputs and outputs.',
+    scopeNote: 'An Activity may be performed by an agent, human, tool, service, or other participant. It may consist of one or more lower-level steps or actions. Terms such as Task, Step, and Action may represent finer-grained or framework-specific units of work.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration']
+  },
+  {
+    term: 'Agentic workflow',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A progression of Activities toward a goal in which one or more Agents participate in determining, sequencing, or performing work.',
+    scopeNote: 'Agent participation may occur in only part of the Workflow and does not require every Activity to be performed by an Agent. An Agentic Workflow may also include humans, tools, services, or other participants.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration']
   },
 
   // ---------------------------------------------------------------------
