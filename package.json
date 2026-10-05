@@ -1,0 +1,10 @@
+{
+  "name": "ws-taxonomy-landscape",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prepare": "node tools/install-git-hooks.mjs"
+  }
+}

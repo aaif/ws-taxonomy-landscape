@@ -28,6 +28,25 @@ The standards portal is built as a pure, zero-dependency client-side web applica
      ```
 3. Open your browser and navigate to the local portal at `http://localhost:8000/`.
 
+### Installing the Repository Git Hooks
+
+Taxonomy contributors should use Node.js 20 or later. After cloning, install the
+repository's npm package metadata:
+
+```bash
+npm install
+```
+
+The install automatically runs the `prepare` script, which executes
+`tools/install-git-hooks.mjs` and configures Git to use the versioned hooks in
+`.githooks`. You can rerun the setup at any time with `npm run prepare`.
+
+The pre-commit hook generates and stages the human-readable taxonomy reference
+at `taxonomy/TERMS.md`. Do not access or edit that file as the source of taxonomy
+content; make changes in `taxonomy/taxonomy-data.js` instead. CI independently
+verifies the generated file, so bypassing the local hook cannot introduce stale
+or hand-edited output.
+
 ---
 
 ## 2. Previewing and Validating Changes
@@ -38,8 +57,10 @@ When the local server is running, preview the Taxonomy dashboard directly:
 
 ### Pre-Submission Validation Checklist
 Before committing and pushing your changes, perform these sanity checks:
-1. **JavaScript Syntax Verification:** Open the browser's Developer Tools Console (`F12` or `Cmd+Opt+I`) on the local taxonomy page. Verify that there are no JavaScript syntax errors, parsing exceptions, or warnings.
-2. **Link Health:** Check that any links you add resolve correctly and use secure `https://` URLs where available.
+1. **Taxonomy validation:** Run `node tools/validate-taxonomy.mjs`.
+2. **Generated reference:** Run `node tools/generate-taxonomy-markdown.mjs --verify`.
+3. **JavaScript syntax verification:** Open the browser's Developer Tools Console (`F12` or `Cmd+Opt+I`) on the local taxonomy page. Verify that there are no JavaScript syntax errors, parsing exceptions, or warnings.
+4. **Link health:** Check that any links you add resolve correctly and use secure `https://` URLs where available.
 
 ---
 

@@ -52,5 +52,8 @@ jobs:
       - name: Validate taxonomy-data.js
         run: node tools/validate-taxonomy.mjs
 
-      - name: Run validator tests
-        run: node --test tools/validate-taxonomy.test.mjs
+      - name: Verify generated taxonomy reference
+        run: node tools/generate-taxonomy-markdown.mjs --verify
+
+      - name: Run taxonomy tooling tests
+        run: node --test tools/validate-taxonomy.test.mjs tools/generate-taxonomy-markdown.test.mjs
