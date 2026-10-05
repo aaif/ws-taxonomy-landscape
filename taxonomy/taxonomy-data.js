@@ -285,7 +285,7 @@ window.AAIF_TAXONOMY = [
   {
     term: 'Agentic commerce protocols',
     category: '',
-    aliases: [],
+    aliases: ['Agentic commerce protocol'],
     broaderTerm: null,
     definition: 'An interoperability specification for agents and commerce systems to exchange structured data, actions, and signals across one or more commerce lifecycle phases.',
     relatedTerms: [],
