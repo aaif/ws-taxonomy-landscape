@@ -1,8 +1,6 @@
 name: Validate Taxonomy Data
 
 # Prevents a broken taxonomy/taxonomy.json from reaching main.
-# The viewer fetches this file directly, so invalid JSON or an invalid entry
-# will break the taxonomy explorer.
 # Regression origin: commit 36cd708 "Fix unescaped quote in Delegation scopeNote".
 #
 # Runs when a maintainer reviews the PR, plus manual dispatch; main is
