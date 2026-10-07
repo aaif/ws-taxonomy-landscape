@@ -73,6 +73,17 @@ window.AAIF_TAXONOMY = [
     workgroups: []
   },
   {
+    term: 'Context',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The information available to an agent when making a decision.',
+    scopeNote: 'Includes user messages, tool results, retrieved documents, memory, and system instructions assembled for the current step.',
+    relatedTerms: ['Context assembly', 'Context exhaustion', 'Context propagation', 'Memory access', 'Retrieval'],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
     term: 'Context exhaustion',
     category: '',
     aliases: [],
