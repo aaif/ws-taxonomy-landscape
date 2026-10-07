@@ -478,7 +478,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A commerce transaction in which an agent performs the final order or payment action, without implying that the agent initiated the flow or acted without prior human approval.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
