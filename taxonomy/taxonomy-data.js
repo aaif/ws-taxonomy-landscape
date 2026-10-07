@@ -109,7 +109,17 @@ window.AAIF_TAXONOMY = [
     broaderTerm: null,
     definition: 'Definition pending — term accepted; definition under working group discussion.',
     relatedTerms: [],
-    contrastsWith: [],
+    contrastsWith: ['Tool'],
+    workgroups: []
+  },
+  {
+    term: 'Tool',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An external function, API, or service an agent may call to retrieve data or perform an action.',
+    relatedTerms: [],
+    contrastsWith: ['Skill'],
     workgroups: []
   },
   {
