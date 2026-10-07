@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -eu
+
+repository_root="$(git rev-parse --show-toplevel)"
+cd "$repository_root"
+
+# The generator reads the working-tree source. Refuse an ambiguous partial
+# commit where taxonomy-data.js has both staged and unstaged content.
+if ! git diff --quiet -- taxonomy/taxonomy-data.js; then
+  echo "taxonomy/taxonomy-data.js has unstaged changes." >&2
+  echo "Stage or discard them before committing so TERMS.md matches the commit." >&2
+  exit 1
+fi
+
+node tools/generate-taxonomy-markdown.mjs
+git add -- taxonomy/TERMS.md
