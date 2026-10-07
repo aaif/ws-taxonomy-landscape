@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AAIF Taxonomy — Browser &amp; Term Wizard</title>
+<link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🌳&lt;/text&gt;&lt;/svg&gt;" />
+<style>
+  :root {
+    --bg: #0f1420; --panel: #171d2b; --ink: #e7ecf3; --muted: #9aa7bd;
+    --accent: #5b8cff; --accent-2: #7bd88f; --warn: #ffcf6b; --err: #ff7a7a;
+    --chip: #26304a; --border: #2a3448;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  }
+  header { padding: 20px 24px; border-bottom: 1px solid var(--border); }
+  header h1 { margin: 0; font-size: 18px; }
+  header p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+  header a { color: var(--accent); text-decoration: none; }
+  header a:hover { text-decoration: underline; }
+  main { max-width: 900px; margin: 0 auto; padding: 24px; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 18px; }
+  .tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+  .tabs button { background: var(--chip); border: 1px solid var(--border); color: var(--ink); border-radius: 8px; padding: 8px 16px; font: inherit; cursor: pointer; }
+  .tabs button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .toolbar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  input[type=text], textarea, select {
+    background: #0d121d; color: var(--ink); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 12px; font: inherit;
+  }
+  textarea { width: 100%; resize: vertical; min-height: 64px; }
+  #search { flex: 1; min-width: 220px; }
+  .count { color: var(--muted); font-size: 13px; }
+  label { display: block; font-weight: 600; margin-bottom: 6px; }
+  .hint { color: var(--muted); font-weight: 400; font-size: 12px; margin-bottom: 8px; }
+  .row { margin-bottom: 18px; }
+  .tagbox { display: flex; flex-wrap: wrap; gap: 6px; padding: 6px; background: #0d121d; border: 1px solid var(--border); border-radius: 8px; position: relative; }
+  .tagbox input { flex: 1; min-width: 120px; border: none; background: transparent; color: var(--ink); padding: 6px; outline: none; }
+  .chip-edit { background: var(--chip); border: 1px solid var(--border); border-radius: 999px; padding: 3px 10px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; }
+  .chip-edit button { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 14px; line-height: 1; }
+  .chip-edit button:hover { color: var(--err); }
+  .suggest { position: absolute; top: 100%; left: 0; right: 0; background: #0d121d; border: 1px solid var(--border); border-radius: 8px; margin-top: 4px; max-height: 220px; overflow: auto; z-index: 20; display: none; }
+  .suggest div { padding: 8px 12px; cursor: pointer; }
+  .suggest div:hover, .suggest div.active { background: var(--chip); }
+  .suggest .pending { color: var(--muted); font-size: 12px; }
+  button.primary { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 12px 20px; font: inherit; font-weight: 600; cursor: pointer; }
+  button.primary:disabled { opacity: .5; cursor: not-allowed; }
+  .msg { padding: 10px 12px; border-radius: 8px; margin-bottom: 12px; font-size: 14px; display: none; }
+  .msg.warn { background: rgba(255,207,107,.12); border: 1px solid var(--warn); color: var(--warn); }
+  .msg.err { background: rgba(255,122,122,.12); border: 1px solid var(--err); color: var(--err); }
+  .msg.ok { background: rgba(123,216,143,.12); border: 1px solid var(--accent-2); color: var(--accent-2); }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 999px; background: var(--chip); color: var(--muted); margin-left: 8px; }
+  .badge.pending { background: rgba(255,207,107,.15); color: var(--warn); }
+  .badge.defined { background: rgba(123,216,143,.15); color: var(--accent-2); }
+  .badge.submitted { background: rgba(120,170,255,.18); color: #78aaff; text-decoration: none; cursor: pointer; }
+  .badge.submitted:hover { text-decoration: underline; }
+  /* browser cards */
+  .term { border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 12px; background: #131a28; }
+  .term h2 { margin: 0 0 4px; font-size: 17px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .def { margin: 6px 0; }
+  .def.pending { color: var(--muted); font-style: italic; }
+  .scope { color: var(--muted); font-size: 14px; margin: 6px 0; }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 8px; font-size: 13px; }
+  .meta .label { color: var(--muted); }
+  .chip { background: var(--chip); border: 1px solid var(--border); border-radius: 999px; padding: 2px 10px; font-size: 12px; display: inline-block; }
+  .empty { color: var(--muted); text-align: center; padding: 40px 0; }
+  .wg { color: var(--accent-2); }
+  .wg-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .wg-list label { font-weight: 400; display: flex; align-items: center; gap: 6px; background: #0d121d; border: 1px solid var(--border); padding: 6px 10px; border-radius: 8px; cursor: pointer; margin: 0; }
+  pre { background: #0d121d; border: 1px solid var(--border); border-radius: 8px; padding: 12px; overflow-x: auto; font-size: 12px; max-height: 320px; }
+  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .sentenceWarn { color: var(--warn); font-size: 12px; display: none; }
+  .hidden { display: none !important; }
+  /* AI assist — conforms to the taxonomy palette (accent blue, no foreign gradients) */
+  .ai-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; padding: 12px 14px; background: #0d121d; border: 1px solid var(--border); border-radius: 10px; }
+  .ai-bar .ai-text { flex: 1; min-width: 180px; color: var(--muted); font-size: 13px; }
+  .ai-bar .ai-text strong { color: var(--ink); font-weight: 600; }
+  button.ai { background: var(--chip); color: var(--ink); border: 1px solid var(--accent); border-radius: 8px; padding: 8px 14px; font: inherit; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  button.ai:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button.ai:disabled { opacity: .5; cursor: not-allowed; }
+  .ai-status { font-size: 12px; padding: 3px 10px; border-radius: 999px; background: var(--chip); color: var(--muted); }
+  .ai-status.ready { background: rgba(123,216,143,.15); color: var(--accent-2); }
+  .ai-status.off { background: rgba(255,122,122,.12); color: var(--err); }
+  .ai-status.checking { background: rgba(255,207,107,.15); color: var(--warn); }
+  .ai-model { background: #0d121d; color: var(--ink); border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; font: inherit; max-width: 220px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>AAIF Taxonomy — Browser &amp; Term Wizard</h1>
+  <p>Source of truth:
+    <a href="https://github.com/aaif/ws-taxonomy-landscape/blob/main/taxonomy/taxonomy-data.js" target="_blank" rel="noopener">taxonomy-data.js</a>
+    — loaded live via <code>&lt;script src&gt;</code> (no CORS). The wizard has no
+    backend: it produces a script you download and run to open the PR.</p>
+</header>
+
+<main>
+  <div id="banner" class="msg"></div>
+
+  <div class="tabs">
+    <button id="tabBrowse" class="active">Browse</button>
+    <button id="tabPropose">Propose / edit a term</button>
+  </div>
+
+  <!-- ================= BROWSE ================= -->
+  <section id="viewBrowse">
+    <div class="card">
+      <div class="toolbar">
+        <input id="search" type="text" placeholder="Search terms, definitions, aliases…" autocomplete="off" />
+        <select id="filter">
+          <option value="all">All terms</option>
+          <option value="defined">Defined only</option>
+          <option value="pending">Pending only</option>
+          <option value="submitted">Submitted (open PR)</option>
+        </select>
+        <select id="wgFilter"><option value="">All working groups</option></select>
+        <span class="count" id="count"></span>
+      </div>
+    </div>
+    <div id="list"></div>
+  </section>
+
+  <!-- ================= PROPOSE ================= -->
+  <section id="viewPropose" class="hidden">
+    <div class="card">
+      <div class="row">
+        <label for="term">Term <span class="badge" id="termBadge" style="display:none"></span></label>
+        <div class="hint">Start typing. If it already exists, the form fills in with the current entry (editable).</div>
+        <div style="position:relative;">
+          <input id="term" type="text" autocomplete="off" placeholder="e.g. Skill" style="width:100%;" />
+          <div class="suggest" id="termSuggest"></div>
+        </div>
+      </div>
+
+      <div class="ai-bar" id="aiBar">
+        <button type="button" class="ai" id="aiFillBtn" title="Draft the fields for this term with the selected model">✨ Fill with AI</button>
+        <select id="aiModel" class="ai-model" title="Choose which model drafts the fields"><option value="">Loading models…</option></select>
+        <span class="ai-text">Drafts the <strong>definition</strong>, <strong>scope note</strong>, <strong>aliases</strong>, and suggests <strong>related terms</strong>, <strong>contrasts</strong> and <strong>working groups</strong> (only existing terms/groups are used). Always review — you own every word.</span>
+        <span class="ai-status checking" id="aiStatus">Checking…</span>
+      </div>
+
+      <div class="row">
+        <label for="definition">Definition</label>
+        <div class="hint">One sentence. Leave blank to keep the "pending" placeholder.</div>
+        <textarea id="definition" placeholder="A single-sentence, vendor-neutral definition."></textarea>
+        <div id="sentenceWarn" class="sentenceWarn">⚠ This looks like more than one sentence.</div>
+      </div>
+
+      <div class="row">
+        <label for="scopeNote">Scope note <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+        <div class="hint">Examples, boundaries, and historical context — not in the definition.</div>
+        <textarea id="scopeNote" placeholder="Examples and clarifying context."></textarea>
+      </div>
+
+      <div class="row">
+        <label>Aliases <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+        <div class="hint">Synonyms / alternate spellings. Type and press Enter.</div>
+        <div class="tagbox" data-tags="aliases"><span class="tags"></span><input type="text" autocomplete="off" placeholder="Add alias…" /></div>
+      </div>
+
+      <div class="row">
+        <label>Related terms <span style="font-weight:400;color:var(--muted)">(skos:related)</span></label>
+        <div class="hint">Must already exist in the taxonomy. Autocompletes from existing terms.</div>
+        <div class="tagbox" data-tags="relatedTerms" data-validate="existing"><span class="tags"></span><input type="text" autocomplete="off" placeholder="Add related term…" /><div class="suggest"></div></div>
+      </div>
+
+      <div class="row">
+        <label>Contrasts with</label>
+        <div class="hint">Paired contrasting terms — must already exist. Autocompletes.</div>
+        <div class="tagbox" data-tags="contrastsWith" data-validate="existing"><span class="tags"></span><input type="text" autocomplete="off" placeholder="Add contrasting term…" /><div class="suggest"></div></div>
+      </div>
+
+      <div class="row">
+        <label>Working groups <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+        <div class="hint">Select all that share interest. "Universal" is intentionally not a choice.</div>
+        <div class="wg-list" id="wgList"></div>
+      </div>
+
+      <button class="primary" id="genBtn">Prepare PR</button>
+    </div>
+
+    <div class="card" id="resultCard" style="display:none;">
+      <h3 style="margin-top:0;">✓ Ready to submit</h3>
+      <p class="hint" id="resultMeta"></p>
+
+      <div class="row">
+        <label>Option A — Create the PR from your fork on GitHub <span style="font-weight:400;color:var(--muted)">(no download, no local git)</span></label>
+        <div class="hint">You almost certainly don't have write access to <code id="ghUpstream"></code>, so the PR comes from <b>your own fork</b>. Enter your GitHub username. With a <b>token</b>, the button does everything through the GitHub API — creates the branch, commits the spliced <code id="ghFileName"></code>, and opens the PR — in one click. Without a token, it falls back to opening a prefilled commit page (file, commit title and description prefilled) and copies the branch name for you.</div>
+        <div class="toolbar" style="margin-bottom:8px;">
+          <input id="ghUser" type="text" placeholder="your-github-username" autocomplete="off" style="min-width:200px;" />
+          <input id="ghToken" type="password" placeholder="GitHub token (optional)" autocomplete="off" style="min-width:240px;" />
+          <label style="display:inline-flex;align-items:center;gap:6px;font-weight:400;margin:0;"><input type="checkbox" id="ghRemember"> remember token</label>
+        </div>
+        <div class="toolbar" style="margin-bottom:12px;">
+          <button class="primary" id="ghPrBtn">🔗 Create PR on GitHub</button>
+        </div>
+        <div class="hint">
+          The token is used <b>only</b> for direct calls to <code>api.github.com</code> from your browser — it is never sent anywhere else. "Remember" stores it in this browser's <code>localStorage</code>; leave it unchecked to keep it in memory for this session only.
+          Create a fine-grained token with <b>Contents: read &amp; write</b> and <b>Pull requests: read &amp; write</b> on your fork
+          (<a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener">github.com/settings/tokens</a>), or a classic token with the <code>repo</code> scope.
+          No fork yet? The button creates one for you (with a token) or opens the fork page (without).
+        </div>
+        <div class="row" style="margin-top:14px;">
+          <label>Entry <span style="font-weight:400;color:var(--muted)">(used automatically; shown as a fallback)</span></label>
+          <pre><code id="entryPreview"></code></pre>
+        </div>
+      </div>
+
+      <div class="row" style="border-top:1px solid var(--border); padding-top:18px; margin-top:6px;">
+        <label>Option B — Download a script and run it locally</label>
+        <div class="hint">Fully automated: branches, applies a comment-preserving surgical edit, signed-off commit, push, and PR via <code>gh</code>.</div>
+        <button class="primary" id="downloadBtn">⬇ Download create-pr.sh</button>
+      </div>
+      <div class="row">
+        <label>Then run it from the repo root:</label>
+        <pre><code id="runCmd"></code></pre>
+      </div>
+      <div class="row">
+        <label>Script preview</label>
+        <pre><code id="scriptPreview"></code></pre>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!--
+  The data file assigns to window.AAIF_TAXONOMY. We CANNOT load it with a
+  classic <script src>: raw.githubusercontent.com serves it as
+  "Content-Type: text/plain" with "X-Content-Type-Options: nosniff", so modern
+  browsers refuse to execute it as a script (MIME mismatch under nosniff), and
+  neither onload nor onerror fires reliably.
+
+  Instead we fetch() the raw text (the response sends
+  "access-control-allow-origin: *", so CORS is fine) and evaluate the
+  assignment in a sandboxed scope. Use the RAW url, not github.com/.../blob/...
+  (which returns an HTML page). Pin to a commit SHA for a frozen snapshot.
+-->
+<!-- Puter SDK: free, key-less access to Grok (xAI). No backend, no API key. -->
+<script src="https://js.puter.com/v2/"></script>
+<script>
+const DATA_URL = "https://raw.githubusercontent.com/aaif/ws-taxonomy-landscape/main/taxonomy/taxonomy-data.js";
+const REPO = "aaif/ws-taxonomy-landscape";
+const DATA_FILE = "taxonomy/taxonomy-data.js";
+const BASE_BRANCH = "main";
+const WORKGROUPS = ["Accuracy & Reliability", "Agentic Commerce", "Governance, Risk & Regulatory Alignment", "Identity & Trust", "Observability & Traceability", "Security & Privacy", "Workflows & Process Integration"];
+const PENDING_RE = /^definition pending/i;
+const PENDING_TEXT = "Definition pending — term accepted; definition under working group discussion.";
+
+let STATE = { terms: [], byName: {} };
+
+function isPending(t) { return !t.definition || PENDING_RE.test(t.definition.trim()); }
+function banner(kind, msg) {
+  const b = document.getElementById("banner");
+  b.className = "msg " + kind; b.innerHTML = msg; b.style.display = "block";
+  if (kind === "ok") setTimeout(() => { b.style.display = "none"; }, 6000);
+}
+function esc(s) { return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+// Fetch the raw data file and evaluate the "window.AAIF_TAXONOMY = [...]"
+// assignment in a sandboxed scope. We can't use <script src> because GitHub
+// serves the file as text/plain with nosniff (browsers won't execute it).
+async function boot() {
+  let text;
+  try {
+    const res = await fetch(DATA_URL, { cache: "no-cache" });
+    if (!res.ok) { loadError("http", res.status); return; }
+    text = await res.text();
+  } catch (e) {
+    loadError("network", e && e.message); return;
+  }
+
+  // Guard: /blob/ URLs (or a redirect) return HTML, not JS.
+  if (/^\s*</.test(text)) { loadError("html"); return; }
+
+  let data;
+  try {
+    // Evaluate against a local `window` object so the file's
+    // `window.AAIF_TAXONOMY = [...]` assignment is captured without touching
+    // the real global scope.
+    const sandbox = {};
+    // eslint-disable-next-line no-new-func
+    new Function("window", text)(sandbox);
+    data = sandbox.AAIF_TAXONOMY;
+  } catch (e) {
+    loadError("parse", e && e.message); return;
+  }
+
+  if (!Array.isArray(data)) { loadError("badContent"); return; }
+  STATE.rawText = text;   // keep the raw file so we can splice + prefill a commit
+  init(data);
+}
+
+function loadError(reason, detail) {
+  let extra = "";
+  switch (reason) {
+    case "http":
+      extra = ` The server returned HTTP ${detail}. If it's 404, the file may have moved or the branch/path changed.`;
+      break;
+    case "html":
+      extra = " The response looks like HTML, not JS — use the <b>raw</b> URL (<code>raw.githubusercontent.com/.../main/...</code>), not the <code>github.com/.../blob/</code> page.";
+      break;
+    case "badContent":
+      extra = " The file loaded but did not define an <code>AAIF_TAXONOMY</code> array — its format may have changed.";
+      break;
+    case "parse":
+      extra = " The file could not be parsed as JavaScript" + (detail ? ` (${esc(detail)})` : "") + ".";
+      break;
+    case "network":
+    default:
+      extra = " The request failed" + (detail ? ` (${esc(detail)})` : "") +
+        ". You may be offline, behind a proxy, or a content blocker is matching <code>githubusercontent.com</code>.";
+      if (location.protocol === "file:") {
+        extra += " If you opened this as a <code>file://</code>, serve the folder instead: <code>python3 -m http.server -d taxonomy-browser 8000</code>.";
+      }
+  }
+  banner("err", "Could not load the taxonomy data. Check the raw GitHub URL is reachable and still a valid <code>window.AAIF_TAXONOMY = [...]</code> file." + extra);
+}
+
+function init(data) {
+  STATE.terms = data.slice().sort((a, b) => a.term.localeCompare(b.term));
+  STATE.byName = {};
+  STATE.terms.forEach(t => STATE.byName[t.term.toLowerCase()] = t);
+
+  // browse
+  const wgs = new Set();
+  STATE.terms.forEach(t => (t.workgroups || []).forEach(w => wgs.add(w)));
+  const wgSel = document.getElementById("wgFilter");
+  [...wgs].sort().forEach(w => { const o = document.createElement("option"); o.value = w; o.textContent = w; wgSel.appendChild(o); });
+  const search = document.getElementById("search"), filter = document.getElementById("filter");
+  const render = () => renderList(search.value, filter.value, wgSel.value);
+  [search, filter, wgSel].forEach(el => el.addEventListener("input", render));
+  render();
+
+  // tabs
+  wireTabs();
+  // wizard
+  renderWorkgroups();
+  wireTagboxes();
+  wireTermField();
+  document.getElementById("definition").addEventListener("input", checkSentences);
+  document.getElementById("genBtn").addEventListener("click", generate);
+
+  // AI assist (Grok / xAI via Puter)
+  AI.init();
+
+  // Pre-fill a remembered GitHub token (if the user opted to store one).
+  GH.loadRememberedToken();
+
+  // Fetch open/closed PRs in the background so terms can show a "submitted"
+  // badge (an open PR proposes the term). Non-fatal if it fails (e.g. rate
+  // limited without a token) — the browser still works from the data file.
+  PRS.load().then(r => {
+    if (r && r.ok) render();          // re-render list now that PR data is in
+  }).catch(() => {});
+}
+
+// ---------- tabs ----------
+function wireTabs() {
+  const b = document.getElementById("tabBrowse"), p = document.getElementById("tabPropose");
+  const vb = document.getElementById("viewBrowse"), vp = document.getElementById("viewPropose");
+  b.addEventListener("click", () => { b.classList.add("active"); p.classList.remove("active"); vb.classList.remove("hidden"); vp.classList.add("hidden"); });
+  p.addEventListener("click", () => { p.classList.add("active"); b.classList.remove("active"); vp.classList.remove("hidden"); vb.classList.add("hidden"); });
+}
+
+// ---------- browse ----------
+function renderList(query, filterMode, wg) {
+  const q = query.trim().toLowerCase();
+  const list = document.getElementById("list");
+  const matches = STATE.terms.filter(t => {
+    const pending = isPending(t);
+    if (filterMode === "defined" && pending) return false;
+    if (filterMode === "pending" && !pending) return false;
+    if (filterMode === "submitted" && !(PRS.isLoaded() && PRS.openFor(t.term).length)) return false;
+    if (wg && !(t.workgroups || []).includes(wg)) return false;
+    if (!q) return true;
+    const hay = [t.term, t.definition, t.scopeNote, ...(t.aliases||[]), ...(t.relatedTerms||[]), ...(t.contrastsWith||[])].filter(Boolean).join(" ").toLowerCase();
+    return hay.includes(q);
+  });
+  document.getElementById("count").textContent = `${matches.length} of ${STATE.terms.length} terms`;
+  list.innerHTML = "";
+  if (!matches.length) { const d = document.createElement("div"); d.className = "empty"; d.textContent = "No matching terms."; list.appendChild(d); return; }
+  matches.forEach(t => list.appendChild(renderTerm(t)));
+}
+function chips(values) { return (values || []).map(v => `<span class="chip">${esc(v)}</span>`).join(" "); }
+function renderTerm(t) {
+  const pending = isPending(t);
+  const openPrs = PRS.isLoaded() ? PRS.openFor(t.term) : [];
+  const el = document.createElement("div"); el.className = "term";
+  let html = `<h2>${esc(t.term)}<span class="badge ${pending?"pending":"defined"}">${pending?"pending":"defined"}</span>`;
+  if (openPrs.length) {
+    const pr = openPrs[0];
+    html += `<a class="badge submitted" href="${esc(pr.url)}" target="_blank" rel="noopener" title="${esc(pr.title)}">submitted&nbsp;#${pr.number}</a>`;
+  }
+  if (t.category) html += `<span class="badge">${esc(t.category)}</span>`;
+  html += `</h2>`;
+  html += `<div class="def ${pending?"pending":""}">${esc(t.definition || "Definition pending.")}</div>`;
+  if (t.scopeNote) html += `<div class="scope">${esc(t.scopeNote)}</div>`;
+  const meta = [];
+  if ((t.aliases||[]).length) meta.push(`<span><span class="label">Aliases:</span> ${chips(t.aliases)}</span>`);
+  if ((t.relatedTerms||[]).length) meta.push(`<span><span class="label">Related:</span> ${chips(t.relatedTerms)}</span>`);
+  if ((t.contrastsWith||[]).length) meta.push(`<span><span class="label">Contrasts with:</span> ${chips(t.contrastsWith)}</span>`);
+  if ((t.workgroups||[]).length) meta.push(`<span><span class="label">Working groups:</span> <span class="wg">${t.workgroups.map(esc).join(", ")}</span></span>`);
+  if (meta.length) html += `<div class="meta">${meta.join("")}</div>`;
+  el.innerHTML = html;
+  return el;
+}
+
+// ---------- wizard: workgroups ----------
+function renderWorkgroups() {
+  const el = document.getElementById("wgList"); el.innerHTML = "";
+  WORKGROUPS.forEach(wg => { const lab = document.createElement("label"); lab.innerHTML = `<input type="checkbox" value="${esc(wg)}"> ${esc(wg)}`; el.appendChild(lab); });
+}
+
+// ---------- wizard: tag boxes ----------
+function wireTagboxes() {
+  document.querySelectorAll(".tagbox[data-tags]").forEach(box => {
+    const input = box.querySelector("input");
+    const suggest = box.querySelector(".suggest");
+    const validate = box.dataset.validate === "existing";
+    input.addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const active = suggest && suggest.querySelector(".active");
+        addTag(box, active ? active.textContent.replace(/\s+\(pending\)$/, "") : input.value, validate);
+        input.value = ""; if (suggest) suggest.style.display = "none";
+      } else if (e.key === "Backspace" && !input.value) {
+        const tags = box.querySelector(".tags"); if (tags.lastElementChild) tags.lastElementChild.remove();
+      } else if (suggest && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
+        e.preventDefault(); moveActive(suggest, e.key === "ArrowDown" ? 1 : -1);
+      }
+    });
+    if (validate) {
+      input.addEventListener("input", () => showSuggest(suggest, input.value, box));
+      input.addEventListener("blur", () => setTimeout(() => suggest.style.display = "none", 150));
+    }
+  });
+}
+function currentTags(box) { return [...box.querySelectorAll(".tags .chip-edit")].map(c => c.dataset.value); }
+function addTag(box, value, validate, opts) {
+  value = (value || "").trim(); if (!value) return;
+  if (currentTags(box).some(v => v.toLowerCase() === value.toLowerCase())) return;
+  if (validate) {
+    const match = STATE.byName[value.toLowerCase()];
+    if (!match) { banner("err", `"${esc(value)}" is not an existing taxonomy term.`); return; }
+    value = match.term;
+  }
+  // Aliases must NOT collide with an existing term name: an alias that is also
+  // a real term creates an ambiguous reference (does "Traceability" mean the
+  // term, or just a synonym of this one?). Reject it on interactive adds.
+  // Programmatic prefill (opts.silent) skips the banner so loading a term with
+  // pre-existing data doesn't spray errors — but the invalid alias is still
+  // dropped so it can't be re-submitted.
+  if (box.dataset.tags === "aliases") {
+    const clash = STATE.byName[value.toLowerCase()];
+    if (clash) {
+      if (!(opts && opts.silent)) {
+        banner("err", `"${esc(clash.term)}" is already an existing taxonomy term, so it can't be used as an alias.`);
+      }
+      return;
+    }
+  }
+  const tags = box.querySelector(".tags");
+  const chip = document.createElement("span");
+  chip.className = "chip-edit"; chip.dataset.value = value;
+  chip.innerHTML = `${esc(value)} <button type="button">×</button>`;
+  chip.querySelector("button").addEventListener("click", () => chip.remove());
+  tags.appendChild(chip);
+}
+function showSuggest(suggest, q, box) {
+  q = q.trim().toLowerCase();
+  if (!q) { suggest.style.display = "none"; return; }
+  const chosen = new Set(currentTags(box).map(v => v.toLowerCase()));
+  const termVal = document.getElementById("term").value.trim().toLowerCase();
+  const matches = STATE.terms.filter(t => t.term.toLowerCase().includes(q) && !chosen.has(t.term.toLowerCase()) && t.term.toLowerCase() !== termVal).slice(0, 8);
+  suggest.innerHTML = "";
+  if (!matches.length) { suggest.style.display = "none"; return; }
+  matches.forEach((t, i) => {
+    const d = document.createElement("div");
+    if (i === 0) d.className = "active";
+    d.textContent = t.term;
+    if (isPending(t)) { const s = document.createElement("span"); s.className = "pending"; s.textContent = "  (pending)"; d.appendChild(s); }
+    d.addEventListener("mousedown", e => { e.preventDefault(); addTag(box, t.term, true); box.querySelector("input").value = ""; suggest.style.display = "none"; });
+    suggest.appendChild(d);
+  });
+  suggest.style.display = "block";
+}
+function moveActive(suggest, dir) {
+  const items = [...suggest.children];
+  const idx = items.findIndex(i => i.classList.contains("active"));
+  if (idx >= 0) items[idx].classList.remove("active");
+  const next = (idx + dir + items.length) % items.length;
+  if (items[next]) items[next].classList.add("active");
+}
+
+// ---------- wizard: term field ----------
+function wireTermField() {
+  const input = document.getElementById("term");
+  const suggest = document.getElementById("termSuggest");
+  input.addEventListener("input", () => {
+    const q = input.value.trim().toLowerCase();
+    updateTermBadge();
+    if (!q) { suggest.style.display = "none"; return; }
+    const matches = STATE.terms.filter(t => t.term.toLowerCase().includes(q)).slice(0, 8);
+    suggest.innerHTML = "";
+    if (!matches.length) { suggest.style.display = "none"; return; }
+    matches.forEach((t, i) => {
+      const d = document.createElement("div");
+      if (i === 0) d.className = "active";
+      d.textContent = t.term;
+      if (isPending(t)) { const s = document.createElement("span"); s.className = "pending"; s.textContent = "  (pending)"; d.appendChild(s); }
+      d.addEventListener("mousedown", e => { e.preventDefault(); input.value = t.term; suggest.style.display = "none"; prefill(t); updateTermBadge(); });
+      suggest.appendChild(d);
+    });
+    suggest.style.display = "block";
+  });
+  input.addEventListener("keydown", e => {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); moveActive(suggest, e.key === "ArrowDown" ? 1 : -1); }
+    else if (e.key === "Enter") {
+      const active = suggest.querySelector(".active");
+      if (active && suggest.style.display !== "none") { e.preventDefault(); input.value = active.textContent.replace(/\s+\(pending\)$/, ""); suggest.style.display = "none"; const t = STATE.byName[input.value.toLowerCase()]; if (t) prefill(t); updateTermBadge(); }
+    }
+  });
+  input.addEventListener("blur", () => setTimeout(() => suggest.style.display = "none", 150));
+}
+function updateTermBadge() {
+  const badge = document.getElementById("termBadge");
+  const t = STATE.byName[document.getElementById("term").value.trim().toLowerCase()];
+  if (t) { badge.style.display = "inline-block"; badge.className = "badge " + (isPending(t) ? "pending" : "defined"); badge.textContent = isPending(t) ? "existing • pending" : "existing • defined"; }
+  else { badge.style.display = "none"; }
+}
+function prefill(t) {
+  document.getElementById("definition").value = (t.definition && !isPending(t)) ? t.definition : "";
+  document.getElementById("scopeNote").value = t.scopeNote || "";
+  fillTags("aliases", t.aliases || []);
+  fillTags("relatedTerms", t.relatedTerms || []);
+  fillTags("contrastsWith", t.contrastsWith || []);
+  const set = new Set(t.workgroups || []);
+  document.querySelectorAll("#wgList input").forEach(cb => cb.checked = set.has(cb.value));
+  if (typeof AI !== "undefined") AI.resetBaseline();
+  checkSentences();
+}
+function fillTags(name, values) {
+  const box = document.querySelector(`.tagbox[data-tags="${name}"]`);
+  box.querySelector(".tags").innerHTML = "";
+  values.forEach(v => addTag(box, v, false, { silent: true }));
+}
+function checkSentences() {
+  const txt = document.getElementById("definition").value.trim();
+  const parts = txt.split(/[.!?]+(?:\s|$)/).filter(s => s.trim());
+  document.getElementById("sentenceWarn").style.display = parts.length > 1 ? "block" : "none";
+}
+
+// ---------- wizard: generate downloadable script ----------
+function slug(s) { return s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 50); }
+
+// Shared PR/commit metadata so the downloadable script and the in-browser
+// GitHub flow speak with one voice.
+function provenanceLine(attribution) {
+  const attr = attribution || { origin: "manual", defPct: 0, scopePct: null, totalHumanPct: 100 };
+  if (attr.origin === "manual") return "Authorship: 100% human-written (no AI draft used).";
+  const scope = (attr.scopePct == null) ? "n/a" : (attr.scopePct + "% AI");
+  return "Authorship (AI-drafted vs. human): definition " + attr.defPct + "% AI, scope " +
+    scope + ", total " + attr.totalHumanPct + "% human across the patch.";
+}
+function commitSubject(p, exists) { return (exists ? "Update" : "Define") + " taxonomy term: " + p.term; }
+function prBody(p, exists, attribution) {
+  const action = exists ? "update" : "add";
+  return `Proposed via the Taxonomy Term Wizard (${action}). Touches only ${DATA_FILE}.\n\n${provenanceLine(attribution)}`;
+}
+
+// Splice the generated entry into the raw data file text, in the browser —
+// the same comment-preserving surgery the bash/Python script does, so we can
+// prefill GitHub's "new file" editor with the FULL resulting file. Returns the
+// new file text, or null if the array couldn't be located.
+function spliceEntry(rawText, term, entryText) {
+  if (!rawText) return null;
+  const m = /window\.AAIF_TAXONOMY\s*=\s*\[/.exec(rawText);
+  if (!m) return null;
+  const start = m.index + m[0].length;
+  let depth = 1, i = start;
+  while (i < rawText.length && depth) {
+    const c = rawText[i];
+    if (c === "[") depth++;
+    else if (c === "]") depth--;
+    i++;
+  }
+  const end = i - 1; // index of the matching closing ]
+  const body = rawText.slice(start, end);
+  // Replace an existing entry for this exact term, else append.
+  const pat = new RegExp("\\{[^{}]*?term:\\s*'" + term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "'[^{}]*?\\}", "s");
+  let newBody;
+  const existing = pat.exec(body);
+  if (existing) {
+    newBody = body.slice(0, existing.index) + entryText.trim() + body.slice(existing.index + existing[0].length);
+  } else {
+    const trimmed = body.replace(/\s+$/, "");
+    const sep = trimmed.endsWith("}") ? ",\n" : "\n";
+    newBody = trimmed + sep + entryText + "\n";
+  }
+  return rawText.slice(0, start) + newBody + rawText.slice(end);
+}
+
+// ---------- GitHub REST API client (browser-side, user-supplied token) ----------
+// All write operations (create ref, put file contents, open PR) require auth.
+// A static page has no backend, so the token is the user's own PAT, held only
+// in memory (or localStorage if they opt in) and sent ONLY to api.github.com.
+const GH = (function () {
+  const API = "https://api.github.com";
+  const LS_KEY = "aaif_gh_token";
+
+  function getToken() {
+    const el = document.getElementById("ghToken");
+    const inField = el && el.value.trim();
+    if (inField) return inField;
+    try { return localStorage.getItem(LS_KEY) || ""; } catch (e) { return ""; }
+  }
+  function persistTokenIfRequested() {
+    const el = document.getElementById("ghToken");
+    const remember = document.getElementById("ghRemember");
+    if (!el) return;
+    const tok = el.value.trim();
+    try {
+      if (remember && remember.checked && tok) localStorage.setItem(LS_KEY, tok);
+      else if (remember && !remember.checked) localStorage.removeItem(LS_KEY);
+    } catch (e) {}
+  }
+  function loadRememberedToken() {
+    try {
+      const tok = localStorage.getItem(LS_KEY);
+      if (tok) {
+        const el = document.getElementById("ghToken");
+        const remember = document.getElementById("ghRemember");
+        if (el) el.value = tok;
+        if (remember) remember.checked = true;
+      }
+    } catch (e) {}
+  }
+
+  async function api(method, path, body) {
+    const token = getToken();
+    const res = await fetch(API + path, {
+      method,
+      headers: {
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        ...(token ? { "Authorization": "Bearer " + token } : {}),
+        ...(body ? { "Content-Type": "application/json" } : {}),
+      },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+    let data = null;
+    const text = await res.text();
+    if (text) { try { data = JSON.parse(text); } catch (e) { data = { message: text }; } }
+    if (!res.ok) {
+      const msg = (data && data.message) ? data.message : ("HTTP " + res.status);
+      const err = new Error(msg); err.status = res.status; err.data = data; throw err;
+    }
+    return data;
+  }
+
+  // base64-encode a UTF-8 string (btoa needs latin1; encode first).
+  function b64(str) {
+    const bytes = new TextEncoder().encode(str);
+    let bin = "";
+    const CH = 0x8000;
+    for (let i = 0; i < bytes.length; i += CH) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CH));
+    return btoa(bin);
+  }
+
+  const whoAmI      = () => api("GET", "/user");
+  const getRepo     = (ownerRepo) => api("GET", `/repos/${ownerRepo}`);
+  const createFork  = (upstream) => api("POST", `/repos/${upstream}/forks`);
+  const getBranch   = (ownerRepo, branch) => api("GET", `/repos/${ownerRepo}/git/ref/heads/${encodeURIComponent(branch)}`);
+  const createRef   = (ownerRepo, ref, sha) => api("POST", `/repos/${ownerRepo}/git/refs`, { ref, sha });
+  const getContent  = (ownerRepo, path, ref) => api("GET", `/repos/${ownerRepo}/contents/${path}?ref=${encodeURIComponent(ref)}`);
+  const putContent  = (ownerRepo, path, payload) => api("PUT", `/repos/${ownerRepo}/contents/${path}`, payload);
+  const createPull  = (upstream, payload) => api("POST", `/repos/${upstream}/pulls`, payload);
+
+  // List pull requests for a repo. `state` is "open" | "closed" | "all".
+  // Paginates through all pages (100 per page). Works unauthenticated on a
+  // public repo, but a token raises the rate limit.
+  async function listPulls(ownerRepo, state = "all") {
+    const out = [];
+    for (let page = 1; page <= 10; page++) {  // cap at 1000 PRs
+      const batch = await api("GET",
+        `/repos/${ownerRepo}/pulls?state=${encodeURIComponent(state)}&per_page=100&page=${page}`);
+      if (!Array.isArray(batch) || !batch.length) break;
+      out.push(...batch);
+      if (batch.length < 100) break;
+    }
+    return out;
+  }
+
+  return { getToken, persistTokenIfRequested, loadRememberedToken, api, b64,
+           whoAmI, getRepo, createFork, getBranch, createRef, getContent, putContent,
+           createPull, listPulls };
+})();
+
+// ---------- pull-request status ----------
+// Fetches PRs against the upstream repo and maps each to a taxonomy term, so
+// the browser can show three states per term:
+//   present   — defined in the loaded data file
+//   pending   — in the data file but without a definition yet
+//   submitted — an OPEN pull request proposes/defines it (not yet merged)
+// A term's PR is identified by the branch name convention used when creating
+// PRs from this tool ("taxonomy/define-<slug>"), falling back to the PR title.
+const PRS = (function () {
+  // slug -> { state, prs: [{number, title, url, state, merged}] }
+  let byTermSlug = {};
+  let loaded = false;
+  let all = [];
+
+  // Extract the term slug a PR refers to, from its head branch or title.
+  function slugForPull(pr) {
+    const ref = pr && pr.head && pr.head.ref ? pr.head.ref : "";
+    const m = /taxonomy\/define-([a-z0-9-]+)/i.exec(ref);
+    if (m) return m[1];
+    // Fallback: derive from the title, e.g. "Define: Delegation" / "Add term Foo".
+    const title = (pr && pr.title) || "";
+    const t = title.replace(/^\s*(define|add|update)\b[:\-\s]*/i, "")
+                   .replace(/\bterm\b/i, "").trim();
+    return t ? slug(t) : "";
+  }
+
+  async function load() {
+    let pulls;
+    try {
+      pulls = await GH.listPulls(REPO, "all");
+    } catch (e) {
+      loaded = false;
+      return { ok: false, error: (e && e.message) || String(e) };
+    }
+    all = pulls;
+    byTermSlug = {};
+    pulls.forEach(pr => {
+      const s = slugForPull(pr);
+      if (!s) return;
+      const entry = {
+        number: pr.number,
+        title: pr.title,
+        url: pr.html_url,
+        state: pr.state,              // "open" | "closed"
+        merged: !!pr.merged_at,       // closed + merged_at => merged
+      };
+      (byTermSlug[s] = byTermSlug[s] || []).push(entry);
+    });
+    loaded = true;
+    return { ok: true, count: pulls.length, mapped: Object.keys(byTermSlug).length };
+  }
+
+  // Return the open (unmerged) PRs for a term, if any.
+  function openFor(termOrSlug) {
+    // Always slugify: byTermSlug keys are produced by slug() (lowercase), and
+    // slug() is idempotent, so passing an already-slugged value is safe. The
+    // previous "looks like a slug already?" check used a case-insensitive
+    // regex, which wrongly treated capitalized single-word terms (e.g.
+    // "Harness", "Intent") as slugs and skipped lowercasing — so their lookup
+    // missed and the "submitted" badge never appeared.
+    const s = slug(termOrSlug);
+    return (byTermSlug[s] || []).filter(p => p.state === "open");
+  }
+  // Overall status label for a term, combining data-file state with PR state.
+  //   "present"   — defined in data
+  //   "pending"   — in data, no definition
+  //   "submitted" — has an open PR (regardless of data state)
+  function statusFor(term, isPendingInData, existsInData) {
+    if (openFor(term).length) return "submitted";
+    if (!existsInData) return "submitted-or-missing";
+    return isPendingInData ? "pending" : "present";
+  }
+
+  return {
+    load,
+    openFor,
+    statusFor,
+    isLoaded: () => loaded,
+    all: () => all,
+    byTermSlug: () => byTermSlug,
+  };
+})();
+
+function collectPayload() {
+  return {
+    term: document.getElementById("term").value.trim(),
+    definition: document.getElementById("definition").value.trim(),
+    scopeNote: document.getElementById("scopeNote").value.trim(),
+    aliases: currentTags(document.querySelector('.tagbox[data-tags="aliases"]')),
+    relatedTerms: currentTags(document.querySelector('.tagbox[data-tags="relatedTerms"]')),
+    contrastsWith: currentTags(document.querySelector('.tagbox[data-tags="contrastsWith"]')),
+    workgroups: [...document.querySelectorAll("#wgList input:checked")].map(cb => cb.value),
+  };
+}
+
+// Emit a JS entry object matching the file's formatting (2-space indent, single quotes).
+function jsEntry(p) {
+  const q = s => "'" + String(s).replace(/\\/g, "\\\\").replace(/'/g, "\\'") + "'";
+  const arr = a => a.length ? "[" + a.map(q).join(", ") + "]" : "[]";
+  const def = p.definition || PENDING_TEXT;
+  const lines = [
+    "  {",
+    "    term: " + q(p.term) + ",",
+    "    category: '',",
+    "    aliases: " + arr(p.aliases) + ",",
+    "    broaderTerm: null,",
+    "    definition: " + q(def) + ",",
+  ];
+  if (p.scopeNote) lines.push("    scopeNote: " + q(p.scopeNote) + ",");
+  lines.push("    relatedTerms: " + arr(p.relatedTerms) + ",");
+  lines.push("    contrastsWith: " + arr(p.contrastsWith) + ",");
+  lines.push("    workgroups: " + arr(p.workgroups));
+  lines.push("  }");
+  return lines.join("\n");
+}
+
+function shEscHeredoc(s) {
+  // Content goes inside a quoted heredoc (no shell expansion). Only need to
+  // ensure the delimiter can't appear; we use a random-ish delimiter below.
+  return s;
+}
+
+function buildScript(p, exists, attribution) {
+  const branch = "taxonomy/define-" + slug(p.term);
+  const entry = jsEntry(p);
+  const action = exists ? "update" : "add";
+  const subject = commitSubject(p, exists);
+  const DELIM = "TAXONOMY_ENTRY_EOF";
+
+  // Attribution line: how much of the patch was AI-drafted ("vibed") vs
+  // human-authored/edited — per field (definition, scope) and total across the
+  // whole entry. Recorded in the commit body and PR for provenance.
+  const commitBody = provenanceLine(attribution);
+
+  // Python helper does the surgical, comment-preserving edit. It's embedded so
+  // the downloaded script is fully self-contained (no repo tooling required).
+  const py = [
+`import io, os, re, sys, json`,
+`FILE = ${JSON.stringify(DATA_FILE)}`,
+`TERM = ${JSON.stringify(p.term)}`,
+`ENTRY = open("/tmp/taxonomy_entry.txt", encoding="utf-8").read().rstrip("\\n")`,
+`src = open(FILE, encoding="utf-8").read()`,
+`# Locate the array literal window.AAIF_TAXONOMY = [ ... ];`,
+`m = re.search(r"window\\.AAIF_TAXONOMY\\s*=\\s*\\[", src)`,
+`if not m:`,
+`    sys.exit("Could not find window.AAIF_TAXONOMY array in " + FILE)`,
+`start = m.end()`,
+`depth = 1; i = start`,
+`while i < len(src) and depth:`,
+`    c = src[i]`,
+`    if c == '[': depth += 1`,
+`    elif c == ']': depth -= 1`,
+`    i += 1`,
+`end = i - 1  # index of closing ]`,
+`body = src[start:end]`,
+`# Does an entry with this exact term already exist?`,
+`pat = re.compile(r"\\{[^{}]*?term:\\s*'" + re.escape(TERM) + r"'[^{}]*?\\}", re.S)`,
+`existing = pat.search(body)`,
+`if existing:`,
+`    new_body = body[:existing.start()] + ENTRY.strip() + body[existing.end():]`,
+`else:`,
+`    trimmed = body.rstrip()`,
+`    sep = ",\\n" if trimmed.endswith("}") else "\\n"`,
+`    new_body = trimmed + sep + ENTRY + "\\n"`,
+`out = src[:start] + new_body + src[end:]`,
+`open(FILE, "w", encoding="utf-8").write(out)`,
+`print("Patched", FILE)`,
+  ].join("\n");
+
+  return `#!/usr/bin/env bash
+#
+# Auto-generated by the AAIF Taxonomy Term Wizard.
+# Creates a branch, applies a surgical edit to ${DATA_FILE}, makes a
+# signed-off commit, pushes, and opens a PR. Run from the repo root.
+#
+set -euo pipefail
+
+REPO="${REPO}"
+BASE="${BASE_BRANCH}"
+BRANCH="${branch}"
+FILE="${DATA_FILE}"
+
+# --- sanity checks -----------------------------------------------------------
+command -v git >/dev/null || { echo "git not found"; exit 1; }
+[ -f "$FILE" ] || { echo "Run this from the repo root ($FILE not found)"; exit 1; }
+if ! git diff --quiet -- "$FILE"; then
+  echo "Refusing: $FILE has uncommitted changes."; exit 1
+fi
+ORIG_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
+# --- write the entry payload -------------------------------------------------
+cat > /tmp/taxonomy_entry.txt <<'${DELIM}'
+${shEscHeredoc(entry)}
+${DELIM}
+
+# --- branch ------------------------------------------------------------------
+git fetch origin "$BASE" --quiet || true
+git checkout -b "$BRANCH" "origin/$BASE" 2>/dev/null || git checkout -b "$BRANCH" "$BASE"
+
+# --- surgical edit (comment-preserving) --------------------------------------
+python3 - <<'${DELIM}_PY'
+${py}
+${DELIM}_PY
+
+# --- commit ------------------------------------------------------------------
+git add "$FILE"
+git commit -s -m "${subject}" -m "${commitBody}"
+
+# --- push & PR ---------------------------------------------------------------
+git push -u origin "$BRANCH"
+
+PR_BODY="Proposed via the Taxonomy Term Wizard (${action}). Touches only ${DATA_FILE}.
+
+${commitBody}"
+if command -v gh >/dev/null; then
+  gh pr create --repo "$REPO" --base "$BASE" --head "$BRANCH" \\
+    --title "${subject}" --body "$PR_BODY"
+else
+  echo
+  echo "gh CLI not found. Open the PR manually:"
+  echo "  https://github.com/$REPO/compare/$BASE...$BRANCH?expand=1"
+fi
+
+git checkout "$ORIG_BRANCH" >/dev/null 2>&1 || true
+echo "Done."
+`;
+}
+
+function generate() {
+  const p = collectPayload();
+  if (!p.term) { banner("err", "Term is required."); return; }
+  const exists = !!STATE.byName[p.term.toLowerCase()];
+  const attribution = (typeof AI !== "undefined") ? AI.attribution(p) : null;
+
+  // Guard: a 100% AI-drafted, entirely unedited entry must not ship unreviewed.
+  // Ask the human to confirm they have reviewed it before generating the PR.
+  if (attribution && attribution.origin === "ai" && !generate._aiConfirmed) {
+    const ok = window.confirm(
+      "This entry is 100% AI-drafted (Grok/xAI) and has not been edited.\n\n" +
+      "You are the author of record. Have you reviewed it and do you confirm it is " +
+      "accurate and vendor-neutral?\n\nClick OK to confirm and generate the PR, or Cancel to edit it first."
+    );
+    if (!ok) {
+      banner("warn", "Review the AI-drafted entry and edit as needed, then generate again.");
+      document.getElementById("definition").focus();
+      return;
+    }
+    generate._aiConfirmed = true;
+  } else if (!attribution || attribution.origin !== "ai") {
+    // Reset the confirmation latch once the entry is no longer a pure AI draft.
+    generate._aiConfirmed = false;
+  }
+
+  const script = buildScript(p, exists, attribution);
+  const entry = jsEntry(p);
+  const branch = "taxonomy/define-" + slug(p.term);
+
+  let attrText = "";
+  if (attribution && (attribution.origin === "ai" || attribution.origin === "ai-edited")) {
+    const scope = (attribution.scopePct == null) ? "n/a" : `${attribution.scopePct}% AI`;
+    attrText = ` • Authorship: definition ${attribution.defPct}% AI / scope ${scope} / total ${attribution.totalHumanPct}% human`;
+  } else {
+    attrText = " • Authorship: 100% human-written";
+  }
+
+  document.getElementById("resultCard").style.display = "block";
+  document.getElementById("resultMeta").textContent =
+    `Action: ${exists ? "update existing" : "add new"} • Branch: ${branch} • Only ${DATA_FILE} is touched.${attrText}`;
+  document.getElementById("runCmd").textContent = "bash create-pr.sh";
+  document.getElementById("scriptPreview").textContent = script;
+  document.getElementById("entryPreview").textContent = entry;
+  document.getElementById("ghFileName").textContent = DATA_FILE;
+  document.getElementById("ghUpstream").textContent = REPO;
+
+  // Option A: open a PR from the user's personal fork.
+  //
+  // Two paths:
+  //   1. With a token → do it all via the GitHub REST API (create branch,
+  //      commit the spliced file, open the PR). One click, no manual paste.
+  //   2. Without a token → fall back to GitHub's prefilled `/new/` editor
+  //      (file + commit title + description prefilled) or, if that URL would be
+  //      too long, the plain `/edit/` editor with the entry on the clipboard.
+  //
+  // GitHub `/new/<branch>/<dir>?filename=&value=&message=&description=` prefills
+  // file content + commit title + description, but NOT the new-branch name
+  // (that's typed in the commit dialog — we copy it for a one-paste).
+  const repoName = REPO.split("/")[1];       // e.g. "ws-taxonomy-landscape"
+  const fileDir = DATA_FILE.split("/").slice(0, -1).join("/");
+  const subject = commitSubject(p, exists);
+  const description = provenanceLine(attribution);
+  const body = prBody(p, exists, attribution);
+  const recBranch = branch;                  // new-branch name
+  const ghBtn = document.getElementById("ghPrBtn");
+
+  // Splice against the fork's current file (fallback: upstream text from boot).
+  async function splicedFileFor(ownerRepo) {
+    let src = STATE.rawText || null;
+    try {
+      const rawFork = `https://raw.githubusercontent.com/${ownerRepo}/${BASE_BRANCH}/${DATA_FILE}`;
+      const r = await fetch(rawFork, { cache: "no-cache" });
+      if (r.ok) { const t = await r.text(); if (t && !/^\s*</.test(t)) src = t; }
+    } catch (e) { /* use upstream text */ }
+    return spliceEntry(src, p.term, entry);
+  }
+
+  function buildPrefillUrl(ownerRepo, full) {
+    if (!full) return null;
+    const params = new URLSearchParams({
+      filename: DATA_FILE.split("/").pop(),
+      value: full, message: subject, description,
+    });
+    const url = `https://github.com/${ownerRepo}/new/${BASE_BRANCH}/${fileDir}?${params.toString()}`;
+    return url.length > 30000 ? null : url;   // stay under URL length caps
+  }
+
+  async function pasteFallback(ownerRepo, note) {
+    let copied = false;
+    try { await navigator.clipboard.writeText(entry); copied = true; } catch (e) {}
+    window.open(`https://github.com/${ownerRepo}/edit/${BASE_BRANCH}/${DATA_FILE}`, "_blank", "noopener");
+    banner("warn", `${copied ? "Entry copied to clipboard." : "Copy the entry below."} Couldn't prefill automatically${note ? " (" + note + ")" : ""}, so opened the plain editor — paste the entry before the closing <code>];</code>, then <b>Commit changes → Create a new branch → Propose changes</b>.`);
+  }
+
+  // Full API-driven PR creation. Returns true on success.
+  async function createPrViaApi(user) {
+    const forkRepo = `${user}/${repoName}`;
+    setBusy(true, "Checking your fork…");
+    // 1) Ensure the fork exists (create it if not).
+    let fork;
+    try {
+      fork = await GH.getRepo(forkRepo);
+      const ok = fork && fork.fork && ((fork.parent && fork.parent.full_name.toLowerCase() === REPO.toLowerCase()) || (fork.source && fork.source.full_name.toLowerCase() === REPO.toLowerCase()));
+      if (fork && !ok) { setBusy(false); banner("err", `<code>${esc(forkRepo)}</code> exists but isn't a fork of <code>${esc(REPO)}</code>.`); return true; }
+    } catch (e) {
+      if (e.status === 404) {
+        setBusy(true, "Creating your fork…");
+        await GH.createFork(REPO);
+        // Forking is async on GitHub's side; poll briefly until it's ready.
+        for (let i = 0; i < 10; i++) {
+          await new Promise(r => setTimeout(r, 1500));
+          try { fork = await GH.getRepo(forkRepo); if (fork) break; } catch (e2) {}
+        }
+        if (!fork) { setBusy(false); banner("warn", "Fork is still being created — try again in a few seconds."); return true; }
+      } else { throw e; }
+    }
+
+    // 2) Base branch SHA on the fork, then create the new branch ref.
+    setBusy(true, "Creating branch…");
+    const baseRef = await GH.getBranch(forkRepo, BASE_BRANCH);
+    const baseSha = baseRef.object.sha;
+    try {
+      await GH.createRef(forkRepo, `refs/heads/${recBranch}`, baseSha);
+    } catch (e) {
+      if (e.status !== 422) throw e;   // 422 = ref already exists; reuse it
+    }
+
+    // 3) Splice the file and commit it on the new branch.
+    setBusy(true, "Committing change…");
+    const full = await splicedFileFor(forkRepo);
+    if (!full) { setBusy(false); banner("err", "Could not locate the AAIF_TAXONOMY array to edit."); return true; }
+    // Need the current file SHA on the new branch to update it.
+    let fileSha;
+    try { const cur = await GH.getContent(forkRepo, DATA_FILE, recBranch); fileSha = cur.sha; } catch (e) { if (e.status !== 404) throw e; }
+    await GH.putContent(forkRepo, DATA_FILE, {
+      message: `${subject}\n\n${description}`,
+      content: GH.b64(full),
+      branch: recBranch,
+      ...(fileSha ? { sha: fileSha } : {}),
+    });
+
+    // 4) Open the PR to upstream.
+    setBusy(true, "Opening pull request…");
+    let pr;
+    try {
+      pr = await GH.createPull(REPO, { title: subject, body, head: `${user}:${recBranch}`, base: BASE_BRANCH, maintainer_can_modify: true });
+    } catch (e) {
+      if (e.status === 422) {   // PR may already exist for this head
+        setBusy(false);
+        banner("warn", `Branch <code>${esc(recBranch)}</code> pushed to your fork, but GitHub reported a PR may already exist. Open it here: <a href="https://github.com/${REPO}/compare/${BASE_BRANCH}...${esc(user)}:${esc(recBranch)}?expand=1" target="_blank" rel="noopener">compare</a>.`);
+        return true;
+      }
+      throw e;
+    }
+    setBusy(false);
+    GH.persistTokenIfRequested();
+    window.open(pr.html_url, "_blank", "noopener");
+    banner("ok", `✓ Pull request opened: <a href="${esc(pr.html_url)}" target="_blank" rel="noopener">#${pr.number} — ${esc(subject)}</a> from <code>${esc(user)}:${esc(recBranch)}</code> to <code>${esc(REPO)}</code>.`);
+    return true;
+  }
+
+  function setBusy(on, label) {
+    ghBtn.disabled = !!on;
+    ghBtn.textContent = on ? "⏳ " + (label || "Working…") : "🔗 Create PR on GitHub";
+  }
+
+  ghBtn.onclick = async () => {
+    const user = document.getElementById("ghUser").value.trim().replace(/^@/, "");
+    const token = GH.getToken();
+
+    if (user && !/^[A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38}$/.test(user)) {
+      banner("err", "That doesn't look like a valid GitHub username.");
+      return;
+    }
+
+    // --- Path 1: token present → full API flow -------------------------------
+    if (token) {
+      let effUser = user;
+      try {
+        if (!effUser) { const me = await GH.whoAmI(); effUser = me && me.login; }
+        if (!effUser) { banner("err", "Enter your GitHub username (couldn't read it from the token)."); return; }
+        await createPrViaApi(effUser);
+      } catch (e) {
+        setBusy(false);
+        const hint = e.status === 401 ? " Your token may be invalid or expired."
+                   : e.status === 403 ? " The token may lack the required scopes (Contents + Pull requests: write), or you hit a rate limit."
+                   : "";
+        banner("err", `GitHub API error: ${esc(e.message || "request failed")}.${hint}`);
+      }
+      return;
+    }
+
+    // --- Path 2: no token → prefilled URL / paste fallback -------------------
+    let branchCopied = false;
+    try { await navigator.clipboard.writeText(recBranch); branchCopied = true; } catch (e) {}
+    const branchNote = branchCopied
+      ? `The branch name <code>${esc(recBranch)}</code> is on your clipboard — paste it when GitHub asks to <b>Create a new branch</b>.`
+      : `Use the branch name <code>${esc(recBranch)}</code> when GitHub asks to <b>Create a new branch</b>.`;
+
+    if (user) {
+      const forkRepo = `${user}/${repoName}`;
+      const forkUrl = `https://github.com/${REPO}/fork`;
+      let forkExists = false;
+      try {
+        const r = await fetch(`https://api.github.com/repos/${forkRepo}`, { headers: { "Accept": "application/vnd.github+json" }, cache: "no-cache" });
+        if (r.ok) {
+          const info = await r.json();
+          const parent = info && info.parent && info.parent.full_name;
+          const source = info && info.source && info.source.full_name;
+          forkExists = !!info.fork && ((parent && parent.toLowerCase() === REPO.toLowerCase()) || (source && source.toLowerCase() === REPO.toLowerCase()));
+          if (info && !info.fork) forkExists = false;
+        }
+      } catch (e) {}
+      if (!forkExists) {
+        window.open(forkUrl, "_blank", "noopener");
+        banner("warn", `You don't appear to have a fork yet (and no token was given to create one). Opened the <b>fork page</b> for <code>${esc(REPO)}</code> — click <b>Create fork</b>, then press the button again.`);
+        return;
+      }
+      const full = await splicedFileFor(forkRepo);
+      const prefill = buildPrefillUrl(forkRepo, full);
+      if (prefill) {
+        window.open(prefill, "_blank", "noopener");
+        banner("ok", `Opened a <b>prefilled commit</b> on your fork <code>${esc(forkRepo)}</code>: file, commit title and description are filled in. ${branchNote} Then <b>Propose changes</b> to open the PR. <i>Tip: add a token above to do all of this in one click.</i>`);
+      } else {
+        await pasteFallback(forkRepo, "the file is too large to prefill via URL");
+      }
+    } else {
+      const full = await splicedFileFor(REPO);
+      const prefill = buildPrefillUrl(REPO, full);
+      if (prefill) {
+        window.open(prefill, "_blank", "noopener");
+        banner("ok", `Opened a <b>prefilled commit</b> (file, commit title and description filled in). GitHub will offer to <b>fork ${esc(REPO)}</b> on commit. ${branchNote} <i>Tip: add your username and a token above to do this in one click.</i>`);
+      } else {
+        await pasteFallback(REPO, "the file is too large to prefill via URL");
+      }
+    }
+  };
+
+  const dl = document.getElementById("downloadBtn");
+  dl.onclick = () => {
+    const blob = new Blob([script], { type: "text/x-shellscript" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = "create-pr.sh"; document.body.appendChild(a); a.click();
+    a.remove(); URL.revokeObjectURL(url);
+  };
+
+  banner("ok", `Ready for "${esc(p.term)}". Create the PR directly on GitHub, or download <code>create-pr.sh</code> and run it locally.`);
+  document.getElementById("resultCard").scrollIntoView({ behavior: "smooth" });
+}
+
+// ---------- AI assist: Grok (xAI) via the Puter SDK ----------
+// Design note: this UI strictly follows the taxonomy palette (accent blue,
+// panel/border/chip tokens). No foreign gradients. The button drafts fields
+// from the term name; the human always reviews and edits before generating a PR.
+const AI = (function () {
+  // Fallback candidates tried (in order) if the live model list can't be
+  // fetched. Kept small and Grok-first to match the tool's intent.
+  const FALLBACK_MODELS = ["x-ai/grok-4-fast", "x-ai/grok-beta", "gpt-4o-mini"];
+  let available = false;
+  let models = [];           // live list of slugs, once loaded
+  let selectedModel = null;  // currently chosen slug
+
+  function currentModel() {
+    const sel = document.getElementById("aiModel");
+    return (sel && sel.value) || selectedModel || FALLBACK_MODELS[0];
+  }
+
+  // Flatten the various shapes Puter may return into a flat array of slugs.
+  function normalize(data) {
+    let out = [];
+    const push = v => { if (typeof v === "string") out.push(v); else if (v && v.id) out.push(v.id); else if (v && v.name) out.push(v.name); };
+    if (Array.isArray(data)) data.forEach(push);
+    else if (data && Array.isArray(data.models)) data.models.forEach(push);
+    else if (data && data.models && typeof data.models === "object") Object.values(data.models).forEach(l => Array.isArray(l) ? l.forEach(push) : push(l));
+    else if (data && typeof data === "object") Object.values(data).forEach(v => Array.isArray(v) ? v.forEach(push) : push(v));
+    return [...new Set(out.filter(Boolean))];
+  }
+
+  async function fetchModels() {
+    if (typeof puter !== "undefined" && puter.ai && typeof puter.ai.listModels === "function") {
+      try { const m = await puter.ai.listModels(); const n = normalize(m); if (n.length) return n; } catch (e) {}
+    }
+    for (const url of ["https://api.puter.com/puterai/chat/models", "https://api.puter.com/puterai/chat/models/"]) {
+      try { const r = await fetch(url, { headers: { "Content-Type": "application/json" } }); if (r.ok) { const n = normalize(await r.json()); if (n.length) return n; } } catch (e) {}
+    }
+    return [];
+  }
+
+  function populateSelect(list) {
+    const sel = document.getElementById("aiModel");
+    if (!sel) return;
+    sel.innerHTML = "";
+    list.forEach(m => { const o = document.createElement("option"); o.value = m; o.textContent = m; sel.appendChild(o); });
+    // Default to a Grok model when present, else the first entry.
+    const grok = list.find(m => /grok/i.test(m));
+    sel.value = grok || list[0];
+    selectedModel = sel.value;
+    sel.addEventListener("change", () => { selectedModel = sel.value; check(); });
+  }
+
+  // The last AI-drafted entry (full payload snapshot), used to measure how much
+  // survived editing across the whole patch. null => the current form content
+  // did not originate from AI (manual entry or an existing term was loaded).
+  let aiDraft = null;
+
+  const PROMPT = (term) => {
+    // Constrain the model: related/contrasting terms MUST be existing taxonomy
+    // terms, and working groups MUST be from the fixed list. We pass both lists
+    // so the model picks from them instead of inventing values (which we'd only
+    // discard during validation anyway).
+    const existing = STATE.terms
+      .map(t => t.term)
+      .filter(t => t.toLowerCase() !== term.toLowerCase());
+    const termList = existing.length ? existing.join(", ") : "(none available)";
+    const wgList = WORKGROUPS.join(", ");
+    return `You are a careful terminology editor for the AAIF (Agentic AI Foundation) taxonomy.
+Given a single term, produce a vendor-neutral, standards-style entry.
+
+Term: ${JSON.stringify(term)}
+
+Existing taxonomy terms you may reference (choose ONLY from these, verbatim):
+${termList}
+
+Working groups you may choose from (choose ONLY from these, verbatim):
+${wgList}
+
+Rules:
+- "definition": exactly ONE sentence, concise and vendor-neutral. No trailing examples.
+- "scopeNote": optional clarifying context, examples or boundaries (may be empty string).
+- "aliases": array of common synonyms or alternate spellings (may be empty).
+- "relatedTerms": array of 0–4 CLOSELY related terms, each copied VERBATIM from the existing-terms list above. Never invent a term that isn't in that list. Empty array if none fit.
+- "contrastsWith": array of 0–3 terms that meaningfully CONTRAST with this one, each copied VERBATIM from the existing-terms list above. Never invent one. Empty array if none fit.
+- "workgroups": array of 0–3 working groups from the list above that would care about this term, copied VERBATIM. Empty array if unsure. Do NOT use "Universal".
+
+Return ONLY a JSON object with keys: definition, scopeNote, aliases, relatedTerms, contrastsWith, workgroups. No markdown, no commentary.`;
+  };
+
+  function setStatus(cls, text) {
+    const el = document.getElementById("aiStatus");
+    if (!el) return;
+    el.className = "ai-status " + cls;
+    el.textContent = text;
+  }
+
+  async function check() {
+    setStatus("checking", "Checking…");
+    try {
+      if (typeof puter === "undefined") {
+        await new Promise(r => setTimeout(r, 600));
+        if (typeof puter === "undefined") throw new Error("Puter SDK not loaded");
+      }
+      await puter.ai.chat("ping", { model: currentModel() });
+      available = true;
+      setStatus("ready", "✓ Grok ready");
+    } catch (e) {
+      available = false;
+      setStatus("off", "✗ Unavailable");
+      const btn = document.getElementById("aiFillBtn");
+      if (btn) btn.disabled = true;
+    }
+  }
+
+  function parseJson(raw) {
+    let s = String(raw || "").trim();
+    // Strip ```json fences if the model added them.
+    s = s.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
+    const first = s.indexOf("{"), last = s.lastIndexOf("}");
+    if (first >= 0 && last > first) s = s.slice(first, last + 1);
+    return JSON.parse(s);
+  }
+
+  async function fill() {
+    const btn = document.getElementById("aiFillBtn");
+    const term = document.getElementById("term").value.trim();
+    if (!term) { banner("err", "Enter a term first, then let AI draft the fields."); return; }
+    if (!available) { banner("err", "Grok (xAI) is not available right now."); return; }
+
+    const original = btn.textContent;
+    btn.disabled = true; btn.textContent = "⏳ Drafting…";
+    try {
+      const res = await puter.ai.chat(PROMPT(term), { model: currentModel() });
+      const content = res && res.message ? res.message.content : res;
+      const obj = parseJson(content);
+
+      const def = String(obj.definition || "").trim();
+      document.getElementById("definition").value = def;
+      document.getElementById("scopeNote").value = String(obj.scopeNote || "").trim();
+      const aliases = Array.isArray(obj.aliases) ? obj.aliases : [];
+      fillTags("aliases", aliases.map(a => String(a).trim()).filter(Boolean));
+
+      // Related terms + contrasts must be EXISTING taxonomy terms. Fill them
+      // through the validating tag box (case-insensitive match, canonical
+      // casing), dropping anything the model invented. Track what we skipped.
+      const skipped = [];
+      const applyValidated = (name, values) => {
+        const box = document.querySelector(`.tagbox[data-tags="${name}"]`);
+        box.querySelector(".tags").innerHTML = "";
+        (Array.isArray(values) ? values : []).forEach(v => {
+          const val = String(v).trim();
+          if (!val) return;
+          const match = STATE.byName[val.toLowerCase()];
+          if (match && match.term.toLowerCase() !== term.toLowerCase()) addTag(box, match.term, false);
+          else skipped.push(val);
+        });
+      };
+      applyValidated("relatedTerms", obj.relatedTerms);
+      applyValidated("contrastsWith", obj.contrastsWith);
+
+      // Working groups: check only boxes whose value matches an allowed group.
+      const wgWanted = new Set((Array.isArray(obj.workgroups) ? obj.workgroups : [])
+        .map(w => String(w).trim().toLowerCase()));
+      document.querySelectorAll("#wgList input").forEach(cb => {
+        if (wgWanted.has(cb.value.toLowerCase())) cb.checked = true;
+      });
+
+      // Record the AI baseline so we can report the vibed/manual ratio later.
+      // Snapshot every AI-populated field straight from the DOM (post-
+      // validation) so attribution() can measure edits across the WHOLE patch —
+      // definition, scope, tags and workgroup checkboxes — not just the
+      // definition. collectPayload() reflects exactly what the AI just applied.
+      aiDraft = collectPayload();
+
+      checkSentences();
+      updateTermBadge();
+      const extra = skipped.length
+        ? ` (skipped ${skipped.length} suggested term${skipped.length > 1 ? "s" : ""} not in the taxonomy: ${skipped.map(esc).join(", ")})`
+        : "";
+      banner("ok", `Grok drafted an entry for "${esc(term)}" — definition, scope, aliases, related terms, contrasts and working groups.${extra} <b>Review and edit</b> before generating the PR.`);
+    } catch (e) {
+      banner("err", "AI draft failed" + (e && e.message ? ` (${esc(e.message)})` : "") + ". Try again or fill the fields manually.");
+    } finally {
+      btn.disabled = false; btn.textContent = original;
+    }
+  }
+
+  // Levenshtein distance for character-level edit measurement.
+  function levenshtein(a, b) {
+    a = a || ""; b = b || "";
+    if (a === b) return 0;
+    if (!a.length) return b.length;
+    if (!b.length) return a.length;
+    let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+    let cur = new Array(b.length + 1);
+    for (let i = 1; i <= a.length; i++) {
+      cur[0] = i;
+      for (let j = 1; j <= b.length; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + cost);
+      }
+      [prev, cur] = [cur, prev];
+    }
+    return prev[b.length];
+  }
+
+  // Set (Jaccard) similarity for array/checkbox fields: how much of the union
+  // is shared. Case-insensitive. Empty-vs-empty counts as identical (100%).
+  function setSimilarityPct(draftArr, finalArr) {
+    const norm = a => new Set((Array.isArray(a) ? a : []).map(v => String(v).trim().toLowerCase()).filter(Boolean));
+    const d = norm(draftArr), f = norm(finalArr);
+    if (d.size === 0 && f.size === 0) return 100;
+    let inter = 0;
+    f.forEach(v => { if (d.has(v)) inter++; });
+    const union = new Set([...d, ...f]).size || 1;
+    return Math.round((inter / union) * 100);
+  }
+
+  // Character-level similarity for text fields via Levenshtein.
+  // Empty-vs-empty counts as identical (100%).
+  function textSimilarityPct(draft, final) {
+    draft = (draft || "").trim(); final = (final || "").trim();
+    if (!draft && !final) return 100;
+    if (draft === final) return 100;
+    const dist = levenshtein(draft, final);
+    const denom = Math.max(draft.length, final.length) || 1;
+    return Math.max(0, 100 - Math.round((dist / denom) * 100));
+  }
+
+  // Returns authorship attribution for the whole patch:
+  //   { origin, defPct, scopePct, totalHumanPct, aiPct, editedPct }
+  //   origin        : "ai" (pure unedited draft) | "ai-edited" | "manual"
+  //   defPct        : % of the final definition preserved from the AI draft
+  //   scopePct      : % of the final scope note preserved (null if no scope)
+  //   totalHumanPct : human-authored share across the entire patch (0..100)
+  //   aiPct/editedPct: kept for the definition, for backward compatibility
+  // `final` is the full payload from collectPayload().
+  function attribution(final) {
+    // No AI draft on record → everything is human-authored.
+    if (aiDraft == null) {
+      return { origin: "manual", defPct: 0, scopePct: null, totalHumanPct: 100, aiPct: 0, editedPct: 100 };
+    }
+    final = final || {};
+
+    // Fields we track, with a weight = size of the FINAL content so a one-word
+    // alias edit doesn't count the same as a rewritten definition. Text fields
+    // weigh by character count; set fields by item count (min 1 when non-empty
+    // so a checkbox toggle still registers).
+    const textLen = s => (s || "").trim().length;
+    const setLen = a => { const n = (Array.isArray(a) ? a : []).filter(v => String(v).trim()).length; return n ? n : 0; };
+
+    const fields = [
+      { kind: "text", draft: aiDraft.definition,   final: final.definition,   weight: textLen(final.definition) },
+      { kind: "text", draft: aiDraft.scopeNote,     final: final.scopeNote,     weight: textLen(final.scopeNote) },
+      { kind: "set",  draft: aiDraft.aliases,        final: final.aliases,        weight: setLen(final.aliases) },
+      { kind: "set",  draft: aiDraft.relatedTerms,   final: final.relatedTerms,   weight: setLen(final.relatedTerms) },
+      { kind: "set",  draft: aiDraft.contrastsWith,  final: final.contrastsWith,  weight: setLen(final.contrastsWith) },
+      { kind: "set",  draft: aiDraft.workgroups,     final: final.workgroups,     weight: setLen(final.workgroups) },
+    ];
+
+    let aiKept = 0, totalWeight = 0;
+    fields.forEach(f => {
+      const sim = f.kind === "text" ? textSimilarityPct(f.draft, f.final) : setSimilarityPct(f.draft, f.final);
+      aiKept += f.weight * (sim / 100);
+      totalWeight += f.weight;
+    });
+
+    const defPct = textSimilarityPct(aiDraft.definition, final.definition);
+    const scopePct = textLen(final.scopeNote) === 0 && textLen(aiDraft.scopeNote) === 0
+      ? null
+      : textSimilarityPct(aiDraft.scopeNote, final.scopeNote);
+
+    const totalAiPct = totalWeight ? Math.round((aiKept / totalWeight) * 100) : 100;
+    const totalHumanPct = Math.max(0, Math.min(100, 100 - totalAiPct));
+
+    // Origin: pure unedited AI draft only if literally nothing changed anywhere.
+    const origin = totalHumanPct === 0 ? "ai" : "ai-edited";
+    return { origin, defPct, scopePct, totalHumanPct, aiPct: defPct, editedPct: Math.max(0, 100 - defPct) };
+  }
+
+  // Called by prefill(): loading an existing term is NOT AI-authored content.
+  function resetBaseline() { aiDraft = null; }
+
+  async function init() {
+    const btn = document.getElementById("aiFillBtn");
+    if (btn) btn.addEventListener("click", fill);
+    setStatus("checking", "Loading models…");
+    models = await fetchModels();
+    if (!models.length) models = FALLBACK_MODELS.slice();
+    populateSelect(models);
+    check();
+  }
+
+  return { init, attribution, resetBaseline, get available() { return available; } };
+})();
+
+boot();
+</script>
+</body>
+</html>
