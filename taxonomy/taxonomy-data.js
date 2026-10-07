@@ -113,6 +113,17 @@ window.AAIF_TAXONOMY = [
     workgroups: []
   },
   {
+    term: 'Agent swarm',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A group of subagents working together, either cooperatively or independently, to complete a task or pursue a shared objective.',
+    scopeNote: 'The term does not imply a minimum or maximum number of subagents, nor whether the swarm is temporary or persistent. A swarm is typically managed by an Orchestrator agent.',
+    relatedTerms: ['Subagent', 'Orchestrator'],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
     term: 'Subagent',
     category: '',
     aliases: ["child agent"],
