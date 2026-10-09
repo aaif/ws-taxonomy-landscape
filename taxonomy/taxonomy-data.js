@@ -88,7 +88,7 @@ window.AAIF_TAXONOMY = [
     aliases: [],
     broaderTerm: null,
     definition: 'The input provided to a model to guide its response or behavior.',
-    scopeNote: 'What the user said to do, versus what they wanted to have happen.',
+    scopeNote: 'What the user said to do, versus what they wanted to have happen. Both humans and agents can prompt.',
     relatedTerms: [],
     contrastsWith: ['Intent'],
     workgroups: []
