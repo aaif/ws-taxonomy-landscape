@@ -29,6 +29,17 @@ window.AAIF_TAXONOMY = [
   // INTERESTED groups is an open decision.
   // ---------------------------------------------------------------------
   {
+    term: 'Agent-to-agent',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An interaction in which one agent communicates or coordinates with another agent.',
+    scopeNote: 'This is a general term for interaction between agents and does not refer specifically to the Agent2Agent (A2A) protocol. The term does not distinguish between an agent communicating with a peer agent, subagent, or parent agent.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
     term: 'Harness',
     category: '',
     aliases: [],
