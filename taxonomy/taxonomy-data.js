@@ -33,7 +33,8 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'A facially plausible detail or position in AI output that lacks any available support or basis.',
+    definition: 'A detail or position in AI output that lacks any available support or basis.',
+    scopeNote: 'The term only implies a lack of provenance; it does not imply truth vs falsehood or fact vs fiction. For example, let\'s say that an Agent is summarizing a part of Ancient Roman history, and includes the false detail that Roman emperor Commodus murdered his father, Marcus Aurelius, based on the movie Gladiator. This is not a hallucination, because the murder idea came from an existing source.'
     relatedTerms: [],
     contrastsWith: [],
     workgroups: []
