@@ -491,7 +491,8 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'A checkout interaction in which an agent exchanges information and advances merchant-controlled state toward an order, whether autonomously or with human participation. It does not require discovery to have happened via agentic means.',
+    definition: 'A checkout interaction in which an agent exchanges information and advances merchant-controlled state toward an order, whether autonomously or with human participation.',
+    scopeNote: 'It does not require discovery to have happened via agentic means.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
