@@ -29,6 +29,13 @@ window.AAIF_TAXONOMY = [
   // INTERESTED groups is an open decision.
   // ---------------------------------------------------------------------
   {
+    term: 'Agent-to-agent',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An interaction in which one agent communicates or coordinates with another agent.',
+    scopeNote: 'This is a general term for interaction between agents and does not refer specifically to the Agent2Agent (A2A) protocol. The term does not distinguish between an agent communicating with a peer agent, subagent, or parent agent.',
+    relatedTerms: [],
     term: 'Hallucination',
     category: '',
     aliases: [],
@@ -84,11 +91,23 @@ window.AAIF_TAXONOMY = [
     workgroups: []
   },
   {
+    term: 'Context',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The information available to an agent when making a decision.',
+    scopeNote: 'Includes user messages, tool results, retrieved documents, memory, and system instructions assembled for the current step.',
+    relatedTerms: ['Context assembly', 'Context exhaustion', 'Context propagation', 'Memory access', 'Retrieval'],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
     term: 'Context exhaustion',
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'The tendency for models to lose accuracy on tasks as context approaches its maximum length.',
+    scopeNote: 'This is an anecdotal situation repeatedly observed across members of the industry. AI developers might handle context exhaustion, among other related context management issues, in their own ways, such as by pre-emptively compacting context.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: []
@@ -118,8 +137,29 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A composed capability that packages logic, tools, or sub-steps into a reusable unit.',
     relatedTerms: [],
+    contrastsWith: ['Tool'],
+    workgroups: []
+  },
+  {
+    term: 'Tool',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An external function, API, or service an agent may call to retrieve data or perform an action.',
+    relatedTerms: [],
+    contrastsWith: ['Skill'],
+    workgroups: []
+  },
+  {
+    term: 'Agent swarm',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A group of subagents working together, either cooperatively or independently, to complete a task or pursue a shared objective.',
+    scopeNote: 'The term does not imply a minimum or maximum number of subagents, nor whether the swarm is temporary or persistent. A swarm is typically managed by an Orchestrator agent.',
+    relatedTerms: ['Subagent', 'Orchestrator'],
     contrastsWith: [],
     workgroups: []
   },
@@ -201,7 +241,8 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: ['Agent discovery'],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'The process by which a Workflow identifies candidate participants, capabilities, or tools that may be relevant to performing an Activity or advancing the Workflow toward its goal.',
+    scopeNote: 'Discovery may use descriptions of the capabilities, registries, metadata, configuration, policies, or other mechanisms. It identifies candidate options and related information, but does not by itself imply selection, authorization, trust, or invocation.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Workflows & Process Integration', 'Identity & Trust']
@@ -211,10 +252,65 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: ['Hand-off'],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
-    relatedTerms: ['Agent trajectory', 'Context propagation'],
+    definition: 'The transfer of responsibility for continuing execution from one participant to another.',
+    scopeNote: 'A Handoff may occur at the level of an Activity, Workflow segment, or Workflow and may include the relevant State, Context, or other information needed to continue execution. A Handoff does not by itself imply transfer of authorization, accountability, or broader authority.',
+    relatedTerms: ['Delegation'],
     contrastsWith: [],
     workgroups: ['Workflows & Process Integration', 'Observability & Traceability', 'Governance, Risk & Regulatory Alignment']
+  },
+   {
+    term: 'Determinism',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The property by which an Execution produces the same behavior given the same inputs and state.',
+    scopeNote: 'Determinism may apply to an Execution as a whole or to a specific layer, component, or decision point within it. Deterministic behavior at one level does not imply determinism at every other level. In workflow systems, for example, Control Flow may be deterministic while an individual Activity may produce variable outputs, particularly when LLM-driven. This definition does not prescribe how Determinism is measured, scored or evaluated.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration', 'Observability & Traceability', 'Accuracy & Reliability']
+  },
+  {
+    term: 'Orchestration',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A coordination pattern in which a designated orchestrator directs Activities, manages their sequencing, and determines subsequent actions based on Workflow State and results.',
+    relatedTerms: ['Orchestrator', 'Choreography'],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration', 'Observability & Traceability']
+  },
+  {
+    term: 'Agentic lifecycle',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The stages through which an agentic system progresses from definition and configuration through operation, evaluation, adaptation and retirement.',
+    scopeNote: 'Agentic Lifecycle refers to the lifecycle of the overall agentic system, rather than a single Agent or Workflow Execution. Its stages may repeat or occur in different orders.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration', 'Observability & Traceability']
+  },
+  {
+    term: 'Activity',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: ' A bounded unit of work performed as part of a Workflow, with defined or identifiable inputs and outputs.',
+    scopeNote: 'An Activity may be performed by an agent, human, tool, service, or other participant. It may consist of one or more lower-level steps or actions. Terms such as Task, Step, and Action may represent finer-grained or framework-specific units of work.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration']
+  },
+  {
+    term: 'Agentic workflow',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A progression of Activities toward a goal in which one or more Agents participate in determining, sequencing, or performing work.',
+    scopeNote: 'Agent participation may occur in only part of the Workflow and does not require every Activity to be performed by an Agent. An Agentic Workflow may also include humans, tools, services, or other participants.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration']
   },
 
   // ---------------------------------------------------------------------
@@ -253,12 +349,13 @@ window.AAIF_TAXONOMY = [
   {
     term: 'Accountability',
     category: '',
-    aliases: [],
+    aliases: ['Responsibility'],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
-    relatedTerms: [],
+    definition: 'The processes and mechanisms ensuring that AI agents operate within defined ethical, legal, and operational boundaries with traceability for their actions and decisions.',
+    scopeNote: 'Encompasses logging, auditing, and enforcement of agent behaviors to enable responsibility attribution. Accountability down the line is knowing who is responsible for the actions of an agent. E.g. if an agent has a credit card, who is accountable when it makes a purchase.',
+    relatedTerms: ['Governance', 'Trust', 'Attestation', 'Traceability'],
     contrastsWith: [],
-    workgroups: ['Governance, Risk & Regulatory Alignment', 'Identity & Trust', 'Observability & Traceability']
+    workgroups: ['Accuracy & Reliability', 'Agentic Commerce', 'Governance, Risk & Regulatory Alignment', 'Identity & Trust', 'Observability & Traceability', 'Security & Privacy']
   },
   {
     term: 'Kill switch',
@@ -275,7 +372,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: ['AI-BOM'],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'An inventory of an agent\'s models, tools, APIs, and third-party components, with provenance and versions.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Governance, Risk & Regulatory Alignment']
@@ -285,9 +382,9 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'Whether and how an agent\'s action can be undone.',
     relatedTerms: [],
-    contrastsWith: [],
+    contrastsWith: ['Kill switch'],
     workgroups: ['Governance, Risk & Regulatory Alignment', 'Workflows & Process Integration']
   },
 
@@ -363,7 +460,8 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A process for obtaining a merchant- and amount-constrained payment token without exposing the original payment credential to the agent.',
+    scopeNote: 'Assumes attenuation.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
@@ -373,17 +471,17 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'Commerce workflows in which AI agents participate in discovery, negotiation, checkout, payment, or post-purchase activity on behalf of people, organizations, or software systems.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
   },
   {
-    term: 'Agentic commerce protocol',
+    term: 'Agentic commerce protocols',
     category: '',
-    aliases: [],
+    aliases: ['Agentic commerce protocol'],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'An interoperability specification for agents and commerce systems to exchange structured data, actions, and signals across one or more commerce lifecycle phases.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
@@ -393,7 +491,8 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A bounded, verifiable record of a principal’s intent, approval, or authority for an agent-mediated commerce action.',
+    scopeNote: 'Examples include intent mandates, checkout or cart mandates, and payment mandates seen in Agentic Commerce protocols.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
@@ -403,17 +502,18 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A checkout interaction in which an agent exchanges information and advances merchant-controlled state toward an order, whether autonomously or with human participation.',
+    scopeNote: 'It does not require discovery to have happened via agentic means.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
   },
   {
-    term: 'Agent-mediated transaction',
+    term: 'Agent-in-the-loop transaction',
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A commerce transaction in which an agent participates in one or more lifecycle phases, without implying that the agent initiated, approved, or completed it.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
@@ -423,7 +523,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A commerce transaction whose purchase or payment flow is started by an agent, without implying autonomous approval, payment authorization, or successful completion.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
@@ -433,7 +533,7 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A commerce transaction in which an agent performs the final order or payment action, without implying that the agent initiated the flow or acted without prior human approval.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
