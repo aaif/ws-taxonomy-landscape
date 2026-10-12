@@ -40,6 +40,17 @@ window.AAIF_TAXONOMY = [
     workgroups: []
   },
   {
+    term: 'Hallucination',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A detail or position in AI output that lacks any available support or basis, or contradicts its available sources.',
+    scopeNote: 'The term only implies a lack of provenance or grounding; it does not by itself imply truth vs. falsehood or fact vs. fiction. For example, if an agent is summarizing Ancient Roman history and includes the false detail that Roman emperor Commodus murdered his father, Marcus Aurelius, based on the movie Gladiator, this is a source-quality issue rather than a hallucination because the claim came from an existing source. However, if an agent cites a source while contradicting or misrepresenting what that source states, that remains a hallucination.',
+    relatedTerms: ['Context', 'Retrieval'],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
     term: 'Harness',
     category: '',
     aliases: [],
