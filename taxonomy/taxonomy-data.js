@@ -451,7 +451,8 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'A process for obtaining a merchant- and amount-constrained payment token without exposing the original payment credential to the agent. (Note - Assumes attenuation)',
+    definition: 'A process for obtaining a merchant- and amount-constrained payment token without exposing the original payment credential to the agent.',
+    scopeNote: 'Assumes attenuation.',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Agentic Commerce']
