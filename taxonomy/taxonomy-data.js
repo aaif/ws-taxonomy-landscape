@@ -382,6 +382,65 @@ window.AAIF_TAXONOMY = [
   },
 
   // ---------------------------------------------------------------------
+  // Security & Privacy
+  // ---------------------------------------------------------------------
+  {
+    term: 'Agent derailment',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An unintended deviation in an AI agent\'s behavior that causes it to pursue goals or take actions outside its intended scope, without malicious external cause.',
+    scopeNote: 'Example: an AI coding agent deletes a production database despite explicit instructions not to make changes, with no external attacker involved. Nobody directed the behavior, which is what separates this from sabotage and mishandling/misuse.',
+    relatedTerms: ['Intent', 'Rogue agent'],
+    contrastsWith: ['Agent sabotage', 'Agent mishandling/misuse'],
+    workgroups: ['Security & Privacy']
+  },
+  {
+    term: 'Agent sabotage',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Deliberate manipulation of an AI agent\'s behavior by a party with no authority to direct it, causing it to act against its intended purpose.',
+    scopeNote: 'Severity is not part of this definition. Example: an attacker plants instructions in a document the agent will read, causing it to send data somewhere its operator did not authorize.',
+    relatedTerms: ['Risk classification', 'Accountability'],
+    contrastsWith: ['Agent mishandling/misuse', 'Agent derailment'],
+    workgroups: ['Security & Privacy']
+  },
+  {
+    term: 'Agent mishandling/misuse',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Operation of an AI agent by a party authorized to direct it, in a manner outside its intended purpose, whether deliberately or through negligence.',
+    scopeNote: 'The actor has access and permission to act, and the use is what falls outside the agent\'s intended purpose. That could be deliberate, like pointing an agent at a task it was never scoped for, or negligent, like granting it broader permissions than its task needs.',
+    relatedTerms: ['Delegation', 'Autonomy level', 'Accountability'],
+    contrastsWith: ['Agent sabotage', 'Agent derailment'],
+    workgroups: ['Security & Privacy']
+  },
+  {
+    term: 'Rogue agent',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An AI agent that operates outside its authorized or intended boundaries, whether due to compromise, misconfiguration, or emergent behavior.',
+    scopeNote: 'This describes a state and not a cause. Derailment, sabotage and mishandling/misuse may all qualify. Authorized and intended are both listed because an agent can stay inside its permissions and still do something its operator never intended.',
+    relatedTerms: ['Agent derailment', 'Agent sabotage', 'Agent mishandling/misuse', 'Kill switch', 'Reversibility'],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy']
+  },
+  {
+    term: 'Privacy-preserving execution',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Patterns in which an AI agent processes data without exposing it to parties outside a defined boundary, enforced cryptographically or by attested isolation.',
+    scopeNote: 'Specific techniques are left out of the definition because they change and enforcement will differ.',
+    relatedTerms: ['Attestation'],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy']
+  },
+
+  // ---------------------------------------------------------------------
   // Observability & Traceability
   // ---------------------------------------------------------------------
   {
