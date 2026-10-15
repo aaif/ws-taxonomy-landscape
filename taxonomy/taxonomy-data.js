@@ -331,15 +331,16 @@ window.AAIF_TAXONOMY = [
     contrastsWith: [],
     workgroups: ['Governance, Risk & Regulatory Alignment']
   },
-  {
+    {
     term: 'Risk classification',
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A classification of an agent deployment by its potential for harm, used to set proportionate controls.',
+    scopeNote: 'Applies to an agent deployment, taking into account its intended use and operating context.',
     relatedTerms: [],
     contrastsWith: [],
-    workgroups: ['Governance, Risk & Regulatory Alignment', 'Security & Privacy']
+    workgroups: ['Governance, Risk & Regulatory Alignment']
   },
   {
     term: 'Accountability',
