@@ -309,13 +309,14 @@ window.AAIF_TAXONOMY = [
   // ---------------------------------------------------------------------
   // Governance, Risk & Regulatory Alignment
   // ---------------------------------------------------------------------
-  {
+    {
     term: 'Governance',
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
-    relatedTerms: [],
+    definition: 'The system of policies, roles, and decision-making processes that establishes how AI agents may be developed, deployed, and operated, under whose authority, and subject to what oversight.',
+    scopeNote: 'Applies throughout the agentic lifecycle, including changes and retirement. Establishes who may approve an agent’s intended purpose, autonomy level, access to tools and data, and delegation of authority, and who may require intervention or withdrawal. Governance sets requirements for accountability and oversight: accountability concerns answerability for actions and decisions, while oversight concerns observing and intervening in operation. Governance processes may use automated controls, while people and organisations retain ultimate accountability.',
+    relatedTerms: ['Accountability', 'Autonomy level', 'Risk classification', 'Agent registry', 'Agentic lifecycle'],
     contrastsWith: [],
     workgroups: ['Governance, Risk & Regulatory Alignment']
   },
