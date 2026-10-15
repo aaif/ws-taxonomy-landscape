@@ -353,15 +353,16 @@ window.AAIF_TAXONOMY = [
     contrastsWith: [],
     workgroups: ['Accuracy & Reliability', 'Agentic Commerce', 'Governance, Risk & Regulatory Alignment', 'Identity & Trust', 'Observability & Traceability', 'Security & Privacy']
   },
-  {
+    {
     term: 'Kill switch',
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'An out-of-band mechanism that immediately halts an agent by cutting its access, independently of the agent\'s own logic.',
+    scopeNote: 'Operates independently of the agent\'s normal execution logic, so stopping the agent does not depend on the agent choosing to comply.',
     relatedTerms: [],
     contrastsWith: [],
-    workgroups: ['Governance, Risk & Regulatory Alignment', 'Security & Privacy', 'Workflows & Process Integration']
+    workgroups: ['Governance, Risk & Regulatory Alignment']
   },
   {
     term: 'AI agent bill of materials',
