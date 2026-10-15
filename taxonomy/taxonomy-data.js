@@ -380,7 +380,17 @@ window.AAIF_TAXONOMY = [
     contrastsWith: ['Kill switch'],
     workgroups: ['Governance, Risk & Regulatory Alignment', 'Workflows & Process Integration']
   },
-
+    {
+    term: 'Agent registry',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A governance system of record for deployed AI agents that records their ownership, risk classification, approved tools, and lifecycle status.',
+    scopeNote: 'Supports governance review and ongoing assurance of deployed agents. A discovery directory helps participants find candidate agents or capabilities; an agent registry records governance information about those agents. One implementation may serve both purposes. A registry entry alone does not grant runtime authorization or establish that an agent remains compliant.',
+    relatedTerms: ['Governance', 'Identifier', 'Accountability', 'Risk classification', 'Discovery', 'Agentic lifecycle'],
+    contrastsWith: [],
+    workgroups: ['Governance, Risk & Regulatory Alignment', 'Identity & Trust']
+  },
   // ---------------------------------------------------------------------
   // Observability & Traceability
   // ---------------------------------------------------------------------
