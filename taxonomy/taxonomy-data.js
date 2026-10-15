@@ -395,6 +395,17 @@ window.AAIF_TAXONOMY = [
     contrastsWith: [],
     workgroups: ['Governance, Risk & Regulatory Alignment', 'Identity & Trust']
   },
+  {
+    term: 'Continuous assurance',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Ongoing post-deployment validation that a live agent continues to conform to its approved specification and risk classification.',
+    scopeNote: 'Validates the deployed agent against its approved purpose, scope, tools, and model, and checks that its risk classification remains appropriate during operation.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Governance, Risk & Regulatory Alignment']
+  },
   // ---------------------------------------------------------------------
   // Observability & Traceability
   // ---------------------------------------------------------------------
