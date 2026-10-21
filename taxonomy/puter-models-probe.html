@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Puter — Available Models Probe</title>
+<style>
+  body { margin:0; background:#0f1420; color:#e7ecf3; font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
+  main { max-width:820px; margin:0 auto; padding:24px; }
+  h1 { font-size:18px; }
+  .card { background:#171d2b; border:1px solid #2a3448; border-radius:12px; padding:18px; margin-bottom:16px; }
+  button { background:#5b8cff; color:#fff; border:none; border-radius:8px; padding:10px 16px; font:inherit; font-weight:600; cursor:pointer; }
+  button:disabled { opacity:.5; cursor:not-allowed; }
+  select, input { background:#0d121d; color:#e7ecf3; border:1px solid #2a3448; border-radius:8px; padding:8px 10px; font:inherit; }
+  pre { background:#0d121d; border:1px solid #2a3448; border-radius:8px; padding:12px; overflow:auto; max-height:340px; font:12px/1.5 ui-monospace,Menlo,monospace; }
+  .muted { color:#9aa7bd; font-size:13px; }
+  .status { padding:3px 10px; border-radius:999px; background:#26304a; color:#9aa7bd; font-size:12px; }
+  .ok { background:rgba(123,216,143,.15); color:#7bd88f; }
+  .err { background:rgba(255,122,122,.12); color:#ff7a7a; }
+  label { font-weight:600; display:block; margin-bottom:6px; }
+  .row { margin:12px 0; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Puter — Available Models Probe</h1>
+  <p class="muted">Open this in a browser. It asks the Puter SDK for the live model list, fills the dropdown, and lets you send a test prompt to the selected model. Nothing here is hardcoded.</p>
+
+  <div class="card">
+    <div class="row">
+      <button id="loadBtn">1 · Load available models</button>
+      <span id="loadStatus" class="status">idle</span>
+    </div>
+    <div class="row">
+      <label for="modelSelect">Model</label>
+      <select id="modelSelect" style="min-width:280px"><option>— load models first —</option></select>
+    </div>
+    <div class="row">
+      <label for="prompt">Test prompt</label>
+      <input id="prompt" type="text" value="Say hello in one short sentence." style="width:100%" />
+    </div>
+    <div class="row">
+      <button id="testBtn" disabled>2 · Test selected model</button>
+      <span id="testStatus" class="status">idle</span>
+    </div>
+    <div class="row">
+      <label>Response</label>
+      <pre id="out">—</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <label>Raw model list (copy the slugs you want)</label>
+    <pre id="raw">—</pre>
+  </div>
+</main>
+
+<script src="https://js.puter.com/v2/"></script>
+<script>
+const $ = id => document.getElementById(id);
+function setStatus(el, cls, text){ el.className = "status " + cls; el.textContent = text; }
+
+// Try several ways of getting the list — SDK helper first, then the raw endpoint.
+async function fetchModels() {
+  // 1) SDK helper if present
+  if (typeof puter !== "undefined" && puter.ai && typeof puter.ai.listModels === "function") {
+    try {
+      const m = await puter.ai.listModels();
+      if (m) return normalize(m);
+    } catch (e) { /* fall through */ }
+  }
+  // 2) Documented models endpoint
+  try {
+    const res = await fetch("https://api.puter.com/puterai/chat/models", { headers: { "Content-Type": "application/json" } });
+    if (res.ok) return normalize(await res.json());
+  } catch (e) { /* fall through */ }
+  // 3) Alternate path some SDK builds use
+  try {
+    const res = await fetch("https://api.puter.com/puterai/chat/models/", { headers: { "Content-Type": "application/json" } });
+    if (res.ok) return normalize(await res.json());
+  } catch (e) { /* fall through */ }
+  throw new Error("Could not retrieve a model list from any known source.");
+}
+
+// Flatten the various shapes Puter may return into a flat array of slug strings.
+function normalize(data) {
+  let out = [];
+  const push = v => { if (typeof v === "string") out.push(v); else if (v && v.id) out.push(v.id); else if (v && v.name) out.push(v.name); };
+  if (Array.isArray(data)) data.forEach(push);
+  else if (data && Array.isArray(data.models)) data.models.forEach(push);
+  else if (data && data.models && typeof data.models === "object") {
+    // shape: { models: { provider: [ ... ] } }
+    Object.values(data.models).forEach(list => Array.isArray(list) ? list.forEach(push) : push(list));
+  } else if (data && typeof data === "object") {
+    Object.values(data).forEach(v => Array.isArray(v) ? v.forEach(push) : push(v));
+  }
+  // de-dupe, keep order
+  return [...new Set(out.filter(Boolean))];
+}
+
+$("loadBtn").addEventListener("click", async () => {
+  setStatus($("loadStatus"), "", "loading…");
+  $("out").textContent = "—";
+  try {
+    const models = await fetchModels();
+    $("raw").textContent = JSON.stringify(models, null, 2);
+    const sel = $("modelSelect");
+    sel.innerHTML = "";
+    if (!models.length) { sel.innerHTML = "<option>(none returned)</option>"; setStatus($("loadStatus"),"err","empty list"); return; }
+    models.forEach(m => { const o = document.createElement("option"); o.value = m; o.textContent = m; sel.appendChild(o); });
+    // Prefer a Grok model as the default selection if present.
+    const grok = models.find(m => /grok/i.test(m));
+    if (grok) sel.value = grok;
+    $("testBtn").disabled = false;
+    setStatus($("loadStatus"), "ok", `✓ ${models.length} models`);
+  } catch (e) {
+    setStatus($("loadStatus"), "err", "✗ failed");
+    $("raw").textContent = String(e && e.message || e);
+  }
+});
+
+$("testBtn").addEventListener("click", async () => {
+  const model = $("modelSelect").value;
+  const prompt = $("prompt").value || "Hello";
+  setStatus($("testStatus"), "", "asking…");
+  $("out").textContent = "—";
+  try {
+    const res = await puter.ai.chat(prompt, { model });
+    const content = res && res.message ? res.message.content : res;
+    $("out").textContent = typeof content === "string" ? content : JSON.stringify(content, null, 2);
+    setStatus($("testStatus"), "ok", "✓ ok");
+  } catch (e) {
+    $("out").textContent = String(e && e.message || e);
+    setStatus($("testStatus"), "err", "✗ " + (e && e.status ? "HTTP " + e.status : "failed"));
+  }
+});
+</script>
+</body>
+</html>
