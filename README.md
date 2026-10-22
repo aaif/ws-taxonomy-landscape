@@ -4,6 +4,8 @@ For more information, review the [Workstream Charter](charter/charter.md).
 
 New to the workstream? Start with the [onboarding guide](ONBOARDING.md) for an overview of how candidate terms move from Working Group discussion to the official shared taxonomy.
 
+Need to cite a term? Use the generated [human-readable taxonomy reference](taxonomy/TERMS.md), where every term has a stable direct-link anchor.
+
 > [!IMPORTANT]
 > **Current contribution scope:** The workstream is currently focused exclusively on the **Taxonomy**. The **Landscape** remains on the future roadmap, but its contribution and review process has not yet been accepted. Until that process is approved and these guidelines are updated, pull requests that propose Landscape changes will be closed.
 
