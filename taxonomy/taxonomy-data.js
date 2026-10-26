@@ -309,13 +309,14 @@ window.AAIF_TAXONOMY = [
   // ---------------------------------------------------------------------
   // Governance, Risk & Regulatory Alignment
   // ---------------------------------------------------------------------
-  {
+    {
     term: 'Governance',
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
-    relatedTerms: [],
+    definition: 'The system of policies, roles, and decision-making processes that establishes how AI agents may be developed, deployed, and operated, under whose authority, and subject to what oversight.',
+    scopeNote: 'Applies throughout the agentic lifecycle, including changes and retirement. Establishes who may approve an agent’s intended purpose, autonomy level, access to tools and data, and delegation of authority, and who may require intervention or withdrawal. Governance sets requirements for accountability and oversight: accountability concerns answerability for actions and decisions, while oversight concerns observing and intervening in operation. Governance processes may use automated controls, while people and organisations retain ultimate accountability.',
+    relatedTerms: ['Accountability', 'Autonomy level', 'Risk classification', 'Agent registry', 'Agentic lifecycle'],
     contrastsWith: [],
     workgroups: ['Governance, Risk & Regulatory Alignment']
   },
@@ -324,20 +325,22 @@ window.AAIF_TAXONOMY = [
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A tier rating how independently an agent acts, used to determine the oversight it requires.',
+    scopeNote: '',
     relatedTerms: [],
     contrastsWith: [],
     workgroups: ['Governance, Risk & Regulatory Alignment']
   },
-  {
+    {
     term: 'Risk classification',
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'A classification of an agent deployment by its potential for harm, used to set proportionate controls.',
+    scopeNote: 'Applies to an agent deployment, taking into account its intended use and operating context.',
     relatedTerms: [],
     contrastsWith: [],
-    workgroups: ['Governance, Risk & Regulatory Alignment', 'Security & Privacy']
+    workgroups: ['Governance, Risk & Regulatory Alignment']
   },
   {
     term: 'Accountability',
@@ -350,15 +353,16 @@ window.AAIF_TAXONOMY = [
     contrastsWith: [],
     workgroups: ['Accuracy & Reliability', 'Agentic Commerce', 'Governance, Risk & Regulatory Alignment', 'Identity & Trust', 'Observability & Traceability', 'Security & Privacy']
   },
-  {
+    {
     term: 'Kill switch',
     category: '',
     aliases: [],
     broaderTerm: null,
-    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    definition: 'An out-of-band mechanism that immediately halts an agent by cutting its access, independently of the agent\'s own logic.',
+    scopeNote: 'Operates independently of the agent\'s normal execution logic, so stopping the agent does not depend on the agent choosing to comply.',
     relatedTerms: [],
     contrastsWith: [],
-    workgroups: ['Governance, Risk & Regulatory Alignment', 'Security & Privacy', 'Workflows & Process Integration']
+    workgroups: ['Governance, Risk & Regulatory Alignment']
   },
   {
     term: 'AI agent bill of materials',
@@ -380,7 +384,28 @@ window.AAIF_TAXONOMY = [
     contrastsWith: ['Kill switch'],
     workgroups: ['Governance, Risk & Regulatory Alignment', 'Workflows & Process Integration']
   },
-
+    {
+    term: 'Agent registry',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A governance system of record for deployed AI agents that records their ownership, risk classification, approved tools, and lifecycle status.',
+    scopeNote: 'Supports governance review and ongoing assurance of deployed agents. A discovery directory helps participants find candidate agents or capabilities; an agent registry records governance information about those agents. One implementation may serve both purposes. A registry entry alone does not grant runtime authorization or establish that an agent remains compliant.',
+    relatedTerms: ['Governance', 'Identifier', 'Accountability', 'Risk classification', 'Discovery', 'Agentic lifecycle'],
+    contrastsWith: [],
+    workgroups: ['Governance, Risk & Regulatory Alignment', 'Identity & Trust']
+  },
+  {
+    term: 'Continuous assurance',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Ongoing post-deployment validation that a live agent continues to conform to its approved specification and risk classification.',
+    scopeNote: 'Validates the deployed agent against its approved purpose, scope, tools, and model, and checks that its risk classification remains appropriate during operation.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Governance, Risk & Regulatory Alignment']
+  },
   // ---------------------------------------------------------------------
   // Security & Privacy
   // ---------------------------------------------------------------------
