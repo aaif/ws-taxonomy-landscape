@@ -25,6 +25,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 
 const here = dirname(fileURLToPath(import.meta.url));
+const JSON_OUTPUT = process.argv.includes('--json');
 // Defaults to the real data file; tests may point at a fixture via the
 // TAXONOMY_DATA_FILE env var. The value is only ever read, never executed.
 const DATA_FILE = process.env.TAXONOMY_DATA_FILE
@@ -345,7 +346,7 @@ if (!Array.isArray(data)) {
   });
 }
 
-if (warnings.length > 0) {
+if (!JSON_OUTPUT && warnings.length > 0) {
   console.warn(`⚠️  ${warnings.length} warning(s):`);
   for (const w of warnings) console.warn(`  - ${w}`);
   console.warn('');
@@ -357,4 +358,8 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log(`✅ taxonomy-data.js is valid: parsed cleanly and ${data.length} entries conform to the schema.`);
+if (JSON_OUTPUT) {
+  process.stdout.write(JSON.stringify(data));
+} else {
+  console.log(`✅ taxonomy-data.js is valid: parsed cleanly and ${data.length} entries conform to the schema.`);
+}

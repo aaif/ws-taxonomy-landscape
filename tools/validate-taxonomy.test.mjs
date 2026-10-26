@@ -27,12 +27,12 @@ const VALIDATOR = resolve(here, 'validate-taxonomy.mjs');
 
 const res_dir_cleanup = [];
 
-function runValidator(dataFileContents, extraEnv = {}) {
+function runValidator(dataFileContents, extraEnv = {}, args = []) {
   const dir = mkdtempSync(join(tmpdir(), 'taxonomy-test-'));
   res_dir_cleanup.push(dir);
   const dataFile = join(dir, 'taxonomy-data.js');
   writeFileSync(dataFile, dataFileContents, 'utf8');
-  const res = spawnSync(process.execPath, [VALIDATOR], {
+  const res = spawnSync(process.execPath, [VALIDATOR, ...args], {
     env: { ...process.env, TAXONOMY_DATA_FILE: dataFile, ...extraEnv },
     encoding: 'utf8',
   });
@@ -62,6 +62,24 @@ test('valid data passes (exit 0)', () => {
   const res = runValidator(src);
   assert.equal(res.status, 0, res.stdout + res.stderr);
   assert.match(res.stdout, /is valid/);
+});
+
+test('--json returns parsed taxonomy data without status output', () => {
+  const src = `window.AAIF_TAXONOMY = [\n  ${validEntry}\n];\n`;
+  const res = runValidator(src, {}, ['--json']);
+  assert.equal(res.status, 0, res.stdout + res.stderr);
+  assert.deepEqual(JSON.parse(res.stdout), [{
+    term: 'Harness',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A control layer between a model and the world.',
+    scopeNote: "It's fine to have single quotes inside a double-quoted string.",
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: [],
+  }]);
+  assert.equal(res.stderr, '');
 });
 
 test('regression: unescaped quote inside a string fails (exit 1)', () => {
