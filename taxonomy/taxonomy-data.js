@@ -178,6 +178,18 @@ window.AAIF_TAXONOMY = [
     workgroups: []
   },
 
+  {
+    term: 'Guardrail',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A form of constraint on a model that prescribes intended actions or prevents unwanted actions or disclosures.',
+    scopeNote: "Guardrails are specific to a model; while a harness can host guardrails to provide to a model, a harness itself does not have guardrails. An example guardrail is: 'If any necessary information is missing, request the information from the user instead of guessing or making it up.'",
+    relatedTerms: ['Constraint'],
+    contrastsWith: [],
+    workgroups: []
+  },
+
   // ---------------------------------------------------------------------
   // Identity & Trust
   // ---------------------------------------------------------------------
