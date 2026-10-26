@@ -4,15 +4,15 @@ To ensure automated builds, parsing pipelines, and UI mindmap rendering run succ
 
 ---
 
-## A. Taxonomy Glossary Schema (`taxonomy/taxonomy-data.js`)
+## A. Taxonomy Glossary Schema (`taxonomy/taxonomy.json`)
 
-Each entry in the main taxonomy array is a JavaScript object representing a concept in our SKOS-Lite taxonomy.
+Each entry in the main taxonomy JSON array represents a concept in our SKOS-Lite taxonomy. The file must contain strict JSON: use double-quoted keys and strings, and do not add comments or trailing commas. Governance notes belong in this document rather than in the data file.
 
 > **⚠️ Current state of the taxonomy (as of 2026-07-27):** the workstream is admitting *terms* first and agreeing *definitions* second. Until that second pass runs, three fields are **deliberately deferred** on every entry — `definition`, `category` and `broaderTerm`. See [Deferred fields](#deferred-fields-initial-check-in) below. Entries that leave these blank are conformant, not incomplete; please do not open PRs backfilling them ad hoc.
 
 The example below shows a *fully populated* entry — the target state, not the current one.
 
-```javascript
+```json
 {
   "term": "Agent derailment",
   "category": "Agentic Threats",

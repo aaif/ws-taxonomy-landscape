@@ -52,14 +52,14 @@ Rather than pre-defining hardcoded taxonomy partitions or landscape buckets upfr
 ## 3. Goals & Deliverables
 
 ### 3–6 Month Goals
-*   **Consolidate Baseline Terminology:** Ingest and de-duplicate existing glossaries from all WGs into a unified SKOS-Lite data repository (`taxonomy-data.js`).
+*   **Consolidate Baseline Terminology:** Ingest and de-duplicate existing glossaries from all WGs into a unified SKOS-Lite data repository (`taxonomy/taxonomy.json`).
 *   **Launch Main Web Portal:** Deploy the fully interactive Shared Taxonomy Explorer and CNCF Landscape 2 instances to GitHub Pages (`https://aaif.github.io/ws-taxonomy-landscape/`) or (`https://taxonomy.github.io/` and `https://landscapt.github.io/`).
 *   **Establish Delegate Governance:** Operationalize the weekly cross-WG delegate sync to review pull requests and resolve terminology intersections.
 
 ### Planned Deliverables
 | Deliverable Name | Format | Target Date |
 | :--- | :--- | :--- |
-| **Shared Taxonomy Explorer (v1.0)** | `taxonomy-data.js` + Web App | 2026-08-15 |
+| **Shared Taxonomy Explorer (v1.0)** | `taxonomy/taxonomy.json` + Web App | 2026-08-15 |
 | **Ecosystem Architecture Map (v1.0)** | `landscape.yml` + Web App (Landscape 2) | 2026-10-15 |
 | **Cross-WG Terminology Arbitration Guide** | Governance Documentation | 2026-08-15 |
 

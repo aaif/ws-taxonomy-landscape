@@ -1,8 +1,6 @@
 name: Validate Taxonomy Data
 
-# Prevents a broken taxonomy/taxonomy-data.js from reaching main.
-# A viewer loads that file directly via <script>, so a single syntax
-# error (e.g. an unescaped quote) will break any dependent viewer.
+# Prevents a broken taxonomy/taxonomy.json from reaching main.
 # Regression origin: commit 36cd708 "Fix unescaped quote in Delegation scopeNote".
 #
 # Runs when a maintainer reviews the PR, plus manual dispatch; main is
@@ -48,9 +46,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
-      - name: Validate taxonomy-data.js
-        run: node tools/validate-taxonomy.mjs
+      - name: Install validation dependencies
+        run: npm ci --ignore-scripts
 
-      - name: Run validator tests
-        run: node --test tools/validate-taxonomy.test.mjs
+      - name: Validate taxonomy
+        run: npm run check
