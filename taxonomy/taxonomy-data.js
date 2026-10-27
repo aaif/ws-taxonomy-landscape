@@ -29,6 +29,17 @@ window.AAIF_TAXONOMY = [
   // INTERESTED groups is an open decision.
   // ---------------------------------------------------------------------
   {
+    term: 'Principal',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: "A human, or collection of humans, whose identity, authority, or interests are represented by an agent's action.",
+    scopeNote: "To be explicit, an action will ALWAYS have AT LEAST 1 principal, but CAN have more. The term 'principal agent' is considered contradictory and should be replaced with 'orchestrator', 'parent agent', or 'user', where appropriate.",
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
     term: 'Agent-to-agent',
     category: '',
     aliases: [],
