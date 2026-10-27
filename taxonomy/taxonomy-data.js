@@ -29,6 +29,17 @@ window.AAIF_TAXONOMY = [
   // INTERESTED groups is an open decision.
   // ---------------------------------------------------------------------
   {
+    term: 'Capability',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The functions an agent is able to, and is authorized to, perform.',
+    scopeNote: "Capabilities may be declared in an identity record, and would be matched to a requester's stated need during discovery.",
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
     term: 'Agent-to-agent',
     category: '',
     aliases: [],
