@@ -29,6 +29,17 @@ window.AAIF_TAXONOMY = [
   // INTERESTED groups is an open decision.
   // ---------------------------------------------------------------------
   {
+    term: 'User',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The individual human or agent that operates a system or receives its assistance, outputs, or actions.',
+    scopeNote: 'In a situation where a human asks an Agent to use on online form to book an appointment, the Agent is the user of the online form, and the human is the user of the Agent.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
     term: 'Agent-to-agent',
     category: '',
     aliases: [],
