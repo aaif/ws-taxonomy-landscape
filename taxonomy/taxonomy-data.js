@@ -29,6 +29,17 @@ window.AAIF_TAXONOMY = [
   // INTERESTED groups is an open decision.
   // ---------------------------------------------------------------------
   {
+    term: 'Agent self-disclosure',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A process by which an agent discloses that it is an agent during a transaction.',
+    scopeNote: 'For example, an online form with a "I am an AI agent filling out this form on behalf of someone else." checkbox.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
     term: 'Agent-to-agent',
     category: '',
     aliases: [],
