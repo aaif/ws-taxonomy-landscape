@@ -1,3 +1,8 @@
+/**
+ * AAIF Taxonomy — glossary data (SKOS-Lite).
+ *
+ * See docs/data-schemas.md for field specifications.
+ *
  * INITIAL CHECK-IN — PLEASE READ BEFORE EDITING:
  * `definition`, `category` and `broaderTerm` are intentionally deferred on
  * every entry below. This is a decision of the Taxonomy & Landscape
@@ -79,3 +84,521 @@ window.AAIF_TAXONOMY = [
     workgroups: []
   },
   {
+    term: 'Human in the loop',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An agentic workflow that includes a human-required step.',
+    scopeNote: 'A design pattern in which a human must review, approve, or intervene in an AI agent\'s actions at defined checkpoints before the agent may proceed. Contrasts with Human *on* the Loop - HOTL allows for optional human action, whereas HITL *requires* human action. Compare with Handoff - a subtype (agent -> human -> agent), as opposed to other subtypes of hand-offs like Agent-to-agent delegation.',
+    relatedTerms: ["Handoff"],
+    contrastsWith: ["Human on the loop"],
+    workgroups: []
+  },
+  {
+    term: 'Context',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The information available to an agent when making a decision.',
+    scopeNote: 'Includes user messages, tool results, retrieved documents, memory, and system instructions assembled for the current step.',
+    relatedTerms: ['Context assembly', 'Context exhaustion', 'Context propagation', 'Memory access', 'Retrieval'],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
+    term: 'Context exhaustion',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The tendency for models to lose accuracy on tasks as context approaches its maximum length.',
+    scopeNote: 'This is an anecdotal situation repeatedly observed across members of the industry. AI developers might handle context exhaustion, among other related context management issues, in their own ways, such as by pre-emptively compacting context.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
+    term: 'Intent',
+    category: '',
+    aliases: ['Intended purpose'],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
+    term: 'Session',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
+    term: 'Skill',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A composed capability that packages logic, tools, or sub-steps into a reusable unit.',
+    relatedTerms: [],
+    contrastsWith: ['Tool'],
+    workgroups: []
+  },
+  {
+    term: 'Tool',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An external function, API, or service an agent may call to retrieve data or perform an action.',
+    relatedTerms: [],
+    contrastsWith: ['Skill'],
+    workgroups: []
+  },
+  {
+    term: 'Agent swarm',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A group of subagents working together, either cooperatively or independently, to complete a task or pursue a shared objective.',
+    scopeNote: 'The term does not imply a minimum or maximum number of subagents, nor whether the swarm is temporary or persistent. A swarm is typically managed by an Orchestrator agent.',
+    relatedTerms: ['Subagent', 'Orchestrator'],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
+    term: 'Subagent',
+    category: '',
+    aliases: ["child agent"],
+    broaderTerm: null,
+    definition: 'An agent spawned by an existing agent',
+    scopeNote: 'For example, an Audit Subagent for credential checks, a Policy Subagent for real-time compliance rules, a Pricing Subagent, or a Contract Subagent; each operates in a way that traces back to the originating principal. Subagents may have a variety of properties, including authentication, identity, accessibility by entities beyond the parent agent, operating environments, and permissions. None of these properties is implied by being a subagent.',
+    relatedTerms: ['Agent'],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
+    term: 'Reasoning',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The process by which an agent interprets information, evaluates options, draws conclusions, or decides what to do next.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: []
+  },
+
+  // ---------------------------------------------------------------------
+  // Identity & Trust
+  // ---------------------------------------------------------------------
+  {
+    term: 'Trust',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'How and to what extent another party believes an agent\'s assertions, capabilities, and reasoning.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Identity & Trust']
+  },
+  {
+    term: 'Identifier',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A unique and stable label or reference',
+    scopeNote: 'Examples of identifiers include email address, username, account ID, public key. An identifier may represent the agent, the responsible or OBO party/parties, or other metadata. The identifier should be unique within the scope of its use.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Identity & Trust']
+  },
+  {
+    term: 'Attestation',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A verifiable claim made by an entity about itself or another entity, system, event, property, or condition.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Identity & Trust', 'Security & Privacy', 'Governance, Risk & Regulatory Alignment']
+  },
+  {
+    // Ownership (Identity & Trust vs. Workflows) is still under debate;
+    // this workgroups list is provisional.
+    term: 'Delegation',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The act of granting another entity authority to act on behalf of a user, organization, or system.',
+    scopeNote: "Subagents should operate under a delegation that traces back to an originating principal. A delegation may contain the scope of authority and available actions. 'Delegation' is a subtype of handoff.",
+    relatedTerms: ['Handoff'],
+    contrastsWith: [],
+    workgroups: ['Identity & Trust', 'Workflows & Process Integration', 'Observability & Traceability']
+  },
+
+  // ---------------------------------------------------------------------
+  // Workflows & Process Integration
+  // ---------------------------------------------------------------------
+  {
+    term: 'Discovery',
+    category: '',
+    aliases: ['Agent discovery'],
+    broaderTerm: null,
+    definition: 'The process by which a Workflow identifies candidate participants, capabilities, or tools that may be relevant to performing an Activity or advancing the Workflow toward its goal.',
+    scopeNote: 'Discovery may use descriptions of the capabilities, registries, metadata, configuration, policies, or other mechanisms. It identifies candidate options and related information, but does not by itself imply selection, authorization, trust, or invocation.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration', 'Identity & Trust']
+  },
+  {
+    term: 'Handoff',
+    category: '',
+    aliases: ['Hand-off'],
+    broaderTerm: null,
+    definition: 'The transfer of responsibility for continuing execution from one participant to another.',
+    scopeNote: 'A Handoff may occur at the level of an Activity, Workflow segment, or Workflow and may include the relevant State, Context, or other information needed to continue execution. A Handoff does not by itself imply transfer of authorization, accountability, or broader authority.',
+    relatedTerms: ['Delegation'],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration', 'Observability & Traceability', 'Governance, Risk & Regulatory Alignment']
+  },
+   {
+    term: 'Determinism',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The property by which an Execution produces the same behavior given the same inputs and state.',
+    scopeNote: 'Determinism may apply to an Execution as a whole or to a specific layer, component, or decision point within it. Deterministic behavior at one level does not imply determinism at every other level. In workflow systems, for example, Control Flow may be deterministic while an individual Activity may produce variable outputs, particularly when LLM-driven. This definition does not prescribe how Determinism is measured, scored or evaluated.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration', 'Observability & Traceability', 'Accuracy & Reliability']
+  },
+  {
+    term: 'Orchestration',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A coordination pattern in which a designated orchestrator directs Activities, manages their sequencing, and determines subsequent actions based on Workflow State and results.',
+    relatedTerms: ['Orchestrator', 'Choreography'],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration', 'Observability & Traceability']
+  },
+  {
+    term: 'Agentic lifecycle',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The stages through which an agentic system progresses from definition and configuration through operation, evaluation, adaptation and retirement.',
+    scopeNote: 'Agentic Lifecycle refers to the lifecycle of the overall agentic system, rather than a single Agent or Workflow Execution. Its stages may repeat or occur in different orders.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration', 'Observability & Traceability']
+  },
+  {
+    term: 'Activity',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: ' A bounded unit of work performed as part of a Workflow, with defined or identifiable inputs and outputs.',
+    scopeNote: 'An Activity may be performed by an agent, human, tool, service, or other participant. It may consist of one or more lower-level steps or actions. Terms such as Task, Step, and Action may represent finer-grained or framework-specific units of work.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration']
+  },
+  {
+    term: 'Agentic workflow',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A progression of Activities toward a goal in which one or more Agents participate in determining, sequencing, or performing work.',
+    scopeNote: 'Agent participation may occur in only part of the Workflow and does not require every Activity to be performed by an Agent. An Agentic Workflow may also include humans, tools, services, or other participants.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Workflows & Process Integration']
+  },
+
+  // ---------------------------------------------------------------------
+  // Governance, Risk & Regulatory Alignment
+  // ---------------------------------------------------------------------
+  {
+    term: 'Governance',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Governance, Risk & Regulatory Alignment']
+  },
+  {
+    term: 'Autonomy level',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Governance, Risk & Regulatory Alignment']
+  },
+  {
+    term: 'Risk classification',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Governance, Risk & Regulatory Alignment', 'Security & Privacy']
+  },
+  {
+    term: 'Accountability',
+    category: '',
+    aliases: ['Responsibility'],
+    broaderTerm: null,
+    definition: 'The processes and mechanisms ensuring that AI agents operate within defined ethical, legal, and operational boundaries with traceability for their actions and decisions.',
+    scopeNote: 'Encompasses logging, auditing, and enforcement of agent behaviors to enable responsibility attribution. Accountability down the line is knowing who is responsible for the actions of an agent. E.g. if an agent has a credit card, who is accountable when it makes a purchase.',
+    relatedTerms: ['Governance', 'Trust', 'Attestation', 'Traceability'],
+    contrastsWith: [],
+    workgroups: ['Accuracy & Reliability', 'Agentic Commerce', 'Governance, Risk & Regulatory Alignment', 'Identity & Trust', 'Observability & Traceability', 'Security & Privacy']
+  },
+  {
+    term: 'Kill switch',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Definition pending — term accepted; definition under working group discussion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Governance, Risk & Regulatory Alignment', 'Security & Privacy', 'Workflows & Process Integration']
+  },
+  {
+    term: 'AI agent bill of materials',
+    category: '',
+    aliases: ['AI-BOM'],
+    broaderTerm: null,
+    definition: 'An inventory of an agent\'s models, tools, APIs, and third-party components, with provenance and versions.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Governance, Risk & Regulatory Alignment']
+  },
+  {
+    term: 'Reversibility',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Whether and how an agent\'s action can be undone.',
+    relatedTerms: [],
+    contrastsWith: ['Kill switch'],
+    workgroups: ['Governance, Risk & Regulatory Alignment', 'Workflows & Process Integration']
+  },
+
+  // ---------------------------------------------------------------------
+  // Security & Privacy
+  // ---------------------------------------------------------------------
+  {
+    term: 'Agent derailment',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An unintended deviation in an AI agent\'s behavior that causes it to pursue goals or take actions outside its intended scope, without malicious external cause.',
+    scopeNote: 'Example: an AI coding agent deletes a production database despite explicit instructions not to make changes, with no external attacker involved. Nobody directed the behavior, which is what separates this from sabotage and mishandling/misuse.',
+    relatedTerms: ['Intent', 'Rogue agent'],
+    contrastsWith: ['Agent sabotage', 'Agent mishandling/misuse'],
+    workgroups: ['Security & Privacy']
+  },
+  {
+    term: 'Agent sabotage',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Deliberate manipulation of an AI agent\'s behavior by a party with no authority to direct it, causing it to act against its intended purpose.',
+    scopeNote: 'Severity is not part of this definition. Example: an attacker plants instructions in a document the agent will read, causing it to send data somewhere its operator did not authorize.',
+    relatedTerms: ['Risk classification', 'Accountability'],
+    contrastsWith: ['Agent mishandling/misuse', 'Agent derailment'],
+    workgroups: ['Security & Privacy']
+  },
+  {
+    term: 'Agent mishandling/misuse',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Operation of an AI agent by a party authorized to direct it, in a manner outside its intended purpose, whether deliberately or through negligence.',
+    scopeNote: 'The actor has access and permission to act, and the use is what falls outside the agent\'s intended purpose. That could be deliberate, like pointing an agent at a task it was never scoped for, or negligent, like granting it broader permissions than its task needs.',
+    relatedTerms: ['Delegation', 'Autonomy level', 'Accountability'],
+    contrastsWith: ['Agent sabotage', 'Agent derailment'],
+    workgroups: ['Security & Privacy']
+  },
+  {
+    term: 'Rogue agent',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'An AI agent that operates outside its authorized or intended boundaries, whether due to compromise, misconfiguration, or emergent behavior.',
+    scopeNote: 'This describes a state and not a cause. Derailment, sabotage and mishandling/misuse may all qualify. Authorized and intended are both listed because an agent can stay inside its permissions and still do something its operator never intended.',
+    relatedTerms: ['Agent derailment', 'Agent sabotage', 'Agent mishandling/misuse', 'Kill switch', 'Reversibility'],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy']
+  },
+  {
+    term: 'Privacy-preserving execution',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Patterns in which an AI agent processes data without exposing it to parties outside a defined boundary, enforced cryptographically or by attested isolation.',
+    scopeNote: 'Specific techniques are left out of the definition because they change and enforcement will differ.',
+    relatedTerms: ['Attestation'],
+    contrastsWith: [],
+    workgroups: ['Security & Privacy']
+  },
+
+  // ---------------------------------------------------------------------
+  // Observability & Traceability
+  // ---------------------------------------------------------------------
+  {
+    term: 'Agent trajectory',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The observable path an agent could take or has taken through a task or conversation across invocations, steps, handoffs, checkpoints, and outcomes.',
+    relatedTerms: ['Handoff', 'Traceability'],
+    contrastsWith: [],
+    workgroups: ['Observability & Traceability', 'Workflows & Process Integration', 'Accuracy & Reliability']
+  },
+  {
+    term: 'Context propagation',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The carrying of trace, correlation, or execution context across protocol, tool, agent, or workflow boundaries.',
+    relatedTerms: ['Context assembly', 'Handoff'],
+    contrastsWith: [],
+    workgroups: ['Observability & Traceability', 'Workflows & Process Integration', 'Security & Privacy']
+  },
+  {
+    term: 'Context assembly',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The process by which candidate information is selected, compacted, dropped, or placed into working context.',
+    relatedTerms: ['Context propagation', 'Memory access', 'Retrieval'],
+    contrastsWith: [],
+    workgroups: ['Observability & Traceability', 'Workflows & Process Integration']
+  },
+  {
+    term: 'Memory access',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Observable read, write, update, or search activity against agent-accessible memory.',
+    relatedTerms: ['Context assembly'],
+    contrastsWith: [],
+    workgroups: ['Observability & Traceability', 'Workflows & Process Integration']
+  },
+  {
+    term: 'Retrieval',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A request to a generative AI service or framework that retrieves relevant information or context from a search system or other retrieval source.',
+    relatedTerms: ['Context assembly'],
+    contrastsWith: [],
+    workgroups: ['Observability & Traceability', 'Workflows & Process Integration']
+  },
+  {
+    term: 'Traceability',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The ability to track, observe, and understand how AI agents behave as they carry out tasks within a workflow.',
+    relatedTerms: ['Agent trajectory'],
+    contrastsWith: [],
+    workgroups: ['Observability & Traceability']
+  },
+
+  // ---------------------------------------------------------------------
+  // Agentic Commerce
+  // ---------------------------------------------------------------------
+  {
+    term: 'Delegated payment',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A process for obtaining a merchant- and amount-constrained payment token without exposing the original payment credential to the agent.',
+    scopeNote: 'Assumes attenuation.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Agentic Commerce']
+  },
+  {
+    term: 'Agentic commerce',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'Commerce workflows in which AI agents participate in discovery, negotiation, checkout, payment, or post-purchase activity on behalf of people, organizations, or software systems.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Agentic Commerce']
+  },
+  {
+    term: 'Agentic commerce protocols',
+    category: '',
+    aliases: ['Agentic commerce protocol'],
+    broaderTerm: null,
+    definition: 'An interoperability specification for agents and commerce systems to exchange structured data, actions, and signals across one or more commerce lifecycle phases.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Agentic Commerce']
+  },
+  {
+    term: 'Mandate',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A bounded, verifiable record of a principal’s intent, approval, or authority for an agent-mediated commerce action.',
+    scopeNote: 'Examples include intent mandates, checkout or cart mandates, and payment mandates seen in Agentic Commerce protocols.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Agentic Commerce']
+  },
+  {
+    term: 'Agentic checkout',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A checkout interaction in which an agent exchanges information and advances merchant-controlled state toward an order, whether autonomously or with human participation.',
+    scopeNote: 'It does not require discovery to have happened via agentic means.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Agentic Commerce']
+  },
+  {
+    term: 'Agent-in-the-loop transaction',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A commerce transaction in which an agent participates in one or more lifecycle phases, without implying that the agent initiated, approved, or completed it.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Agentic Commerce']
+  },
+  {
+    term: 'Agent-initiated transaction',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A commerce transaction whose purchase or payment flow is started by an agent, without implying autonomous approval, payment authorization, or successful completion.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Agentic Commerce']
+  },
+  {
+    term: 'Agent-completed transaction',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'A commerce transaction in which an agent performs the final order or payment action, without implying that the agent initiated the flow or acted without prior human approval.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: ['Agentic Commerce']
+  }
+];
