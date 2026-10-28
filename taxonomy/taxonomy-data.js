@@ -95,6 +95,16 @@ window.AAIF_TAXONOMY = [
     workgroups: []
   },
   {
+    term: 'Context pollution',
+    category: '',
+    aliases: [],
+    broaderTerm: null,
+    definition: 'The degradation of an AI system’s performance caused by irrelevant, misleading, stale, or low-quality information accumulating in its context.',
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
     term: 'Context exhaustion',
     category: '',
     aliases: [],
