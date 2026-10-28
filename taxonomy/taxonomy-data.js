@@ -29,6 +29,16 @@ window.AAIF_TAXONOMY = [
   // INTERESTED groups is an open decision.
   // ---------------------------------------------------------------------
   {
+    term: 'KYA',
+    category: '',
+    aliases: ['Know Your Agent'],
+    broaderTerm: null,
+    definition: "The process of establishing and verifying an Agent's identity, provenance, and relationship to the principal.",
+    relatedTerms: [],
+    contrastsWith: [],
+    workgroups: []
+  },
+  {
     term: 'Agent-to-agent',
     category: '',
     aliases: [],
