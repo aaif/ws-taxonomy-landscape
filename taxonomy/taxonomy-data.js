@@ -29,6 +29,17 @@ window.AAIF_TAXONOMY = [
   // INTERESTED groups is an open decision.
   // ---------------------------------------------------------------------
   {
+    term: 'Agent',
+    category: '',
+    aliases: ['AI agent', 'Intelligent agent'],
+    broaderTerm: null,
+    definition: 'An autonomous or semi-autonomous software entity that perceives its environment, reasons, and acts toward goals on behalf of a user or organization.',
+    scopeNote: 'An Agent is the core actor within agentic systems; it may operate with varying degrees of autonomy and human oversight. In US law, software that acts without a person reviewing it at the time is termed an "electronic agent" (15 U.S.C. 7006(3)), whose actions may be "legally attributable to the person to be bound" (15 U.S.C. 7001(h)).',
+    relatedTerms: ['Autonomy level', 'Intent', 'Skill', 'Subagent', 'Human in the loop'],
+    contrastsWith: ['Tool'],
+    workgroups: []
+  },
+  {
     term: 'Agent-to-agent',
     category: '',
     aliases: [],
