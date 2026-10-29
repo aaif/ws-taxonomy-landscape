@@ -42,6 +42,7 @@
       <button class="main-tab-btn" id="main-tab-split" role="tab" aria-selected="false">Main-Detail View</button>
       <button class="main-tab-btn active" id="main-tab-grid" role="tab" aria-selected="true">Grid Card View</button>
       <button class="main-tab-btn" id="main-tab-mindmap" role="tab" aria-selected="false">Visual Mindmap</button>
+      <button class="main-tab-btn" id="main-tab-propose" role="tab" aria-selected="false">Propose / Edit Term</button>
     </div>
 
     <!-- ==================== MODE 1: MAIN-DETAIL SPLIT VIEW ==================== -->
@@ -133,6 +134,112 @@
       </div>
     </div>
 
+    <!-- ==================== MODE 4: PROPOSE / EDIT TERM WIZARD ==================== -->
+    <div id="propose-view-container" style="display: none;">
+      <div id="wizard-banner" class="wizard-msg" role="status" aria-live="polite"></div>
+
+      <section class="control-hub wizard-card">
+        <p class="wizard-intro">
+          Propose a new term or edit an existing one, then submit it with no backend and no
+          credentials: open a prefilled commit on GitHub (token-less web flow) or download a
+          <code>create-pr.sh</code> script to run locally. Only
+          <code>taxonomy/taxonomy-data.js</code> is ever touched.
+        </p>
+
+        <div class="wizard-row">
+          <label for="wiz-term">Term <span class="wizard-badge" id="wiz-term-badge" style="display:none"></span></label>
+          <div class="wizard-hint">Start typing. If it already exists, the form fills in with the current entry (editable).</div>
+          <div style="position:relative;">
+            <input id="wiz-term" type="text" autocomplete="off" placeholder="e.g. Skill" style="width:100%;" />
+            <div class="wizard-suggest" id="wiz-term-suggest"></div>
+          </div>
+        </div>
+
+        <div class="wizard-ai-bar" id="wiz-ai-bar">
+          <button type="button" class="wizard-ai-btn" id="wiz-ai-fill-btn" title="Draft the fields for this term with the selected model">✨ Fill with AI</button>
+          <select id="wiz-ai-model" class="wizard-ai-model" title="Choose which model drafts the fields"><option value="">Loading models…</option></select>
+          <span class="wizard-ai-text">Drafts the <strong>definition</strong>, <strong>scope note</strong>, <strong>aliases</strong>, and suggests <strong>related terms</strong>, <strong>contrasts</strong> and <strong>working groups</strong> (only existing terms/groups are used). Any model exposed by Puter is selectable. Always review — you own every word.</span>
+          <span class="wizard-ai-status checking" id="wiz-ai-status">Checking…</span>
+        </div>
+
+        <div class="wizard-row">
+          <label for="wiz-definition">Definition</label>
+          <div class="wizard-hint">One sentence. Leave blank to keep the "pending" placeholder.</div>
+          <textarea id="wiz-definition" placeholder="A single-sentence, vendor-neutral definition."></textarea>
+          <div id="wiz-sentence-warn" class="wizard-sentence-warn">⚠ This looks like more than one sentence.</div>
+        </div>
+
+        <div class="wizard-row">
+          <label for="wiz-scope">Scope note <span class="wizard-optional">(optional)</span></label>
+          <div class="wizard-hint">Examples, boundaries, and historical context — not in the definition.</div>
+          <textarea id="wiz-scope" placeholder="Examples and clarifying context."></textarea>
+        </div>
+
+        <div class="wizard-row">
+          <label>Aliases <span class="wizard-optional">(optional)</span></label>
+          <div class="wizard-hint">Synonyms / alternate spellings. Type and press Enter. An alias cannot be an existing primary term.</div>
+          <div class="wizard-tagbox" data-tags="aliases"><span class="wizard-tags"></span><input type="text" autocomplete="off" placeholder="Add alias…" /></div>
+        </div>
+
+        <div class="wizard-row">
+          <label>Related terms <span class="wizard-optional">(skos:related)</span></label>
+          <div class="wizard-hint">Must already exist in the taxonomy. Autocompletes from existing terms.</div>
+          <div class="wizard-tagbox" data-tags="relatedTerms" data-validate="existing"><span class="wizard-tags"></span><input type="text" autocomplete="off" placeholder="Add related term…" /><div class="wizard-suggest"></div></div>
+        </div>
+
+        <div class="wizard-row">
+          <label>Contrasts with</label>
+          <div class="wizard-hint">Paired contrasting terms — must already exist. Autocompletes.</div>
+          <div class="wizard-tagbox" data-tags="contrastsWith" data-validate="existing"><span class="wizard-tags"></span><input type="text" autocomplete="off" placeholder="Add contrasting term…" /><div class="wizard-suggest"></div></div>
+        </div>
+
+        <div class="wizard-row">
+          <label>Working groups <span class="wizard-optional">(optional)</span></label>
+          <div class="wizard-hint">Select all that share interest. "Universal" is intentionally not a choice.</div>
+          <div class="wizard-wg-list" id="wiz-wg-list"></div>
+        </div>
+
+        <button class="wizard-primary" id="wiz-gen-btn">Prepare PR</button>
+      </section>
+
+      <section class="control-hub wizard-card" id="wiz-result-card" style="display:none;">
+        <h3 style="margin-top:0;">✓ Ready to submit</h3>
+        <p class="wizard-hint" id="wiz-result-meta"></p>
+
+        <div class="wizard-row">
+          <label>Option A — Create the PR from your fork on GitHub <span class="wizard-optional">(no download, no local git, no token)</span></label>
+          <div class="wizard-hint">You almost certainly don't have write access to <code id="wiz-gh-upstream"></code>, so the PR comes from <b>your own fork</b>. Enter your GitHub username. The button opens GitHub's prefilled commit page (file, commit title and description filled in) and copies the recommended branch name to your clipboard. Choose <b>Create a new branch → Propose changes</b> to open the PR back to upstream.</div>
+          <div class="wizard-toolbar">
+            <input id="wiz-gh-user" type="text" placeholder="your-github-username" autocomplete="off" style="min-width:200px;" />
+            <button class="wizard-primary" id="wiz-gh-pr-btn">🔗 Create PR on GitHub</button>
+          </div>
+          <div class="wizard-hint">
+            No credentials are ever requested or transmitted: this uses GitHub's own in-browser web flow.
+            No fork yet? The button opens the fork page for you. If you leave the username blank, it opens the
+            upstream editor and relies on GitHub's "fork this repository?" prompt.
+          </div>
+          <div class="wizard-row" style="margin-top:14px;">
+            <label>Entry <span class="wizard-optional">(used automatically; shown as a fallback to paste)</span></label>
+            <pre><code id="wiz-entry-preview"></code></pre>
+          </div>
+        </div>
+
+        <div class="wizard-row" style="border-top:1px solid var(--border-color); padding-top:18px; margin-top:6px;">
+          <label>Option B — Download a script and run it locally</label>
+          <div class="wizard-hint">Fully automated: branches, applies a comment-preserving surgical edit, signed-off commit, push, and PR via <code>gh</code>.</div>
+          <button class="wizard-primary" id="wiz-download-btn">⬇ Download create-pr.sh</button>
+        </div>
+        <div class="wizard-row">
+          <label>Then run it from the repo root:</label>
+          <pre><code id="wiz-run-cmd"></code></pre>
+        </div>
+        <div class="wizard-row">
+          <label>Script preview</label>
+          <pre><code id="wiz-script-preview"></code></pre>
+        </div>
+      </section>
+    </div>
+
     <!-- Native HTML5 Dialog Modal for Concept Sheet -->
     <dialog id="mindmap-detail-modal" class="concept-modal" aria-label="Concept Detail">
       <div class="modal-header">
@@ -154,6 +261,10 @@
   <!-- JavaScript Modularity Layer -->
   <script src="taxonomy-data.js"></script>
   <script src="app.js"></script>
+  <!-- Puter SDK: free, key-less access to AI models (no backend, no API key).
+       The wizard's "Fill with AI" lists every model Puter exposes. -->
+  <script src="https://js.puter.com/v2/"></script>
+  <script src="wizard.js"></script>
 </body>
 
 </html>
