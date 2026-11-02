@@ -4,9 +4,33 @@
  * sidebar tree/A-Z navigation, grid card injection, mindmap tree rendering, and 100% secure DOM manipulation.
  */
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Retrieve data model array bound to global window scope
-  const taxonomyData = window.AAIF_TAXONOMY || [];
+document.addEventListener('DOMContentLoaded', async () => {
+  let taxonomyData;
+  try {
+    const response = await fetch('./taxonomy.json');
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    taxonomyData = await response.json();
+    if (!Array.isArray(taxonomyData)) {
+      throw new TypeError('Expected the taxonomy root to be an array.');
+    }
+  } catch (error) {
+    console.error('Failed to load taxonomy data:', error);
+    const container = document.getElementById('cards-grid-container');
+    const errorState = document.createElement('div');
+    errorState.className = 'empty-state';
+    errorState.setAttribute('role', 'alert');
+
+    const title = document.createElement('p');
+    title.textContent = 'Unable to load the taxonomy.';
+    const detail = document.createElement('span');
+    detail.textContent = 'Refresh the page or try again later.';
+
+    errorState.append(title, detail);
+    container.replaceChildren(errorState);
+    return;
+  }
 
   // Application States Hub
   const state = {
