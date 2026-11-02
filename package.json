@@ -1,0 +1,13 @@
+{
+  "name": "aaif-taxonomy-landscape",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate:taxonomy": "node tools/validate-taxonomy.mjs",
+    "test": "node --test tools/validate-taxonomy.test.mjs",
+    "check": "npm run validate:taxonomy && npm test"
+  },
+  "devDependencies": {
+    "zod": "^4.5.4"
+  }
+}
