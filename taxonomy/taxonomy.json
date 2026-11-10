@@ -414,6 +414,21 @@
     ]
   },
   {
+    "term": "Safety",
+    "category": "",
+    "aliases": [],
+    "broaderTerm": null,
+    "definition": "The degree to which an agent or multi-agent system avoids prohibited, harmful, or unauthorized actions under the task and control policies in force, and limits the harm of any violation that occurs.",
+    "scopeNote": "One of the four Reliability dimensions, but reported separately from correctness aggregates because violations are a tail risk an average hides; a system can be consistent yet unsafe. Measured by compliance (the share of tasks without a violation) and harm severity, not by answer correctness. Not the distributed-systems (Lamport/BFT) safety property. Adversarial and abuse cases are a boundary with Security & Privacy.",
+    "relatedTerms": [
+      "Agent derailment"
+    ],
+    "contrastsWith": [],
+    "workgroups": [
+      "Accuracy & Reliability"
+    ]
+  },
+  {
     "term": "Kill switch",
     "category": "",
     "aliases": [],
