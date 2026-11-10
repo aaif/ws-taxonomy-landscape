@@ -94,6 +94,21 @@
     "workgroups": []
   },
   {
+    "term": "Accuracy",
+    "category": "",
+    "aliases": [],
+    "broaderTerm": null,
+    "definition": "The degree to which an agent, multi-agent system, or workflow produces the correct result for a task on a single run, judged against a declared correctness criterion.",
+    "scopeNote": "Claims must name the evaluation subject, the correctness criterion, and the evaluation setup. Accuracy may be declared as outcome accuracy (the task result), action accuracy (the tools, steps, and parameters used), or both. It is orthogonal to Reliability: a system can be right on one run and wrong on reruns.",
+    "relatedTerms": [
+      "Hallucination"
+    ],
+    "contrastsWith": [],
+    "workgroups": [
+      "Accuracy & Reliability"
+    ]
+  },
+  {
     "term": "Context exhaustion",
     "category": "",
     "aliases": [],
