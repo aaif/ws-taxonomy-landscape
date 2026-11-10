@@ -151,6 +151,20 @@
     "workgroups": []
   },
   {
+    "term": "Infrastructure",
+    "category": "",
+    "aliases": [],
+    "broaderTerm": null,
+    "definition": "The runtime, orchestration, networking, messaging, and data services that host an agent or other software and deliver its inputs and outputs, as distinct from the agent's own logic.",
+    "scopeNote": "Covers what an agent runs on and communicates through, not its instructions, context, or reasoning. When attributing a failure, rule out infrastructure delivery and availability first, then the agent's use of the result, then the remote system of record. A Tool is the capability an agent calls; the endpoint and transport serving it are infrastructure. A Harness is the control layer around a model; infrastructure includes services the harness depends on.",
+    "relatedTerms": [
+      "Tool",
+      "Harness"
+    ],
+    "contrastsWith": [],
+    "workgroups": []
+  },
+  {
     "term": "Agent swarm",
     "category": "",
     "aliases": [],
