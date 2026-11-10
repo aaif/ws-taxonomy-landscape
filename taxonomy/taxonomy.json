@@ -296,6 +296,21 @@
     ]
   },
   {
+    "term": "Reliability",
+    "category": "",
+    "aliases": [],
+    "broaderTerm": null,
+    "definition": "The degree to which an agent or multi-agent system keeps producing correct results across repeated runs and across changes in operating conditions within a declared scope.",
+    "scopeNote": "Accuracy judges a single run, whereas Reliability judges stability across runs. Unqualified use means the reliability of the agent or multi-agent system's outputs; the availability, uptime, and delivery guarantees of the platform it runs on are a separate layer and must be qualified explicitly. Reliability is not one score: it decomposes into consistency, robustness, predictability, and safety, with safety reported separately. Claims should state run count, perturbations, and fault scenarios. Determinism is neither required nor sufficient. Recoverability supports Reliability but is not one of its dimensions.",
+    "relatedTerms": [
+      "Determinism"
+    ],
+    "contrastsWith": [],
+    "workgroups": [
+      "Accuracy & Reliability"
+    ]
+  },
+  {
     "term": "Orchestration",
     "category": "",
     "aliases": [],
