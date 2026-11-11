@@ -38,9 +38,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # pull_request_review checks out the base by default; check out the
-          # reviewed PR head so we validate the proposed changes.
-          ref: ${{ github.event.pull_request.head.sha }}
+          # pull_request_review checks out the base by default. Check out the
+          # PR's merge ref instead, so we validate what would land on main.
+          # The PR head alone can predate the validator (no package.json or
+          # lockfile), which fails setup-node before validation runs.
+          # Manual dispatch leaves ref empty and uses the dispatched ref.
+          ref: ${{ github.event_name == 'pull_request_review' && format('refs/pull/{0}/merge', github.event.pull_request.number) || '' }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
