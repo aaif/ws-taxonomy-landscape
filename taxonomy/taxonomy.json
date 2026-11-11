@@ -566,6 +566,19 @@
     ]
   },
   {
+    "term": "Robustness",
+    "category": "",
+    "aliases": [],
+    "broaderTerm": null,
+    "definition": "The degree to which an agent or multi-agent system keeps producing correct results when inputs are rephrased without changing their meaning, operating conditions shift, or faults occur within a declared scope.",
+    "scopeNote": "One of the four Reliability dimensions. Sub-types are prompt robustness (paraphrased inputs), fault robustness (timeouts, dropped calls, malformed responses), and environment robustness (meaning-preserving changes such as reordered fields or a renamed parameter); name the sub-type, and use the unqualified term only when all three are covered. Unlike consistency, which concerns identical reruns, a system can be consistent yet change its answer when a request is paraphrased. A fault absorbed by retry or fallback still counts as robust; Recoverability names that capability and its cost. Adversarial inputs are a boundary with Security & Privacy. Do not use \"robustness\" for a countermeasure; say mitigation or safeguard.",
+    "relatedTerms": [],
+    "contrastsWith": [],
+    "workgroups": [
+      "Accuracy & Reliability"
+    ]
+  },
+  {
     "term": "Context propagation",
     "category": "",
     "aliases": [],
