@@ -14,8 +14,8 @@
   <!-- Core Stylesheet -->
   <link rel="stylesheet" href="styles.css">
   
-  <!-- Open Source js-yaml CDN for Client-Side YAML Parsing -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+  <!-- Open Source js-yaml CDN for Client-Side YAML Parsing (4.3.0: the patched v4 legacy release for the 2026 merge-key DoS advisories, which affect the v4 line through 4.2.x; served by jsDelivr, which hosts it) -->
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.3.0/dist/js-yaml.min.js" integrity="sha512-d9imc/ghVcd0LCSG5wVwXRvdi6togmXDyPNFWYmCwj23z6Ry3Xx8eqivLHcgsi+m1gwfADOQ47I8+8uk9YWcGA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body class="cncf-mode">
 
@@ -41,7 +41,7 @@
         <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
         </svg>
-        <input type="text" id="search-input" placeholder="Search projects, descriptions, tiers, or URLs..." autocomplete="off" aria-label="Search Landscape">
+        <input type="text" id="search-input" placeholder="Search projects, descriptions, tiers, or URLs..." autocomplete="off" maxlength="200" aria-label="Search Landscape">
         <button id="clear-search" class="clear-btn" style="display: none;" aria-label="Clear search">×</button>
       </div>
 
