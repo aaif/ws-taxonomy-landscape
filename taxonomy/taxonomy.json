@@ -457,6 +457,21 @@
     ]
   },
   {
+    "term": "Recoverability",
+    "category": "",
+    "aliases": [],
+    "broaderTerm": null,
+    "definition": "The ability of an agent, multi-agent system, or workflow to detect failures, contain their impact, and return to an acceptable state within bounded cost and escalation.",
+    "scopeNote": "An operational property, not a fifth Reliability dimension: measured by detection, containment, and restoration and their cost (retries, re-plans, escalations), not by repeated-run success. A system can recover quickly yet fail often, so measure it separately from Reliability. Qualify the scope (agent, session, or workflow) when it matters. Retry, rollback, fallback, compensation, and human escalation are how it is exercised, not synonyms. Unlike Reversibility, which concerns undoing a single action, it applies whether or not actions can be undone.",
+    "relatedTerms": [
+      "Reversibility"
+    ],
+    "contrastsWith": [],
+    "workgroups": [
+      "Accuracy & Reliability"
+    ]
+  },
+  {
     "term": "Agent derailment",
     "category": "",
     "aliases": [],
