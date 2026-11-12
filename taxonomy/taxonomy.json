@@ -743,5 +743,18 @@
     "workgroups": [
       "Agentic Commerce"
     ]
+  },
+  {
+    "term": "AI Slop",
+    "category": "",
+    "aliases": [],
+    "broaderTerm": null,
+    "definition": "Generated text characterized by a distinct lack of genuine human intent, a lack of novel insight, and a heavy reliance on formulaic structures.",
+    "scopeNote": "Refers to outputs that lack coherence, accuracy, or utility, typically resulting from inadequate training data, model limitations, or over-reliance on generative AI without human oversight.\nExamples include: \n* Generic AI-written social media posts, often with a manufactured “story,” a one-line-per-paragraph layout, and an engagement-bait question at the end.\n* Bot-generated replies and comments that are vaguely supportive but say nothing specific.\n* Mass-produced cold outreach emails with fake personalization.\nAI Slop must involve AI. Humans can generate low quality output too but that is not in scope.",
+    "relatedTerms": [],
+    "contrastsWith": [
+      "Human curated"
+    ],
+    "workgroups": []
   }
 ]
