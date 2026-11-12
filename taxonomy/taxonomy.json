@@ -190,6 +190,19 @@
     "workgroups": []
   },
   {
+    "term": "Guardrail",
+    "category": "",
+    "aliases": [],
+    "broaderTerm": null,
+    "definition": "A form of constraint on an AI system that prescribes intended actions or attempts to prevent unwanted actions or disclosures.",
+    "scopeNote": "An example guardrail is: 'If any necessary information is missing, request the information from the user instead of guessing or making it up.' Detect-only checks or other forms of monitoring are insufficient; there must be an impact on the actions of the agent to qualify as a guardrail.",
+    "relatedTerms": [
+      "Constraint"
+    ],
+    "contrastsWith": [],
+    "workgroups": []
+  },
+  {
     "term": "Trust",
     "category": "",
     "aliases": [],
