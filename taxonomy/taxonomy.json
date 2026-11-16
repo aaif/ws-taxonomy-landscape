@@ -11,6 +11,18 @@
     "workgroups": []
   },
   {
+    "term": "KYA",
+    "category": "",
+    "aliases": [
+      "Know Your Agent"
+    ],
+    "broaderTerm": null,
+    "definition": "The process of establishing and verifying an Agent's identity, provenance, and relationship to the principal.",
+    "relatedTerms": [],
+    "contrastsWith": [],
+    "workgroups": []
+  },
+  {
     "term": "Agent-to-agent",
     "category": "",
     "aliases": [],
@@ -105,6 +117,21 @@
     "workgroups": []
   },
   {
+    "term": "Accuracy",
+    "category": "",
+    "aliases": [],
+    "broaderTerm": null,
+    "definition": "The degree to which an agent, multi-agent system, or workflow produces the correct result for a task on a single run, judged against a declared correctness criterion.",
+    "scopeNote": "Claims must name the evaluation subject, the correctness criterion, and the evaluation setup. Accuracy may be declared as outcome accuracy (the task result), action accuracy (the tools, steps, and parameters used), or both. It is orthogonal to Reliability: a system can be right on one run and wrong on reruns.",
+    "relatedTerms": [
+      "Hallucination"
+    ],
+    "contrastsWith": [],
+    "workgroups": [
+      "Accuracy & Reliability"
+    ]
+  },
+  {
     "term": "Context exhaustion",
     "category": "",
     "aliases": [],
@@ -116,6 +143,19 @@
     "workgroups": []
   },
   {
+    "term": "Prompt",
+    "category": "",
+    "aliases": [],
+    "broaderTerm": null,
+    "definition": "The input provided to a model to guide its response or behavior.",
+    "scopeNote": "What the user said to do, versus what they wanted to have happen. Both humans and agents can prompt.",
+    "relatedTerms": [
+      "Intent"
+    ],
+    "contrastsWith": [],
+    "workgroups": []
+  },
+  {
     "term": "Intent",
     "category": "",
     "aliases": [
@@ -123,7 +163,9 @@
     ],
     "broaderTerm": null,
     "definition": "Definition pending — term accepted; definition under working group discussion.",
-    "relatedTerms": [],
+    "relatedTerms": [
+      "Prompt"
+    ],
     "contrastsWith": [],
     "workgroups": []
   },
@@ -425,6 +467,21 @@
     ]
   },
   {
+    "term": "Safety",
+    "category": "",
+    "aliases": [],
+    "broaderTerm": null,
+    "definition": "The degree to which an agent or multi-agent system avoids prohibited, harmful, or unauthorized actions under the task and control policies in force, and limits the harm of any violation that occurs.",
+    "scopeNote": "One of the four Reliability dimensions, but reported separately from correctness aggregates because violations are a tail risk an average hides; a system can be consistent yet unsafe. Measured by compliance (the share of tasks without a violation) and harm severity, not by answer correctness. Not the distributed-systems (Lamport/BFT) safety property. Adversarial and abuse cases are a boundary with Security & Privacy.",
+    "relatedTerms": [
+      "Agent derailment"
+    ],
+    "contrastsWith": [],
+    "workgroups": [
+      "Accuracy & Reliability"
+    ]
+  },
+  {
     "term": "Kill switch",
     "category": "",
     "aliases": [],
@@ -573,6 +630,19 @@
     "workgroups": [
       "Observability & Traceability",
       "Workflows & Process Integration",
+      "Accuracy & Reliability"
+    ]
+  },
+  {
+    "term": "Robustness",
+    "category": "",
+    "aliases": [],
+    "broaderTerm": null,
+    "definition": "The degree to which an agent or multi-agent system keeps producing correct results when inputs are rephrased without changing their meaning, operating conditions shift, or faults occur within a declared scope.",
+    "scopeNote": "One of the four Reliability dimensions. Sub-types are prompt robustness (paraphrased inputs), fault robustness (timeouts, dropped calls, malformed responses), and environment robustness (meaning-preserving changes such as reordered fields or a renamed parameter); name the sub-type, and use the unqualified term only when all three are covered. Unlike consistency, which concerns identical reruns, a system can be consistent yet change its answer when a request is paraphrased. A fault absorbed by retry or fallback still counts as robust; Recoverability names that capability and its cost. Adversarial inputs are a boundary with Security & Privacy. Do not use \"robustness\" for a countermeasure; say mitigation or safeguard.",
+    "relatedTerms": [],
+    "contrastsWith": [],
+    "workgroups": [
       "Accuracy & Reliability"
     ]
   },
@@ -754,5 +824,18 @@
     "workgroups": [
       "Agentic Commerce"
     ]
+  },
+  {
+    "term": "AI Slop",
+    "category": "",
+    "aliases": [],
+    "broaderTerm": null,
+    "definition": "Generated text characterized by a distinct lack of genuine human intent, a lack of novel insight, and a heavy reliance on formulaic structures.",
+    "scopeNote": "Refers to outputs that lack coherence, accuracy, or utility, typically resulting from inadequate training data, model limitations, or over-reliance on generative AI without human oversight.\nExamples include: \n* Generic AI-written social media posts, often with a manufactured “story,” a one-line-per-paragraph layout, and an engagement-bait question at the end.\n* Bot-generated replies and comments that are vaguely supportive but say nothing specific.\n* Mass-produced cold outreach emails with fake personalization.\nAI Slop must involve AI. Humans can generate low quality output too but that is not in scope.",
+    "relatedTerms": [],
+    "contrastsWith": [
+      "Human curated"
+    ],
+    "workgroups": []
   }
 ]
